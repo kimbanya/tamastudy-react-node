@@ -1,0 +1,8 @@
+import {
+  GET_POSTS,
+  CREATE_POST,
+  GET_POST_BY_ID,
+  DELETE_POST_BY_ID,
+  UPDATE_POST_BY_ID,
+  POST_ERROR,
+} from '../types';
