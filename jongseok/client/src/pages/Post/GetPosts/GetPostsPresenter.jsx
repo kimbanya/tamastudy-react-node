@@ -68,7 +68,13 @@ const ComponentContents = styled.div`
   }
 `;
 
-const GetPostsPresenter = ({ isLoggedIn, posts, handleToastAlert, onClickMoveToCreatePost }) => {
+const GetPostsPresenter = ({
+  isLoggedIn,
+  posts,
+  handleToastAlert,
+  onClickMoveToCreatePost,
+  onClickMoveToHome,
+}) => {
   return (
     <Container>
       {setTitle('Posts')}
@@ -86,6 +92,7 @@ const GetPostsPresenter = ({ isLoggedIn, posts, handleToastAlert, onClickMoveToC
             text={'더보기'}
             onClick={() => handleToastAlert('info', '준비중입니다. 다음 주에 합시당~!')}
           />
+          <CustomButton text={'홈으로'} onClick={onClickMoveToHome} />
         </ButtonBox>
       </ComponentTitleBox>
       <ComponentContents>

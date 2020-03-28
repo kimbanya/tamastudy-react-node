@@ -22,6 +22,10 @@ const GetPostsContainer = ({ auth, history, getPosts, postState }) => {
     history.push('/post/create');
   };
 
+  const onClickMoveToHome = () => {
+    history.push('/');
+  };
+
   if (auth.loading) return <Spinner />;
 
   if (postState.loading) return <Spinner />;
@@ -32,6 +36,7 @@ const GetPostsContainer = ({ auth, history, getPosts, postState }) => {
       posts={posts}
       handleToastAlert={handleToastAlert}
       onClickMoveToCreatePost={onClickMoveToCreatePost}
+      onClickMoveToHome={onClickMoveToHome}
     />
   );
 };

@@ -14,7 +14,7 @@ export default (state = initialState, { type, payload }) => {
     case LOGGED_IN:
       return { ...state, isLoggedIn: true, loading: false };
     case LOGGED_OUT:
-      return { ...state, isLoggedIn: false, loading: false };
+      return { ...state, currentUserId: null, isLoggedIn: false, loading: false };
     case AUTH_ERROR:
       return { ...state, error: payload, loading: false };
     default:

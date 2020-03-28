@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import mediaQuery from '../../../theme/mediaQuery';
 import theme from '../../../theme';
-import Typo from '../../atoms/Typo';
 import { NavLink } from 'react-router-dom';
 import Hamburger from '../../atoms/Hamburger';
 
@@ -29,10 +28,6 @@ const LogoBox = styled.div`
   justify-content: space-between;
 `;
 
-const LogoTypo = styled(Typo)`
-  cursor: pointer;
-`;
-
 const HeaderMenuBox = styled.div`
   display: flex;
 `;
@@ -52,7 +47,7 @@ const AuthLink = styled(NavLink)`
   text-transform: uppercase;
 `;
 
-const HeaderPresenter = ({ isLoggedIn, handleLogOutFn, handleNavigation, onClickMoveToHome }) => {
+const HeaderPresenter = ({ isLoggedIn, handleLogOutFn, handleNavigation }) => {
   return (
     <Container>
       <Header>

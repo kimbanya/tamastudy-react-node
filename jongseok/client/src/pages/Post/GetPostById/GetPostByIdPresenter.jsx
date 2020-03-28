@@ -39,7 +39,8 @@ const GetPostByIdPresenter = ({
   onClickMoveToBack,
   onClickMoveToUpdate,
 }) => {
-  const { view, _id, title, description, imgUrl, createdAt, user } = post;
+  const { view, title, description, imgUrl, createdAt, user } = post;
+
   return (
     <Container>
       {setTitle('Post')}

@@ -20,10 +20,10 @@ import { getMeFn } from './store/actions/auth.action';
 import nonmemberComponent from './hoc/nonmemberComponent';
 import requireAuth from './hoc/requireAuth';
 
-const App = ({ getMeFn }) => {
+const App = ({ auth, getMeFn }) => {
   useEffect(() => {
     getMeFn();
-  }, [getMeFn]);
+  }, [getMeFn, auth.isLoggedIn]);
 
   const { handleNavigation, isNavOpen } = useNavigation();
 
