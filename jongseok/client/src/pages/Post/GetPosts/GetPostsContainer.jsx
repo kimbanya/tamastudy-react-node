@@ -10,7 +10,7 @@ const GetPostsContainer = ({ history, getPosts, postState }) => {
     getPosts();
   }, []);
 
-  const posts = postState.posts.data;
+  const posts = postState.posts;
 
   const handleToastAlert = (type, message) => {
     toast[type](message);

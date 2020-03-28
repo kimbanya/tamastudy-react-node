@@ -12,17 +12,12 @@ import { toast } from 'react-toastify';
 export const getPosts = () => async (dispatch) => {
   try {
     const response = await axios.get('/api/v1/post');
-    const pageInfo = response.data.pageInfo;
-    const posts = response.data.result;
-    const payload = {
-      data: posts,
-      pageInfo,
-    };
+    const payload = response.data.result;
     dispatch({ type: GET_POSTS, payload });
   } catch (err) {
-    console.log(err);
-    dispatch({ type: POST_ERROR, payload: err });
-    toast.error('포스트 요청에 실패하였습니다. ');
+    console.log(err.response.data.error);
+    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
   }
 };
 
@@ -32,17 +27,21 @@ export const createPost = (formData, history) => async (dispatch) => {
     if (!token) {
       return alert('invalid token');
     }
-    await axios.post('/api/v1/post/create', formData, {
+    const response = await axios.post('/api/v1/post/create', formData, {
       headers: {
         authorization: `Bearer ${token}`,
       },
     });
+    const payload = response.data.data;
+
+    console.log(payload);
+    dispatch({ type: CREATE_POST, payload });
     toast.success('작성이 완료 되었습니다.');
     history.push('/posts');
   } catch (err) {
-    console.log(err);
-    dispatch({ type: POST_ERROR, payload: err });
-    toast.error('포스트 작성에 실패하였습니다. ');
+    console.log(err.response.data.error);
+    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
   }
 };
 
@@ -52,26 +51,39 @@ export const getPostById = (postId) => async (dispatch) => {
     const payload = response.data.result;
     dispatch({ type: GET_POST_BY_ID, payload });
   } catch (err) {
-    console.log(err);
-    dispatch({ type: POST_ERROR, payload: err });
-    toast.error('포스트 요청에 실패하였습니다. ');
+    console.log(err.response.data.error);
+    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
   }
 };
 
-export const deletePostById = () => async (dispatch) => {
+export const deletePostById = (postId, history) => async (dispatch) => {
   try {
+    if (window.confirm('삭제하시겠습니까?')) {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.delete(`/api/v1/post/delete/${postId}`, config);
+      toast.success(response.data.result);
+      const payload = postId;
+      dispatch({ type: DELETE_POST_BY_ID, payload });
+      history.push('/posts');
+    }
   } catch (err) {
-    console.log(err);
-    dispatch({ type: POST_ERROR, payload: err });
-    toast.error('포스트 삭제에 실패하였습니다. ');
+    console.log(err.response.data.error);
+    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
   }
 };
 
 export const updatePostById = () => async (dispatch) => {
   try {
   } catch (err) {
-    console.log(err);
-    dispatch({ type: POST_ERROR, payload: err });
-    toast.error('포스트 업데이트에 실패하였습니다. ');
+    console.log(err.response.data.error);
+    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
   }
 };

@@ -20,11 +20,12 @@ export default (state = initialState, { type, payload }) => {
     case GET_POSTS:
       return { ...state, posts: payload, loading: false };
     case CREATE_POST:
-      return state;
+      return { ...state, posts: [...state.posts, payload], loading: false };
     case GET_POST_BY_ID:
       return { ...state, post: payload, loading: false };
     case DELETE_POST_BY_ID:
-      return state;
+      const { postId } = payload;
+      return { ...state, posts: state.posts.filter((post) => post._id !== postId), loading: false };
     case UPDATE_POST_BY_ID:
       return state;
     case POST_ERROR:
