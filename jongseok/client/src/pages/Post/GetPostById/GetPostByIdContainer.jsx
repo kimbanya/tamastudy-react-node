@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 import { getPostById } from '../../../store/actions/post.action';
 
-const GetPostByIdContainer = ({ history, match, getPostById, post }) => {
+const GetPostByIdContainer = ({ history, match, getPostById, postState }) => {
   const postId = match.params.postId;
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const GetPostByIdContainer = ({ history, match, getPostById, post }) => {
   return (
     <div>
       <GetPostByIdPresenter
-        post={post}
+        post={postState.post}
         deletePostById={deletePostById}
         onClickMoveToBack={onClickMoveToBack}
       />
@@ -46,8 +46,8 @@ const GetPostByIdContainer = ({ history, match, getPostById, post }) => {
   );
 };
 
-const mapStateToProps = ({ post }) => ({
-  post,
+const mapStateToProps = ({ postState }) => ({
+  postState,
 });
 
 export default withRouter(connect(mapStateToProps, { getPostById })(GetPostByIdContainer));

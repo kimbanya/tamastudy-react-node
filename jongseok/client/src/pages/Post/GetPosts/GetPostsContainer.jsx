@@ -5,12 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPosts } from '../../../store/actions/post.action';
 
-const GetPostsContainer = ({ history, getPosts, post }) => {
+const GetPostsContainer = ({ history, getPosts, postState }) => {
   useEffect(() => {
     getPosts();
   }, []);
 
-  const posts = post.posts.data;
+  const posts = postState.posts.data;
 
   const handleToastAlert = (type, message) => {
     toast[type](message);
@@ -20,7 +20,7 @@ const GetPostsContainer = ({ history, getPosts, post }) => {
     history.push('/post/create');
   };
 
-  if (post.loading) {
+  if (postState.loading) {
     return <div>Loading ...</div>;
   }
 
@@ -33,8 +33,8 @@ const GetPostsContainer = ({ history, getPosts, post }) => {
   );
 };
 
-const mapStateToProps = ({ post }) => ({
-  post,
+const mapStateToProps = ({ postState }) => ({
+  postState,
 });
 
 export default withRouter(connect(mapStateToProps, { getPosts })(GetPostsContainer));
