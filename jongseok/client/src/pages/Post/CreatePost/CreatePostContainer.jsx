@@ -13,7 +13,7 @@ const initialState = {
 const CreatePostContainer = ({ history, createPost }) => {
   const [formData, setFormData] = useState(initialState);
   const [imgCount, setImgCount] = useState(1);
-  const [imgUrl, setImgUrl] = useState({});
+  const [imgUrl, setImgUrl] = useState([]);
   const [imgCheck, setImgCheck] = useState(false);
 
   const handleSubmit = (event) => {

@@ -81,6 +81,7 @@ export const deletePostById = (postId, history) => async (dispatch) => {
 
 export const updatePostById = () => async (dispatch) => {
   try {
+    //
   } catch (err) {
     console.log(err.response.data.error);
     dispatch({ type: POST_ERROR, payload: err.response.data.error });

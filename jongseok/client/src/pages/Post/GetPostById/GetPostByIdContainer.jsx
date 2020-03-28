@@ -15,6 +15,10 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, pos
     history.goBack();
   };
 
+  const onClickMoveToUpdate = () => {
+    history.push(`/post/${postId}/update`);
+  };
+
   const handleDeletePostById = () => {
     deletePostById(postId, history);
   };
@@ -25,6 +29,7 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, pos
         post={postState.post}
         deletePostById={handleDeletePostById}
         onClickMoveToBack={onClickMoveToBack}
+        onClickMoveToUpdate={onClickMoveToUpdate}
       />
     </div>
   );
