@@ -26,8 +26,19 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const createPost = () => async (dispatch) => {
+export const createPost = (formData, history) => async (dispatch) => {
   try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return alert('invalid token');
+    }
+    await axios.post('/api/v1/post/create', formData, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    toast.success('작성이 완료 되었습니다.');
+    history.push('/posts');
   } catch (err) {
     console.log(err);
     dispatch({ type: POST_ERROR, payload: err });

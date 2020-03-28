@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import CreatePostPresenter from './CreatePostPresenter';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
+import { createPost } from '../../../store/actions/post.action';
 
 const initialState = {
   title: '',
@@ -10,32 +10,15 @@ const initialState = {
   imgUrl: '',
 };
 
-const CreatePostContainer = ({ history }) => {
+const CreatePostContainer = ({ history, createPost }) => {
   const [formData, setFormData] = useState(initialState);
   const [imgCount, setImgCount] = useState(1);
   const [imgUrl, setImgUrl] = useState({});
   const [imgCheck, setImgCheck] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    // console.log(formData);
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        return alert('invalid token');
-      }
-      await axios.post('/api/v1/post/create', formData, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success('작성이 완료 되었습니다.');
-      history.push('/posts');
-    } catch (error) {
-      const errorArr = error.response.data.error.split(',');
-      errorArr.map((err) => toast.error(err));
-    }
+    createPost(formData, history);
   };
 
   const handleChange = (event) => {
@@ -84,4 +67,8 @@ const CreatePostContainer = ({ history }) => {
   );
 };
 
-export default withRouter(CreatePostContainer);
+const mapStateToProps = ({ postState }) => ({
+  postState,
+});
+
+export default withRouter(connect(mapStateToProps, { createPost })(CreatePostContainer));
