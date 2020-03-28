@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPosts } from '../../../store/actions/post.action';
+import Spinner from '../../../components/atoms/Spinner';
 
 const GetPostsContainer = ({ auth, history, getPosts, postState }) => {
   useEffect(() => {
@@ -21,12 +22,9 @@ const GetPostsContainer = ({ auth, history, getPosts, postState }) => {
     history.push('/post/create');
   };
 
-  if (auth.loading) {
-    return <div>Loading ...</div>;
-  }
-  if (postState.loading) {
-    return <div>Loading ...</div>;
-  }
+  if (auth.loading) return <Spinner />;
+
+  if (postState.loading) return <Spinner />;
 
   return (
     <GetPostsPresenter

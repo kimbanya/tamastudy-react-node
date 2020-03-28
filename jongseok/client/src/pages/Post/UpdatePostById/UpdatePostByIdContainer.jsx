@@ -3,6 +3,7 @@ import UpdatePostByIdPresenter from './UpdatePostByIdPresenter';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPostById, updatePostById } from '../../../store/actions/post.action';
+import Spinner from '../../../components/atoms/Spinner';
 
 const UpdatePostByIdContainer = ({ history, match, postState, getPostById, updatePostById }) => {
   const postId = match.params.postId;
@@ -33,9 +34,7 @@ const UpdatePostByIdContainer = ({ history, match, postState, getPostById, updat
     history.goBack();
   };
 
-  if (postState.loading) {
-    return <div>Loading...</div>;
-  }
+  if (postState.loading) return <Spinner />;
 
   return (
     <UpdatePostByIdPresenter

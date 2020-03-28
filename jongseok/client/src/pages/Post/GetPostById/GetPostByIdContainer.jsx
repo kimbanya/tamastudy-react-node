@@ -3,6 +3,7 @@ import GetPostByIdPresenter from './GetPostByIdPresenter';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPostById, deletePostById } from '../../../store/actions/post.action';
+import Spinner from '../../../components/atoms/Spinner';
 
 const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, auth, postState }) => {
   const postId = match.params.postId;
@@ -26,8 +27,8 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, aut
     deletePostById(postId, history);
   };
 
-  if (auth.loading) return <div>Loading ...</div>;
-  if (postState.loading) return <div>Loading ...</div>;
+  if (auth.loading) return <Spinner />;
+  if (postState.loading) return <Spinner />;
 
   return (
     <>
