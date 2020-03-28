@@ -73,7 +73,7 @@ const PostCreatedAt = styled.div`
 
 const PostWrapper = ({ history, _id, imgUrl, title, username, createdAt }) => {
   return (
-    <Container key={_id} imgUrl={imgUrl && imgUrl[0]} onClick={() => history.push(`/post/${_id}`)}>
+    <Container key={_id} imgUrl={imgUrl} onClick={() => history.push(`/post/${_id}`)}>
       <PostContents>
         <PostId>{_id}</PostId>
         <PostTitle>{title}</PostTitle>

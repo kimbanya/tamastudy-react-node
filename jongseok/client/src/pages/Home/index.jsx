@@ -1,5 +1,4 @@
 import React from 'react';
-import HomeMainSlider from '../../components/organisms/HomeMainSlider';
 import { css } from '@emotion/core';
 import theme from '../../theme';
 import ContentFrame from '../../components/molecules/ContentFrame';
@@ -13,8 +12,6 @@ const Home = () => {
   // eslint-disable-next-line
   return (
     <>
-      {/* <HomeNavSlider css={marginBottom(1)} /> */}
-      {/* <HomeMainSlider css={marginBottom(8)} /> */}
       <ContentFrame text="Intro" css={marginBottom(4)}>
         <Intro />
       </ContentFrame>

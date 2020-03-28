@@ -34,7 +34,6 @@ export const createPost = (formData, history) => async (dispatch) => {
     });
     const payload = response.data.data;
 
-    console.log(payload);
     dispatch({ type: CREATE_POST, payload });
     toast.success('작성이 완료 되었습니다.');
     history.push('/posts');
@@ -79,9 +78,22 @@ export const deletePostById = (postId, history) => async (dispatch) => {
   }
 };
 
-export const updatePostById = () => async (dispatch) => {
+export const updatePostById = (postId, formData, history) => async (dispatch) => {
   try {
-    //
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return alert('invalid token');
+    }
+    const response = await axios.put(`/api/v1/post/update/${postId}`, formData, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const payload = response.data.result;
+
+    dispatch({ type: UPDATE_POST_BY_ID, payload });
+    toast.success('수정이 완료 되었습니다.');
+    history.push('/posts');
   } catch (err) {
     console.log(err.response.data.error);
     dispatch({ type: POST_ERROR, payload: err.response.data.error });

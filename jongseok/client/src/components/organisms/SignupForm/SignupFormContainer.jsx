@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import CreatePostPresenter from './CreatePostPresenter';
+import SignupFormPresenter from './SignupFormPresenter';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { createPost } from '../../../store/actions/post.action';
+import { signupFn } from '../../../store/actions/auth.action';
 
 const initialState = {
-  title: '',
-  description: '',
-  imgUrl: '',
+  username: '',
+  email: '',
+  password: '',
 };
 
-const CreatePostContainer = ({ history, createPost }) => {
+const SignupFormContainer = ({ history, signupFn }) => {
   const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createPost(formData, history);
+    signupFn(formData, history);
   };
 
   const handleChange = (event) => {
@@ -26,7 +26,7 @@ const CreatePostContainer = ({ history, createPost }) => {
   };
 
   return (
-    <CreatePostPresenter
+    <SignupFormPresenter
       formData={formData}
       handleSubmit={handleSubmit}
       handleChange={handleChange}
@@ -34,4 +34,4 @@ const CreatePostContainer = ({ history, createPost }) => {
   );
 };
 
-export default withRouter(connect(null, { createPost })(CreatePostContainer));
+export default withRouter(connect(null, { signupFn })(SignupFormContainer));

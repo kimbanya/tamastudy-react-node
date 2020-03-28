@@ -2,12 +2,11 @@ import React from 'react';
 import Form from '../../atoms/Form';
 import Input from '../../atoms/Input';
 import Submit from '../../atoms/Submit';
-import PropTypes from 'prop-types';
 
-const LoginFormPresenter = ({
+const SigninFormPresenter = ({
   handleSubmit,
   handleChange,
-  loginData,
+  formData,
   loading,
   className,
   ...props
@@ -18,14 +17,14 @@ const LoginFormPresenter = ({
         onChange={handleChange}
         type={'text'}
         placeholder={'EMAIL'}
-        value={loginData.email}
+        value={formData.email}
         name={'email'}
       />
       <Input
         onChange={handleChange}
         type={'password'}
         placeholder={'PASSWORD'}
-        value={loginData.password}
+        value={formData.password}
         name={'password'}
       />
       <Submit btnText={'로그인'} />
@@ -33,11 +32,4 @@ const LoginFormPresenter = ({
   );
 };
 
-LoginFormPresenter.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  loginData: PropTypes.object.isRequired,
-  className: PropTypes.string,
-};
-
-export default LoginFormPresenter;
+export default SigninFormPresenter;

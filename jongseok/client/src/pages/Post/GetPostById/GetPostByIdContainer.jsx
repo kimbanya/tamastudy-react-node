@@ -4,12 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getPostById, deletePostById } from '../../../store/actions/post.action';
 
-const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, postState }) => {
+const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, auth, postState }) => {
   const postId = match.params.postId;
+  const currentUserId = auth.currentUserId;
+  const post = postState.post;
 
   useEffect(() => {
-    getPostById(postId);
-  }, []);
+    window.scrollTo(0, 0);
+    getPostById(match.params.postId);
+  }, [getPostById, match.params.postId]);
 
   const onClickMoveToBack = () => {
     history.goBack();
@@ -23,10 +26,14 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, pos
     deletePostById(postId, history);
   };
 
+  if (auth.loading) return <div>Loading ...</div>;
+  if (postState.loading) return <div>Loading ...</div>;
+
   return (
     <div>
       <GetPostByIdPresenter
-        post={postState.post}
+        currentUserId={currentUserId}
+        post={post}
         deletePostById={handleDeletePostById}
         onClickMoveToBack={onClickMoveToBack}
         onClickMoveToUpdate={onClickMoveToUpdate}
@@ -35,7 +42,8 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, pos
   );
 };
 
-const mapStateToProps = ({ postState }) => ({
+const mapStateToProps = ({ auth, postState }) => ({
+  auth,
   postState,
 });
 

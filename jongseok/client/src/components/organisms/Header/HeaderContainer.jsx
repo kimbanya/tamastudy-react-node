@@ -2,9 +2,14 @@ import React from 'react';
 import HeaderPresenter from './HeaderPresenter';
 import { connect } from 'react-redux';
 import { logoutFn } from '../../../store/actions/auth.action';
+import { withRouter } from 'react-router-dom';
 
-const HeaderContainer = ({ handleNavigation, logoutFn, auth }) => {
+const HeaderContainer = ({ history, handleNavigation, logoutFn, auth }) => {
   const { isLoggedIn, error, loading } = auth;
+
+  const onClickMoveToHome = () => {
+    history.push('/');
+  };
 
   return (
     <HeaderPresenter
@@ -13,6 +18,7 @@ const HeaderContainer = ({ handleNavigation, logoutFn, auth }) => {
       isLoggedIn={isLoggedIn}
       error={error}
       loading={loading}
+      onClickMoveToHome={onClickMoveToHome}
     />
   );
 };
@@ -21,4 +27,4 @@ const mapStateToProps = ({ auth }) => ({
   auth,
 });
 
-export default connect(mapStateToProps, { logoutFn })(HeaderContainer);
+export default withRouter(connect(mapStateToProps, { logoutFn })(HeaderContainer));

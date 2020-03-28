@@ -27,7 +27,12 @@ export default (state = initialState, { type, payload }) => {
       const { postId } = payload;
       return { ...state, posts: state.posts.filter((post) => post._id !== postId), loading: false };
     case UPDATE_POST_BY_ID:
-      return state;
+      return {
+        ...state,
+        posts: [...state.posts.filter((post) => post._id !== payload._id), payload],
+        post: payload,
+        loading: false,
+      };
     case POST_ERROR:
       return state;
     default:

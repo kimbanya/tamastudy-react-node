@@ -11,12 +11,10 @@ const postSchema = new Schema({
     type: String,
     required: [true, '본문을 입력해주세요. '],
   },
-  imgUrl: [
-    {
-      type: String,
-      required: [true, '이미지주소를 입력해주세요.'],
-    },
-  ],
+  imgUrl: {
+    type: String,
+    required: [true, '이미지주소를 입력해주세요.'],
+  },
   view: {
     type: Number,
     default: 0,

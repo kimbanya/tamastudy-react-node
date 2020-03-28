@@ -39,7 +39,7 @@ exports.signin = asyncHandler(async (req, res, next) => {
       data: null,
     });
   }
-  const isCorrectPassword = existingUser.matchPassword(req.body.password);
+  const isCorrectPassword = await existingUser.matchPassword(req.body.password);
   if (!isCorrectPassword) {
     return res.status(401).json({
       success: false,
@@ -47,6 +47,7 @@ exports.signin = asyncHandler(async (req, res, next) => {
       data: null,
     });
   }
+
   const token = await createJWT(existingUser._id);
   res.status(200).json({
     success: true,

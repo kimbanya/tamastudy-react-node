@@ -52,7 +52,7 @@ const ComponentContents = styled.div`
   }
 `;
 
-const GetPostsPresenter = ({ posts, handleToastAlert, onClickMoveToCreatePost }) => {
+const GetPostsPresenter = ({ isLoggedIn, posts, handleToastAlert, onClickMoveToCreatePost }) => {
   return (
     <Container>
       <ComponentTitleBox>
@@ -64,7 +64,7 @@ const GetPostsPresenter = ({ posts, handleToastAlert, onClickMoveToCreatePost })
             backgroundColor={'#34595e'}
             hoverBackgroundColor={'#183223'}
           />
-          <Button text={'포스트 작성'} onClick={onClickMoveToCreatePost} />
+          {isLoggedIn && <Button text={'포스트 작성'} onClick={onClickMoveToCreatePost} />}
           <Button
             text={'더보기'}
             onClick={() => handleToastAlert('info', '준비중입니다. 다음 주에 합시당~!')}

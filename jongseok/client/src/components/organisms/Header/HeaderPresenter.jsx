@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import mediaQuery from '../../../theme/mediaQuery';
 import theme from '../../../theme';
 import { ReactComponent as Logo } from '../../../assets/images/logo/nike.svg';
-import { PowerSettingsNew, AspectRatio, Cached } from '@material-ui/icons';
 import Typo from '../../atoms/Typo';
 import { NavLink } from 'react-router-dom';
 
@@ -25,13 +24,17 @@ const Header = styled.header`
 `;
 
 const LogoBox = styled.div`
-  cursor: pointer;
   display: flex;
   align-items: center;
 `;
 
 const LogoSize = styled.div`
   width: 10rem;
+  cursor: pointer;
+`;
+
+const LogoTypo = styled(Typo)`
+  cursor: pointer;
 `;
 
 const HeaderMenuBox = styled.div`
@@ -45,42 +48,40 @@ const AuthBox = styled.div`
   cursor: pointer;
 `;
 
-const AuthTypo = styled(Typo)`
-  margin-left: ${theme.space}px;
-`;
-
-const LoginLink = styled(NavLink)`
+const AuthLink = styled(NavLink)`
+  margin-left: ${theme.space * 2}px;
   text-decoration: none;
   color: inherit;
+  font-size: 1.6rem;
+  text-transform: uppercase;
 `;
 
-const HeaderPresenter = ({ isLoggedIn, error, loading, handleLogOutFn, handleNavigation }) => {
+const HeaderPresenter = ({ isLoggedIn, handleLogOutFn, handleNavigation, onClickMoveToHome }) => {
   return (
     <Container>
       <Header>
-        <LogoBox onClick={handleNavigation}>
+        <LogoBox>
           <LogoSize>
-            <Logo />
+            <Logo onClick={handleNavigation} />
           </LogoSize>
-          <Typo variant="h2">TokyoTamaStudy</Typo>
+          <LogoTypo variant="h2" onClick={onClickMoveToHome}>
+            TokyoTamaStudy
+          </LogoTypo>
         </LogoBox>
 
         <HeaderMenuBox>
-          <AuthBox onClick={isLoggedIn ? () => handleLogOutFn() : undefined}>
-            {isLoggedIn ? (
-              loading ? (
-                <Cached />
-              ) : (
-                <PowerSettingsNew />
-              )
-            ) : loading ? (
-              <Cached />
-            ) : (
-              <AspectRatio />
+          <AuthBox>
+            {isLoggedIn && (
+              <AuthLink to={'#'} onClick={handleLogOutFn}>
+                LOGOUT
+              </AuthLink>
             )}
-            <AuthTypo variant="body2">
-              {isLoggedIn ? <span>Logout</span> : <LoginLink to="/login">LogIn</LoginLink>}
-            </AuthTypo>
+            {!isLoggedIn && (
+              <>
+                <AuthLink to="/signup">SIGN UP</AuthLink>
+                <AuthLink to="/signin">SIGN IN</AuthLink>
+              </>
+            )}
           </AuthBox>
         </HeaderMenuBox>
       </Header>
