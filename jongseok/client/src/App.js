@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import GetPosts from './pages/Post/GetPosts';
 import CreatePost from './pages/Post/CreatePost';
 import GetPostById from './pages/Post/GetPostById';
+import UpdatePostById from './pages/Post/UpdatePostById';
 import Navigation from './components/organisms/Navigation';
 import useNavigation from './hooks/useNavigation';
 import ContainerLayout from './components/layout/ContainerLayout';
@@ -34,7 +35,8 @@ const App = ({ getMeFn }) => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/posts" component={GetPosts} />
           <Route exact path="/post/create" component={CreatePost} />
-          <Route exact path="/post/:postId" component={GetPostById} />
+          <Route path="/post/:postId/update" component={UpdatePostById} />
+          <Route path="/post/:postId" component={GetPostById} />
           <Route exact path="/private" component={() => <div>Private2</div>} />
           <Redirect from="*" to="/" />
         </Switch>
