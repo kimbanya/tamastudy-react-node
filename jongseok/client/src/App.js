@@ -22,9 +22,7 @@ import requireAuth from './hoc/requireAuth';
 
 const App = ({ getMeFn }) => {
   useEffect(() => {
-    if (Boolean(localStorage.getItem('token'))) {
-      getMeFn();
-    }
+    getMeFn();
   }, [getMeFn]);
 
   const { handleNavigation, isNavOpen } = useNavigation();

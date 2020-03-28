@@ -30,7 +30,7 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, aut
   if (postState.loading) return <div>Loading ...</div>;
 
   return (
-    <div>
+    <>
       <GetPostByIdPresenter
         currentUserId={currentUserId}
         post={post}
@@ -38,7 +38,7 @@ const GetPostByIdContainer = ({ history, match, getPostById, deletePostById, aut
         onClickMoveToBack={onClickMoveToBack}
         onClickMoveToUpdate={onClickMoveToUpdate}
       />
-    </div>
+    </>
   );
 };
 

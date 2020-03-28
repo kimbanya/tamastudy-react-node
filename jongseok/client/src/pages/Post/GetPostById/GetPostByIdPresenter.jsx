@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../../../components/atoms/Button';
 import styled from '@emotion/styled';
 import theme from '../../../theme';
+import setTitle from '../../../utils/setTitle';
 
 const Container = styled.div`
   width: 100%;
@@ -38,9 +39,10 @@ const GetPostByIdPresenter = ({
   onClickMoveToBack,
   onClickMoveToUpdate,
 }) => {
-  const { view, title, description, imgUrl, createdAt, user } = post;
+  const { view, _id, title, description, imgUrl, createdAt, user } = post;
   return (
     <Container>
+      {setTitle('Post')}
       <ImgBox>
         <ImgItem src={imgUrl} alt={'img'} />
       </ImgBox>

@@ -4,6 +4,7 @@ import mediaQuery from '../../../theme/mediaQuery';
 import theme from '../../../theme';
 import PostWrapper from '../../../components/organisms/PostWrapper';
 import Button from '../../../components/atoms/Button';
+import setTitle from '../../../utils/setTitle';
 
 const Container = styled.div`
   width: 100%;
@@ -55,6 +56,7 @@ const ComponentContents = styled.div`
 const GetPostsPresenter = ({ isLoggedIn, posts, handleToastAlert, onClickMoveToCreatePost }) => {
   return (
     <Container>
+      {setTitle('Posts')}
       <ComponentTitleBox>
         <PageTitle>POST</PageTitle>
         <ButtonBox>

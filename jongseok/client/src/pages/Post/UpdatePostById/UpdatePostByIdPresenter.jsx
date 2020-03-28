@@ -3,10 +3,12 @@ import Form from '../../../components/atoms/Form';
 import Input from '../../../components/atoms/Input';
 import Submit from '../../../components/atoms/Submit';
 import FormButton from '../../../components/atoms/FormButton';
+import setTitle from '../../../utils/setTitle';
 
 const UpdatePostByIdPresenter = ({ formData, handleSubmit, handleChange, onClickMoveToBack }) => {
   return (
     <>
+      {setTitle('Update Post')}
       <Form onSubmit={handleSubmit}>
         <Input
           type={'text'}

@@ -7,11 +7,13 @@ import Slider from '../../components/organisms/Contents/Slider';
 import News from '../../components/organisms/Contents/News';
 import Banner from '../../components/organisms/Contents/Banner';
 import { withRouter } from 'react-router-dom';
+import setTitle from '../../utils/setTitle';
 
 const Home = () => {
   // eslint-disable-next-line
   return (
     <>
+      {setTitle('Welcome !!')}
       <ContentFrame text="Intro" css={marginBottom(4)}>
         <Intro />
       </ContentFrame>
