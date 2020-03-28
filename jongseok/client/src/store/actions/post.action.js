@@ -21,7 +21,7 @@ export const getPosts = () => async (dispatch) => {
     dispatch({ type: GET_POSTS, payload });
   } catch (err) {
     console.log(err);
-    dispatch({ type: POST_ERROR });
+    dispatch({ type: POST_ERROR, payload: err });
     toast.error('포스트 요청에 실패하였습니다. ');
   }
 };
@@ -30,16 +30,19 @@ export const createPost = () => async (dispatch) => {
   try {
   } catch (err) {
     console.log(err);
-    dispatch({ type: POST_ERROR });
+    dispatch({ type: POST_ERROR, payload: err });
     toast.error('포스트 작성에 실패하였습니다. ');
   }
 };
 
-export const getPostById = () => async (dispatch) => {
+export const getPostById = (postId) => async (dispatch) => {
   try {
+    const response = await axios.get(`/api/v1/post/${postId}`);
+    const payload = response.data.result;
+    dispatch({ type: GET_POST_BY_ID, payload });
   } catch (err) {
     console.log(err);
-    dispatch({ type: POST_ERROR });
+    dispatch({ type: POST_ERROR, payload: err });
     toast.error('포스트 요청에 실패하였습니다. ');
   }
 };
@@ -48,7 +51,7 @@ export const deletePostById = () => async (dispatch) => {
   try {
   } catch (err) {
     console.log(err);
-    dispatch({ type: POST_ERROR });
+    dispatch({ type: POST_ERROR, payload: err });
     toast.error('포스트 삭제에 실패하였습니다. ');
   }
 };
@@ -57,7 +60,7 @@ export const updatePostById = () => async (dispatch) => {
   try {
   } catch (err) {
     console.log(err);
-    dispatch({ type: POST_ERROR });
+    dispatch({ type: POST_ERROR, payload: err });
     toast.error('포스트 업데이트에 실패하였습니다. ');
   }
 };

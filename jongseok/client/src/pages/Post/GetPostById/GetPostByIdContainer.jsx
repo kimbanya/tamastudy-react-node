@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GetPostByIdPresenter from './GetPostByIdPresenter';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import useCustomFetch from '../../../hooks/useCustomFetch';
+import { connect } from 'react-redux';
+import { getPostById } from '../../../store/actions/post.action';
 
-const initialState = {};
-
-const GetPostByIdContainer = ({ history, match }) => {
+const GetPostByIdContainer = ({ history, match, getPostById, post }) => {
   const postId = match.params.postId;
 
-  //
-
-  const post = useCustomFetch(initialState, `/api/v1/post/${postId}`);
-
-  //
+  useEffect(() => {
+    getPostById(postId);
+  }, []);
 
   const deletePostById = async () => {
     try {
@@ -49,4 +46,8 @@ const GetPostByIdContainer = ({ history, match }) => {
   );
 };
 
-export default withRouter(GetPostByIdContainer);
+const mapStateToProps = ({ post }) => ({
+  post,
+});
+
+export default withRouter(connect(mapStateToProps, { getPostById })(GetPostByIdContainer));

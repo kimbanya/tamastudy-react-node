@@ -22,7 +22,7 @@ export default (state = initialState, { type, payload }) => {
     case CREATE_POST:
       return state;
     case GET_POST_BY_ID:
-      return state;
+      return { ...state, post: payload, loading: false };
     case DELETE_POST_BY_ID:
       return state;
     case UPDATE_POST_BY_ID:
