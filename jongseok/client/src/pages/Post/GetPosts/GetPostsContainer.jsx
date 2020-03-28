@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GetPostsPresenter from './GetPostsPresenter';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
-import useCustomFetch from '../../../hooks/useCustomFetch';
+import { connect } from 'react-redux';
+import { getPosts } from '../../../store/actions/post.action';
 
-const initialState = [];
+const GetPostsContainer = ({ history, getPosts, post }) => {
+  useEffect(() => {
+    getPosts();
+  }, []);
 
-const GetPostsContainer = (props) => {
-  const posts = useCustomFetch(initialState, '/api/v1/post');
+  const posts = post.posts.data;
 
   const handleToastAlert = (type, message) => {
     toast[type](message);
   };
 
   const onClickMoveToCreatePost = () => {
-    props.history.push('/post/create');
+    history.push('/post/create');
   };
 
-  if (posts === initialState) {
+  if (post.loading) {
     return <div>Loading ...</div>;
   }
 
@@ -30,4 +33,8 @@ const GetPostsContainer = (props) => {
   );
 };
 
-export default withRouter(GetPostsContainer);
+const mapStateToProps = ({ post }) => ({
+  post,
+});
+
+export default withRouter(connect(mapStateToProps, { getPosts })(GetPostsContainer));

@@ -11,11 +11,11 @@ import { toast } from 'react-toastify';
 
 export const getPosts = () => async (dispatch) => {
   try {
-    const response = axios.get('/api/v1/post');
+    const response = await axios.get('/api/v1/post');
     const pageInfo = response.data.pageInfo;
     const posts = response.data.result;
     const payload = {
-      posts,
+      data: posts,
       pageInfo,
     };
     dispatch({ type: GET_POSTS, payload });
