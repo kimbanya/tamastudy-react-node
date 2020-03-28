@@ -18,7 +18,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_POSTS:
-      return state;
+      return { ...state, posts: payload, loading: false };
     case CREATE_POST:
       return state;
     case GET_POST_BY_ID:
