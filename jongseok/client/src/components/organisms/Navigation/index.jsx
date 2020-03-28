@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import theme from '../../../theme';
-import useAuthContext from '../../../hooks/useAuthContext';
 import { NavLink } from 'react-router-dom';
 import { Apple, BeachAccess, Call, Chat, Cloud, Eco } from '@material-ui/icons';
 
@@ -107,8 +106,6 @@ const Legal = styled.div`
 const activeStyle = { backgroundColor: theme.colors.text.darkPrimary };
 
 const Navigation = ({ isNavOpen, handleNavigation }) => {
-  const auth = useAuthContext();
-
   return (
     <>
       <BackDrop isNavOpen={isNavOpen} onClick={handleNavigation} />

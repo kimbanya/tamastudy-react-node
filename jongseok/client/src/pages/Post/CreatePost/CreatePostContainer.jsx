@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import CreatePostPresenter from './CreatePostPresenter';
-import { Redirect, withRouter } from 'react-router-dom';
-import useAuthContext from '../../../hooks/useAuthContext';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -16,8 +15,6 @@ const CreatePostContainer = ({ history }) => {
   const [imgCount, setImgCount] = useState(1);
   const [imgUrl, setImgUrl] = useState({});
   const [imgCheck, setImgCheck] = useState(false);
-
-  const ctxData = useAuthContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,14 +68,6 @@ const CreatePostContainer = ({ history }) => {
     });
     setImgCheck(true);
   };
-
-  if (ctxData.authLoading) {
-    return <div>Loading ...</div>;
-  }
-
-  if (!ctxData.isLoggedIn) {
-    return <Redirect to={'/login'} />;
-  }
 
   return (
     <CreatePostPresenter

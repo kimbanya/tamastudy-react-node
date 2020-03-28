@@ -2,6 +2,24 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { LOAD_USER, LOGGED_IN, LOGGED_OUT, AUTH_ERROR } from '../types';
 
+// 유저 로드 (me)
+export const getMeFn = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    };
+    await axios.get('/api/v1/user/me', config);
+    dispatch({ type: LOAD_USER });
+  } catch (err) {
+    console.log(err);
+    dispatch({ type: AUTH_ERROR, payload: err });
+    // toast.error('유저정보 로딩 실패');
+  }
+};
+
 // 로그인
 export const loginFn = (loginData, history) => async (dispatch) => {
   try {

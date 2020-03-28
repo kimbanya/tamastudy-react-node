@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Home from './pages/Home';
 import Tama from './pages/Tama';
 import Header from './components/organisms/Header';
@@ -12,7 +13,14 @@ import Navigation from './components/organisms/Navigation';
 import useNavigation from './hooks/useNavigation';
 import ContainerLayout from './components/layout/ContainerLayout';
 
-const App = () => {
+// redux
+import { getMeFn } from './store/actions/auth.action';
+
+const App = ({ getMeFn }) => {
+  useEffect(() => {
+    getMeFn();
+  }, []);
+
   const { handleNavigation, isNavOpen } = useNavigation();
 
   return (
@@ -36,4 +44,8 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
+
+export default connect(mapStateToProps, { getMeFn })(App);
