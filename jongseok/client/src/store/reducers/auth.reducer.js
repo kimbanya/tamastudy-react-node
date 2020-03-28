@@ -8,10 +8,12 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case LOAD_USER:
-      return state;
     case LOGGED_IN:
       return { ...state, isLoggedIn: true, loading: false };
+    case LOGGED_OUT:
+      return { ...state, isLoggedIn: false, loading: false };
+    case AUTH_ERROR:
+      return { ...state, error: payload };
     default:
       return state;
   }

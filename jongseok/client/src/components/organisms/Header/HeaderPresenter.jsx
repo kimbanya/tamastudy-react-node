@@ -55,7 +55,6 @@ const LoginLink = styled(NavLink)`
 `;
 
 const HeaderPresenter = ({ isLoggedIn, error, loading, handleLogOutFn, handleNavigation }) => {
-  console.log(loading);
   return (
     <Container>
       <Header>

@@ -1,20 +1,24 @@
 import React from 'react';
 import HeaderPresenter from './HeaderPresenter';
-import useAuthContext from '../../../hooks/useAuthContext';
+import { connect } from 'react-redux';
+import { logoutFn } from '../../../store/actions/auth.action';
 
-const HeaderContainer = ({ handleNavigation }) => {
-  const auth = useAuthContext();
+const HeaderContainer = ({ handleNavigation, logoutFn, auth }) => {
+  const { isLoggedIn, error, loading } = auth;
 
   return (
     <HeaderPresenter
-      isLoggedIn={auth.isLoggedIn}
-      error={auth.authError}
-      loading={auth.authLoading}
-      handleLogInFn={auth.handleLogInFn}
-      handleLogOutFn={auth.handleLogOutFn}
+      handleLogOutFn={logoutFn}
       handleNavigation={handleNavigation}
+      isLoggedIn={isLoggedIn}
+      error={error}
+      loading={loading}
     />
   );
 };
 
-export default HeaderContainer;
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
+
+export default connect(mapStateToProps, { logoutFn })(HeaderContainer);

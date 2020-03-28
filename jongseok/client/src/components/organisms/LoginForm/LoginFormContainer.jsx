@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import LoginFormPresenter from './LoginFormPresenter';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loginFn } from '../../../store/actions/auth.action';
 
-const LoginFormContainer = ({ history, handleLogInFn, loading }) => {
+const LoginFormContainer = ({ history, loginFn }) => {
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
 
   const handleSubmit = () => {
-    handleLogInFn(loginData, history);
+    loginFn(loginData, history);
   };
 
   const handleChange = (event) => {
@@ -29,15 +30,8 @@ const LoginFormContainer = ({ history, handleLogInFn, loading }) => {
       loginData={loginData}
       handleSubmit={handleSubmit}
       handleChange={handleChange}
-      loading={loading}
     />
   );
 };
 
-LoginFormContainer.propTypes = {
-  history: PropTypes.func,
-  handleLogInFn: PropTypes.func,
-  loading: PropTypes.bool,
-};
-
-export default withRouter(LoginFormContainer);
+export default withRouter(connect(null, { loginFn })(LoginFormContainer));
