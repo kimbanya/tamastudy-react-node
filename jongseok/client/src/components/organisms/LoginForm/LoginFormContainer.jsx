@@ -23,6 +23,7 @@ const LoginFormContainer = ({ history, handleLogInFn, loading }) => {
       [name]: value,
     });
   };
+
   return (
     <LoginFormPresenter
       loginData={loginData}
