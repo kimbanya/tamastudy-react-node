@@ -11,7 +11,8 @@ const BackDrop = styled.div`
   right: 0;
   bottom: 0;
   z-index: 10000;
-  transition: transform 0.25s;
+  transition: opacity 250ms;
+  opacity: ${(props) => (props.isNavOpen ? 0 : 1)};
   transform: ${(props) => (props.isNavOpen ? 'translateX(-100%)' : 'translateX(0)')};
   background-color: rgba(0, 0, 0, 0.5);
 `;
@@ -21,7 +22,7 @@ const NavContainer = styled.ul`
   left: 0;
   top: 0;
   z-index: 10001;
-  transition: transform 0.25s;
+  transition: transform 250ms;
   transform: ${(props) => (props.isNavOpen ? 'translateX(-345px)' : 'translateX(0)')};
   background-color: ${theme.colors.base.darkGrey};
   width: 345px;

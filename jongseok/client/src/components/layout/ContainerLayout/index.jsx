@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import mediaQuery from '../../../theme/mediaQuery';
+import theme from '../../../theme';
 
 const Layout = styled.div`
   display: grid;
-  grid-template-rows: 90px 1fr min-content;
+  grid-template-rows: 70px 1fr min-content;
   width: 100%;
+  margin-top: ${theme.space * 2}px;
   ${mediaQuery(2)} {
     width: 1000px;
-    margin: 0 auto;
+    margin: ${theme.space * 2}px auto;
   }
 `;
 

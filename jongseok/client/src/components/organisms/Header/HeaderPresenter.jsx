@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import mediaQuery from '../../../theme/mediaQuery';
 import theme from '../../../theme';
-import { ReactComponent as Logo } from '../../../assets/images/logo/nike.svg';
 import Typo from '../../atoms/Typo';
 import { NavLink } from 'react-router-dom';
+import Hamburger from '../../atoms/Hamburger';
 
 const Container = styled.div`
   ${mediaQuery(2)} {
@@ -26,11 +26,7 @@ const Header = styled.header`
 const LogoBox = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const LogoSize = styled.div`
-  width: 10rem;
-  cursor: pointer;
+  justify-content: space-between;
 `;
 
 const LogoTypo = styled(Typo)`
@@ -61,12 +57,7 @@ const HeaderPresenter = ({ isLoggedIn, handleLogOutFn, handleNavigation, onClick
     <Container>
       <Header>
         <LogoBox>
-          <LogoSize>
-            <Logo onClick={handleNavigation} />
-          </LogoSize>
-          <LogoTypo variant="h2" onClick={onClickMoveToHome}>
-            TokyoTamaStudy
-          </LogoTypo>
+          <Hamburger onClick={handleNavigation} />
         </LogoBox>
 
         <HeaderMenuBox>

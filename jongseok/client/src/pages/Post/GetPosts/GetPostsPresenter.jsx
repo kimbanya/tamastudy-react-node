@@ -10,15 +10,18 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0 ${theme.space * 2}px;
-  margin: ${theme.space * 4}px auto;
+  margin: 0 auto;
   ${mediaQuery(2)} {
     width: 1000px;
+    margin: ${theme.space * 4}px auto;
   }
 `;
 
 const ComponentTitleBox = styled.div`
-  display: flex;
-  justify-content: space-between;
+  ${mediaQuery(1)} {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const PageTitle = styled.h1`
@@ -30,8 +33,20 @@ const PageTitle = styled.h1`
 
 const ButtonBox = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  margin-bottom: ${theme.space * 2}px;
+  ${mediaQuery(1)} {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+  }
+`;
+
+const CustomButton = styled(Button)`
+  width: 100%;
+  ${mediaQuery(1)} {
+    width: auto;
+  }
 `;
 
 const ComponentContents = styled.div`
@@ -60,14 +75,14 @@ const GetPostsPresenter = ({ isLoggedIn, posts, handleToastAlert, onClickMoveToC
       <ComponentTitleBox>
         <PageTitle>POST</PageTitle>
         <ButtonBox>
-          <Button
+          <CustomButton
             text={'정렬'}
             onClick={() => handleToastAlert('info', '준비중입니다. 다음 주에 합시당~!')}
             backgroundColor={'#34595e'}
             hoverBackgroundColor={'#183223'}
           />
-          {isLoggedIn && <Button text={'포스트 작성'} onClick={onClickMoveToCreatePost} />}
-          <Button
+          {isLoggedIn && <CustomButton text={'포스트 작성'} onClick={onClickMoveToCreatePost} />}
+          <CustomButton
             text={'더보기'}
             onClick={() => handleToastAlert('info', '준비중입니다. 다음 주에 합시당~!')}
           />
