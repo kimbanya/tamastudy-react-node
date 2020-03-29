@@ -48,6 +48,7 @@ const NavList = styled.li`
   }
 
   &:hover {
+    -webkit-text-fill-color: black;
     color: black !important;
   }
 
@@ -86,7 +87,8 @@ const CustomNavLink = styled(NavLink)`
   padding: 2rem 0;
   padding-left: 5rem;
   position: relative;
-  color: white;
+  -webkit-text-fill-color: ${theme.colors.base.white};
+  color: ${theme.colors.base.white};
   display: flex;
   align-items: center;
 `;

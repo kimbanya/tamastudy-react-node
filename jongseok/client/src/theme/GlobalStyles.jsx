@@ -3,7 +3,6 @@ import { useTheme } from 'emotion-theming';
 import React from 'react';
 import mediaQuery from './mediaQuery';
 import 'normalize.css';
-import './font-family.css';
 import 'swiper/css/swiper.css';
 import superFormReset from './superFormReset';
 
@@ -15,30 +14,14 @@ const GlobalStyles = () => {
         * {
           margin: 0;
           padding: 0;
+          font-family: 'Nanum Gothic', sans-serif;
         }
         ${superFormReset};
         html {
           font-size: 62.5%;
-
-          ${mediaQuery(0)} {
-            font-size: 45%;
-          }
-
-          ${mediaQuery(1)} {
-            font-size: 50%;
-          }
-
-          ${mediaQuery(2)} {
-            font-size: 62.5%;
-          }
-
-          ${mediaQuery(3)} {
-            font-size: 75%;
-          }
         }
 
         body > * {
-          font-family: 'Nanum Gothic';
           all: unset;
         }
 
@@ -51,6 +34,14 @@ const GlobalStyles = () => {
         }
         input[type='submit'],
         input[type='reset'] {
+        }
+        input[disabled],
+        textarea[disabled],
+        select[disabled='disabled'] {
+          -webkit-text-fill-color: rgba(0, 0, 0, 1);
+          -webkit-opacity: 1;
+          color: rgba(0, 0, 0, 1);
+          background: white;
         }
       `}
     />

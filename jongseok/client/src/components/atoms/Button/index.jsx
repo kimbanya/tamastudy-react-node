@@ -1,31 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import theme from '../../../theme';
-
-const ButtonStyle = styled.button`
-  outline: none;
-  cursor: pointer;
-  border-radius: 8px;
-  box-sizing: border-box;
-  padding: ${theme.space * 2}px ${theme.space * 3}px;
-  font-weight: 900;
-  box-shadow: 10px 10px 15px -9px rgba(0, 0, 0, 0.43);
-  transition: all 0.2s ease;
-  &:not(:last-of-type) {
-    margin-right: ${theme.space}px;
-  }
-  &:not(:first-of-type) {
-    margin-left: ${theme.space}px;
-  }
-
-  color: ${(props) => (props.color ? props.color : '#ffffff')};
-  background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : '#34495e')};
-  &:hover {
-    background-color: ${(props) =>
-      props.hoverBackgroundColor ? props.hoverBackgroundColor : '#182223'};
-  }
-`;
 
 const Button = ({
   text,
@@ -39,17 +15,36 @@ const Button = ({
   ...props
 }) => {
   return (
-    <ButtonStyle
+    <button
+      css={css`
+        cursor: pointer;
+        outline: none;
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: ${theme.space * 2}px ${theme.space * 2}px;
+        font-weight: 900;
+        box-shadow: 10px 10px 15px -9px rgba(0, 0, 0, 0.43);
+        transition: all 0.2s ease;
+        word-wrap: keep-all;
+        &:not(:last-of-type) {
+          margin-right: ${theme.space}px;
+        }
+        &:not(:first-of-type) {
+          margin-left: ${theme.space}px;
+        }
+        -webkit-text-fill-color: ${color ? color : '#ffffff!important'};
+        color: ${color ? color : '#ffffff!important'};
+        background-color: ${backgroundColor ? backgroundColor : '#34495e'};
+        &:hover {
+          background-color: ${hoverBackgroundColor ? hoverBackgroundColor : '#182223'};
+        }
+      `}
       onClick={onClick}
       type={type}
-      color={color}
-      backgroundColor={backgroundColor}
-      hoverBackgroundColor={hoverBackgroundColor}
-      className={className}
       {...props}
     >
       {text}
-    </ButtonStyle>
+    </button>
   );
 };
 

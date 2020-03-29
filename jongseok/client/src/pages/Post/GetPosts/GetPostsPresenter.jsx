@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0 ${theme.space * 2}px;
-  margin: 0 auto;
+  margin: 0 auto ${theme.space * 4}px;
   ${mediaQuery(2)} {
     width: 1000px;
     margin: ${theme.space * 4}px auto;

@@ -45,7 +45,8 @@ const PostContents = styled.div`
   );
 
   & > * {
-    color: white;
+    -webkit-text-fill-color: ${theme.colors.base.white};
+    color: ${theme.colors.base.white};
   }
 `;
 
