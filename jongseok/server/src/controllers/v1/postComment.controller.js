@@ -46,7 +46,12 @@ exports.getPostComments = asyncHandler(async (req, res, next) => {
   let postComments = await PostComment.find(query)
     .sort({ _id: -1, createdAt: -1 })
     .limit(limit + 1)
-    .select('-post');
+    .select('-post')
+    .populate({
+      path: 'user',
+      model: 'User',
+      select: 'username',
+    });
 
   const hasNextPage = postComments.length > limit;
 
@@ -106,7 +111,7 @@ exports.deletePostCommentById = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     error: null,
-    result: `${req.params.postCommentId}번 댓글의 삭제가 완료되었습니다. `,
+    result: postComment,
   });
 });
 

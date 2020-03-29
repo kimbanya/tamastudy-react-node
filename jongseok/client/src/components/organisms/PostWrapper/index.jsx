@@ -72,9 +72,22 @@ const PostCreatedAt = styled.div`
   text-align: right;
 `;
 
-const PostWrapper = ({ history, _id, imgUrl, title, username, createdAt }) => {
+const PostCommentAlert = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: ${theme.space * 2}px;
+  font-size: 20px;
+  font-weight: 900;
+  border-top-right-radius: 8px;
+  -webkit-text-fill-color: ${theme.colors.base.white};
+  color: ${theme.colors.base.white};
+`;
+
+const PostWrapper = ({ history, _id, imgUrl, title, username, createdAt, postComments }) => {
   return (
     <Container key={_id} imgUrl={imgUrl} onClick={() => history.push(`/post/${_id}`)}>
+      {postComments.length > 0 && <PostCommentAlert>{postComments.length}</PostCommentAlert>}
       <PostContents>
         <PostId>{_id}</PostId>
         <PostTitle>{title}</PostTitle>

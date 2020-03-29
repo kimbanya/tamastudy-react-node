@@ -1,7 +1,6 @@
 import { Global, css } from '@emotion/core';
 import { useTheme } from 'emotion-theming';
 import React from 'react';
-import mediaQuery from './mediaQuery';
 import 'normalize.css';
 import 'swiper/css/swiper.css';
 import superFormReset from './superFormReset';

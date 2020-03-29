@@ -4,6 +4,9 @@ import {
   GET_POST_BY_ID,
   DELETE_POST_BY_ID,
   UPDATE_POST_BY_ID,
+  CREATE_POST_COMMENT_BY_POST_ID,
+  GET_POST_COMMENTS_BY_POST_ID,
+  DELETE_POST_COMMENT_BY_POST_ID,
   POST_ERROR,
 } from '../types';
 
@@ -31,6 +34,16 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         posts: [...state.posts.filter((post) => post._id !== payload._id), payload],
         post: payload,
+        loading: false,
+      };
+    case CREATE_POST_COMMENT_BY_POST_ID:
+      return { ...state, postComments: [payload, ...state.postComments], loading: false };
+    case GET_POST_COMMENTS_BY_POST_ID:
+      return { ...state, postComments: payload, loading: false };
+    case DELETE_POST_COMMENT_BY_POST_ID:
+      return {
+        ...state,
+        postComments: state.postComments.filter((comment) => comment._id !== payload),
         loading: false,
       };
     case POST_ERROR:

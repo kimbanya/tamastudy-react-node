@@ -3,8 +3,17 @@ import Button from '../../../components/atoms/Button';
 import styled from '@emotion/styled';
 import theme from '../../../theme';
 import setTitle from '../../../utils/setTitle';
+import CreatePostCommentByPostId from '../CreatePostCommentByPostId';
+import GetPostCommentByPostId from '../GetPostCommentsByPostId';
+import mediaQuery from '../../../theme/mediaQuery';
+import moment from 'moment';
 
-const Container = styled.div`
+const Container = styled.section`
+  margin: 0 ${theme.space}px;
+  margin-bottom: ${theme.space * 2}px;
+`;
+
+const PostContainer = styled.section`
   width: 100%;
 `;
 
@@ -27,9 +36,20 @@ const Desc = styled.p``;
 const CreatedAt = styled.p``;
 
 const ButtonBox = styled.div`
-  margin: 16px auto;
+  margin: ${theme.space * 2}px auto;
   display: flex;
   justify-content: center;
+`;
+
+const CustomButton = styled(Button)`
+  width: 100%;
+  ${mediaQuery(1)} {
+    width: auto;
+  }
+`;
+
+const PostCommentsContainer = styled.section`
+  padding-top: ${theme.space * 2}px;
 `;
 
 const GetPostByIdPresenter = ({
@@ -43,25 +63,32 @@ const GetPostByIdPresenter = ({
 
   return (
     <Container>
-      {setTitle('Post')}
-      <ImgBox>
-        <ImgItem src={imgUrl} alt={'img'} />
-      </ImgBox>
-      <TextBox>
-        <View>View: {view}</View>
-        <Title>Title: {title}</Title>
-        <Desc>description: {description}</Desc>
-        <CreatedAt>CreatedAt: {createdAt}</CreatedAt>
-      </TextBox>
-      <ButtonBox>
-        {currentUserId === user && (
-          <>
-            <Button onClick={deletePostById} backgroundColor={'red'} text={'삭제'} />
-            <Button onClick={onClickMoveToUpdate} backgroundColor={'green'} text={'수정'} />
-          </>
-        )}
-        <Button onClick={onClickMoveToBack} backgroundColor={'blue'} text={'이전'} />
-      </ButtonBox>
+      <PostContainer>
+        {setTitle('Post')}
+        <ImgBox>
+          <ImgItem src={imgUrl} alt={'img'} />
+        </ImgBox>
+        <TextBox>
+          <View>View: {view}</View>
+          <Title>Title: {title}</Title>
+          <Desc>description: {description}</Desc>
+          <CreatedAt>CreatedAt: {moment(createdAt).format('llll')}</CreatedAt>
+        </TextBox>
+        <ButtonBox>
+          {currentUserId === user && (
+            <>
+              <CustomButton onClick={deletePostById} backgroundColor={'red'} text={'삭제'} />
+              <CustomButton onClick={onClickMoveToUpdate} backgroundColor={'green'} text={'수정'} />
+            </>
+          )}
+          <CustomButton onClick={onClickMoveToBack} backgroundColor={'blue'} text={'이전'} />
+        </ButtonBox>
+      </PostContainer>
+      <PostCommentsContainer>
+        <h1>Comments</h1>
+        <CreatePostCommentByPostId />
+        <GetPostCommentByPostId author={user} currentUserId={currentUserId} />
+      </PostCommentsContainer>
     </Container>
   );
 };
