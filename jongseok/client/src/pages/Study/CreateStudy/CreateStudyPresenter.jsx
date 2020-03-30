@@ -4,6 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import styled from '@emotion/styled';
 import AddIcon from '@material-ui/icons/Add';
 import theme from '../../../theme';
+import Button from '../../../components/atoms/Button';
 
 const Container = styled.div`
   position: relative;
@@ -26,9 +27,19 @@ const CenterIconBox = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const AddressBox = styled.div`
+  text-align: center;
+  margin: ${theme.space * 2}px 0;
+  > h3 {
+  }
+
+  > p {
+  }
+`;
+
 const StudyForm = styled.form`
   width: 100%;
-  background-color: red;
+  padding: ${theme.space}px 0;
 `;
 
 const StudyInput = styled.input`
@@ -36,7 +47,15 @@ const StudyInput = styled.input`
   background-color: white;
   box-sizing: border-box;
   padding: ${theme.space * 2}px;
-  margin: ${theme.space * 2}px 0;
+  &:not(:last-of-type) {
+    margin-bottom: ${theme.space}px;
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  margin-top: ${theme.space}px;
+  width: 100%;
+  border-radius: 0;
 `;
 
 const CreateStudyPresenter = ({
@@ -46,7 +65,6 @@ const CreateStudyPresenter = ({
   handleChange,
   handleSubmit,
   handleGetRealLocation,
-  handleGetCurrentLocation,
   handleDragEnd,
   formData,
   handleFormChange,
@@ -73,6 +91,11 @@ const CreateStudyPresenter = ({
           <AddIcon />
         </CenterIconBox>
       </GoogleMapFrame>
+      {/* 현재 위치 정보 */}
+      <AddressBox>
+        <h3>Current Location</h3>
+        <p>{formData.address}</p>
+      </AddressBox>
       {/* Create Form */}
       <StudyForm onSubmit={handleFormSubmit}>
         <StudyInput
@@ -96,6 +119,7 @@ const CreateStudyPresenter = ({
           value={formData.imgUrl}
           placeholder={'Image Url'}
         />
+        <SubmitButton text={'Submit'} />
       </StudyForm>
     </Container>
   );

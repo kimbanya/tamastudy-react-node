@@ -13,5 +13,5 @@ const advancedGetResult = require('../../middleware/advancedGetResult');
 const router = express.Router();
 
 router.get('/', getStudies);
-router.get('/create', getCurrentUserId, createStudy);
+router.post('/create', getCurrentUserId, createStudy);
 module.exports = router;
