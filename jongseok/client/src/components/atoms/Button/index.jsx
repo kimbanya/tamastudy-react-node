@@ -17,10 +17,10 @@ const Container = styled.button`
   color: ${(props) => (props.color ? props.color : '#ffffff!important')};
   background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : '#34495e')};
   &:not(:last-of-type) {
-    margin-right: ${theme.space}px;
+    margin-right: ${(props) => !props.noMargin && `${theme.space}px`};
   }
   &:not(:first-of-type) {
-    margin-left: ${theme.space}px;
+    margin-left: ${(props) => !props.noMargin && `${theme.space}px`};
   }
   &:hover {
     background-color: ${(props) =>
@@ -37,6 +37,7 @@ const Button = ({
   hoverBackgroundColor,
   className,
   children,
+  noMargin = false,
   ...props
 }) => {
   return (
@@ -46,6 +47,7 @@ const Button = ({
       type={type}
       color={color}
       backgroundColor={backgroundColor}
+      noMargin={noMargin}
       {...props}
     >
       {text}

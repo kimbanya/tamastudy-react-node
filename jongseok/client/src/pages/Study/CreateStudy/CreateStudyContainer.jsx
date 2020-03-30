@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import CreateStudyPresenter from './CreateStudyPresenter';
 import Spinner from '../../../components/atoms/Spinner';
 import useGoogleMap from '../../../hooks/useGoogleMap';
 import { reverseGeoCode } from '../../../utils/mapHelpers';
+import { createStudy } from '../../../store/actions/study.action';
 
 const initialStateOfCreateForm = {
   title: '',
@@ -16,7 +16,7 @@ const initialStateOfCreateForm = {
   lng: '',
 };
 
-const CreateStudyContainer = ({ history }) => {
+const CreateStudyContainer = ({ history, createStudy }) => {
   const {
     bootstrapURLKeys,
     address,
@@ -29,11 +29,7 @@ const CreateStudyContainer = ({ history }) => {
 
   const [formData, setFormData] = useState(initialStateOfCreateForm);
 
-  useEffect(() => {
-    setLocationInfo();
-  }, [coordinates]);
-
-  const setLocationInfo = async () => {
+  const setLocationInfo = useCallback(async () => {
     const address = await reverseGeoCode(coordinates.lat, coordinates.lng);
     setFormData({
       ...formData,
@@ -41,7 +37,12 @@ const CreateStudyContainer = ({ history }) => {
       lng: coordinates.lng,
       address,
     });
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coordinates.lat, coordinates.lng]);
+
+  useEffect(() => {
+    setLocationInfo();
+  }, [coordinates, setLocationInfo]);
 
   const handleFormChange = (event) => {
     setFormData({
@@ -52,22 +53,7 @@ const CreateStudyContainer = ({ history }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        return toast.error('정상적인 경로가 아닙니다. ');
-      }
-      const response = await axios.post('/api/v1/study/create', formData, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response);
-      // history.push('/study');
-    } catch (err) {
-      console.log(err);
-      toast.error(err.response.data.error);
-    }
+    createStudy(formData, history);
   };
 
   if (coordinates.lat === 0 || coordinates.lng === 0) return <Spinner />;
@@ -88,4 +74,6 @@ const CreateStudyContainer = ({ history }) => {
   );
 };
 
-export default withRouter(CreateStudyContainer);
+const mapStateToProps = () => ({});
+
+export default withRouter(connect(mapStateToProps, { createStudy })(CreateStudyContainer));
