@@ -3,6 +3,7 @@ import GoogleMapSearchBar from '../../../components/molecules/GoogleMapSearchBar
 import GoogleMapReact from 'google-map-react';
 import styled from '@emotion/styled';
 import AddIcon from '@material-ui/icons/Add';
+import theme from '../../../theme';
 
 const Container = styled.div`
   position: relative;
@@ -25,6 +26,19 @@ const CenterIconBox = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const StudyForm = styled.form`
+  width: 100%;
+  background-color: red;
+`;
+
+const StudyInput = styled.input`
+  width: 100%;
+  background-color: white;
+  box-sizing: border-box;
+  padding: ${theme.space * 2}px;
+  margin: ${theme.space * 2}px 0;
+`;
+
 const CreateStudyPresenter = ({
   bootstrapURLKeys,
   address,
@@ -34,9 +48,13 @@ const CreateStudyPresenter = ({
   handleGetRealLocation,
   handleGetCurrentLocation,
   handleDragEnd,
+  formData,
+  handleFormChange,
+  handleFormSubmit,
 }) => {
   return (
     <Container>
+      {/* Map */}
       <GoogleMapSearchBar
         address={address}
         handleChange={handleChange}
@@ -55,6 +73,30 @@ const CreateStudyPresenter = ({
           <AddIcon />
         </CenterIconBox>
       </GoogleMapFrame>
+      {/* Create Form */}
+      <StudyForm onSubmit={handleFormSubmit}>
+        <StudyInput
+          type="text"
+          onChange={handleFormChange}
+          name={'title'}
+          value={formData.title}
+          placeholder={'Study Title'}
+        />
+        <StudyInput
+          type="text"
+          onChange={handleFormChange}
+          name={'description'}
+          value={formData.description}
+          placeholder={'Description'}
+        />
+        <StudyInput
+          type="text"
+          onChange={handleFormChange}
+          name={'imgUrl'}
+          value={formData.imgUrl}
+          placeholder={'Image Url'}
+        />
+      </StudyForm>
     </Container>
   );
 };

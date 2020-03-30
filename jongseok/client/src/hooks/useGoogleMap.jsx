@@ -25,7 +25,6 @@ const useGoogleMap = () => {
   };
 
   const handleGeoSuccess = (data) => {
-    console.log(data);
     setCoordinates({
       lat: data.coords.latitude,
       lng: data.coords.longitude,
