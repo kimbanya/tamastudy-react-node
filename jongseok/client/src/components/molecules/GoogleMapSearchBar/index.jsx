@@ -5,34 +5,35 @@ import GpsFixedIcon from '@material-ui/icons/GpsFixed';
 import CheckIcon from '@material-ui/icons/Check';
 
 const Container = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
   z-index: 2;
-  width: 100%;
   height: inherit;
   display: flex;
-  flex-direction: column;
+  align-items: center;
 `;
 
 const SearchForm = styled.form`
-  margin: ${theme.space * 2}px;
   width: 100%;
+  flex: 0 0 80%;
 `;
 
 const SearchInput = styled.input`
   background-color: ${theme.colors.base.white};
   box-sizing: border-box;
   padding: ${theme.space * 2}px ${theme.space * 3}px;
-  width: 60%;
+  width: 100%;
 `;
 
 const ButtonBox = styled.div`
+  margin: 0 ${theme.space * 2}px;
+  width: 100%;
   display: flex;
+  justify-content: flex-end;
+
+  flex: 1;
 `;
 
 const GpsButton = styled.button`
-  margin-left: ${theme.space * 2}px;
+  margin-right: ${theme.space}px;
   width: 32px;
   height: 32px;
   background-color: ${theme.colors.base.white};

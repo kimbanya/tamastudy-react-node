@@ -70,13 +70,11 @@ const GetStudiesPresenter = ({
 export default GetStudiesPresenter;
 
 const MarkerContainer = styled.div`
-  width: 50px;
-  height: 50px;
   cursor: pointer;
   z-index: 100;
   > svg {
     position: absolute;
-    top: -15px;
+    top: -30px;
     left: -15px;
   }
 `;
@@ -86,8 +84,8 @@ const MarkerDetail = styled.div`
   position: absolute;
   top: -15px;
   left: -15px;
-  width: 160px;
-  height: 208px;
+  width: 176px;
+  height: 240px;
   box-sizing: border-box;
   padding: ${theme.space * 2 - 4}px;
   border-radius: 8px;
@@ -96,7 +94,7 @@ const MarkerDetail = styled.div`
   z-index: 200;
 
   display: grid;
-  grid-gap: ${theme.space}px;
+  grid-gap: ${theme.space / 2}px;
   justify-content: center;
   overflow-x: auto;
   overflow-y: auto;
@@ -118,6 +116,7 @@ const MarkerDescription = styled.p``;
 const MarkerButton = styled(Button)`
   width: 100%;
   padding: ${theme.space}px;
+  font-size: 8px;
 `;
 
 const JoinButton = styled(MarkerButton)``;
@@ -143,7 +142,7 @@ const AnyReactComponent = ({ _id, title, description, imgUrl, address }) => {
     </MarkerDetail>
   ) : (
     <MarkerContainer onClick={handleModalControl}>
-      <PlaceIcon style={{ fontSize: 24, color: 'red' }} />
+      <PlaceIcon style={{ fontSize: 34, color: 'red' }} />
     </MarkerContainer>
   );
 };
