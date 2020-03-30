@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+// Global Component
+import Navigation from './components/organisms/Navigation';
+import useNavigation from './hooks/useNavigation';
+import ContainerLayout from './components/layout/ContainerLayout';
+
+// Routes
 import Home from './pages/Home';
 import Tama from './pages/Tama';
 import Header from './components/organisms/Header';
@@ -11,9 +18,8 @@ import GetPosts from './pages/Post/GetPosts';
 import CreatePost from './pages/Post/CreatePost';
 import GetPostById from './pages/Post/GetPostById';
 import UpdatePostById from './pages/Post/UpdatePostById';
-import Navigation from './components/organisms/Navigation';
-import useNavigation from './hooks/useNavigation';
-import ContainerLayout from './components/layout/ContainerLayout';
+import GetStudies from './pages/Study/GetStudies';
+import CreateStudy from './pages/Study/CreateStudy';
 
 // redux
 import { getMeFn } from './store/actions/auth.action';
@@ -42,6 +48,8 @@ const App = ({ auth, getMeFn }) => {
           <Route path="/post/:postId/update" component={requireAuth(UpdatePostById)} />
           <Route path="/post/:postId" component={GetPostById} />
           <Route exact path="/private" component={() => <div>Private2</div>} />
+          <Route exact path="/study" component={GetStudies} />
+          <Route exact path="/study/create" component={CreateStudy} />
           <Redirect from="*" to="/" />
         </Switch>
         <Footer />

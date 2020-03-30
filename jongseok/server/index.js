@@ -13,7 +13,6 @@ const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 // local file require
 const mongoClient = require('./src/database/mongoDB');
-const router = require('./src/routes');
 const v1Route = require('./src/routes/v1');
 const errorResponse = require('./src/middleware/errorResponse');
 
@@ -41,7 +40,6 @@ app.use(hpp());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 3. Routes
-app.use(router);
 app.use('/v1', v1Route);
 
 // 4. error response middleware
