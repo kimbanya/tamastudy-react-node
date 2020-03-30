@@ -133,7 +133,7 @@ const Navigation = ({ isNavOpen, handleNavigation }) => {
             </CustomNavLink>
           </NavList>
           <NavList>
-            <CustomNavLink to={'/123'} activeStyle={activeStyle} onClick={handleNavigation}>
+            <CustomNavLink to={'/study'} activeStyle={activeStyle} onClick={handleNavigation}>
               <Chat style={{ fontSize: 14 }} />
               <ListText className={'list-text'}>Study</ListText>
             </CustomNavLink>

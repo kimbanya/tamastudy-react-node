@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GoogleMapSearchBar from '../../../components/molecules/GoogleMapSearchBar';
 import GoogleMapReact from 'google-map-react';
 import styled from '@emotion/styled';
 import AddIcon from '@material-ui/icons/Add';
+import PlaceIcon from '@material-ui/icons/Place';
 import theme from '../../../theme';
 import Button from '../../../components/atoms/Button';
 import useCutString from '../../../hooks/useCutString';
@@ -69,36 +70,43 @@ const GetStudiesPresenter = ({
 export default GetStudiesPresenter;
 
 const MarkerContainer = styled.div`
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: red;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   z-index: 100;
-  &:hover .gmap__marker-detail {
-    cursor: auto;
+  > svg {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 196px;
-    height: 240px;
-    box-sizing: border-box;
-    padding: ${theme.space * 2 - 4}px;
-    border-radius: 8px;
-    box-shadow: 9px 10px 18px 0px rgba(0, 0, 0, 0.3);
-    background-color: ${theme.colors.base.white};
-    z-index: 200;
-
-    display: grid;
-    grid-gap: ${theme.space}px;
-    justify-content: center;
-    overflow-x: auto;
-    overflow-y: auto;
+    top: -15px;
+    left: -15px;
   }
 `;
 
 const MarkerDetail = styled.div`
-  display: none;
+  cursor: auto;
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 160px;
+  height: 208px;
+  box-sizing: border-box;
+  padding: ${theme.space * 2 - 4}px;
+  border-radius: 8px;
+  box-shadow: 9px 10px 18px 0px rgba(0, 0, 0, 0.3);
+  background-color: ${theme.colors.base.white};
+  z-index: 200;
+
+  display: grid;
+  grid-gap: ${theme.space}px;
+  justify-content: center;
+  overflow-x: auto;
+  overflow-y: auto;
+
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MarkerTitle = styled.h3`
@@ -114,20 +122,28 @@ const MarkerButton = styled(Button)`
 
 const JoinButton = styled(MarkerButton)``;
 
-const DetailButton = styled(MarkerButton)``;
+const DetailButton = styled(MarkerButton)`
+  margin-bottom: ${theme.space}px;
+`;
 
 const AnyReactComponent = ({ _id, title, description, imgUrl, address }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { cutString } = useCutString();
 
-  return (
-    <MarkerContainer>
-      <MarkerDetail className={'gmap__marker-detail'}>
-        <MarkerTitle>{cutString(title, 18)}</MarkerTitle>
-        <MarkerDescription>{cutString(description, 50)}</MarkerDescription>
-        <MarkerAddress>{address}</MarkerAddress>
-        <JoinButton onClick={() => alert(_id)} text={'참가하기'} noMargin />
-        <DetailButton onClick={() => alert(_id)} text={'자세히보기'} noMargin />
-      </MarkerDetail>
+  const handleModalControl = () => setIsModalOpen(!isModalOpen);
+
+  return isModalOpen ? (
+    <MarkerDetail>
+      <MarkerTitle>{cutString(title, 18)}</MarkerTitle>
+      <MarkerDescription>{cutString(description, 50)}</MarkerDescription>
+      <MarkerAddress>{address}</MarkerAddress>
+      <MarkerButton onClick={handleModalControl} text={'닫기'} noMargin />
+      <JoinButton onClick={() => alert(_id)} text={'참가하기'} noMargin />
+      <DetailButton onClick={() => alert(_id)} text={'자세히보기'} noMargin />
+    </MarkerDetail>
+  ) : (
+    <MarkerContainer onClick={handleModalControl}>
+      <PlaceIcon style={{ fontSize: 24, color: 'red' }} />
     </MarkerContainer>
   );
 };
