@@ -20,6 +20,7 @@ import GetPostById from './pages/Post/GetPostById';
 import UpdatePostById from './pages/Post/UpdatePostById';
 import GetStudies from './pages/Study/GetStudies';
 import CreateStudy from './pages/Study/CreateStudy';
+import GetStudyById from './pages/Study/GetStudyById';
 
 // redux
 import { getMeFn } from './store/actions/auth.action';
@@ -50,6 +51,7 @@ const App = ({ auth, getMeFn }) => {
           <Route exact path="/private" component={() => <div>Private2</div>} />
           <Route exact path="/study" component={GetStudies} />
           <Route exact path="/study/create" component={CreateStudy} />
+          <Route exact path="/study/:studyId" component={GetStudyById} />
           <Redirect from="*" to="/" />
         </Switch>
         <Footer />

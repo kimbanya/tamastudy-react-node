@@ -38,6 +38,7 @@ const GetStudiesPresenter = ({
   handleGetRealLocation,
   handleDragEnd,
   studies,
+  onClickToGetStudyById,
 }) => {
   return (
     <Container>
@@ -56,7 +57,15 @@ const GetStudiesPresenter = ({
         >
           {studies.map((study) => {
             const { _id, lat, lng } = study;
-            return <AnyReactComponent key={_id} lat={lat} lng={lng} {...study} />;
+            return (
+              <AnyReactComponent
+                key={_id}
+                lat={lat}
+                lng={lng}
+                onClickToGetStudyById={onClickToGetStudyById}
+                {...study}
+              />
+            );
           })}
         </GoogleMapReact>
         <CenterIconBox>
@@ -125,7 +134,7 @@ const DetailButton = styled(MarkerButton)`
   margin-bottom: ${theme.space}px;
 `;
 
-const AnyReactComponent = ({ _id, title, description, imgUrl, address }) => {
+const AnyReactComponent = ({ _id, title, description, imgUrl, address, onClickToGetStudyById }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cutString } = useCutString();
 
@@ -138,7 +147,7 @@ const AnyReactComponent = ({ _id, title, description, imgUrl, address }) => {
       <MarkerAddress>{address}</MarkerAddress>
       <MarkerButton onClick={handleModalControl} text={'닫기'} noMargin />
       <JoinButton onClick={() => alert(_id)} text={'참가하기'} noMargin />
-      <DetailButton onClick={() => alert(_id)} text={'자세히보기'} noMargin />
+      <DetailButton onClick={() => onClickToGetStudyById(_id)} text={'자세히보기'} noMargin />
     </MarkerDetail>
   ) : (
     <MarkerContainer onClick={handleModalControl}>

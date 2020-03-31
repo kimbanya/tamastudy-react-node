@@ -5,8 +5,9 @@ import GetStudiesPresenter from './GetStudiesPresenter';
 import Spinner from '../../../components/atoms/Spinner';
 
 import useGoogleMap from '../../../hooks/useGoogleMap';
+import { withRouter } from 'react-router-dom';
 
-const GetStudiesContainer = ({ getStudies, studyState }) => {
+const GetStudiesContainer = ({ history, getStudies, studyState }) => {
   useEffect(() => {
     getStudies();
   }, [getStudies]);
@@ -21,6 +22,10 @@ const GetStudiesContainer = ({ getStudies, studyState }) => {
     handleGetRealLocation,
   } = useGoogleMap();
 
+  const onClickToGetStudyById = (studyId) => {
+    history.push(`/study/${studyId}`);
+  };
+
   if (coordinates.lat === 0 || coordinates.lng === 0) return <Spinner />;
   if (studyState.loading) return <Spinner />;
 
@@ -34,6 +39,7 @@ const GetStudiesContainer = ({ getStudies, studyState }) => {
       handleDragEnd={handleDragEnd}
       handleGetRealLocation={handleGetRealLocation}
       studies={studyState.studies}
+      onClickToGetStudyById={onClickToGetStudyById}
     />
   );
 };
@@ -42,4 +48,4 @@ const mapStateToProps = ({ studyState }) => ({
   studyState,
 });
 
-export default connect(mapStateToProps, { getStudies })(GetStudiesContainer);
+export default withRouter(connect(mapStateToProps, { getStudies })(GetStudiesContainer));
