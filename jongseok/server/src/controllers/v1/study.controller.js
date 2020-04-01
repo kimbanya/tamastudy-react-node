@@ -2,7 +2,11 @@ const asyncHandler = require('../../middleware/asyncHandler');
 const Study = require('../../database/models/Study');
 
 exports.getStudies = asyncHandler(async (req, res, next) => {
-  const studies = await Study.find();
+  const studies = await Study.find().populate({
+    path: 'todos',
+    model: 'StudyTodo',
+    select: 'text',
+  });
   res.status(200).json({
     success: true,
     result: studies,

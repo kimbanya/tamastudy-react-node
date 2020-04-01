@@ -48,6 +48,13 @@ const studySchema = new Schema({
     ref: 'User',
     required: true,
   },
+  todos: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'StudyTodo',
+      required: true,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
