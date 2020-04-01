@@ -39,6 +39,7 @@ const GetStudiesPresenter = ({
   handleDragEnd,
   studies,
   onClickToGetStudyById,
+  onClickMoveToCreate,
   joinStudyById,
 }) => {
   return (
@@ -48,6 +49,8 @@ const GetStudiesPresenter = ({
         address={address}
         handleSubmit={handleSubmit}
         handleGetRealLocation={handleGetRealLocation}
+        onClickMoveToCreate={onClickMoveToCreate}
+        isGetPage
       />
       <GoogleMapFrame>
         <GoogleMapReact

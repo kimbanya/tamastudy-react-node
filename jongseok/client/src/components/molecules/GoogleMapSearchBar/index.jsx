@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from '@emotion/styled';
 import theme from '../../../theme';
 import GpsFixedIcon from '@material-ui/icons/GpsFixed';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CheckIcon from '@material-ui/icons/Check';
+import HomeIcon from '@material-ui/icons/Home';
 
 const Container = styled.div`
   z-index: 2;
@@ -24,7 +27,7 @@ const SearchInput = styled.input`
 `;
 
 const ButtonBox = styled.div`
-  margin: 0 ${theme.space * 2}px;
+  margin-left: ${theme.space * 2}px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -32,7 +35,7 @@ const ButtonBox = styled.div`
   flex: 1;
 `;
 
-const GpsButton = styled.button`
+const DefaultButton = styled.button`
   margin-right: ${theme.space}px;
   width: 32px;
   height: 32px;
@@ -50,15 +53,17 @@ const GpsButton = styled.button`
   }
 `;
 
-const SetPositionButton = styled(GpsButton)``;
-
 const GoogleMapSearchBar = ({
   address,
   handleChange,
   handleSubmit,
   handleGetRealLocation,
   handleGetCurrentLocation,
+  onClickMoveToCreate,
+  onClickMoveToStudyPage,
+  isGetPage = false,
   isCreatePage = false,
+  auth: { isLoggedIn },
 }) => {
   return (
     <Container>
@@ -73,17 +78,29 @@ const GoogleMapSearchBar = ({
         />
       </SearchForm>
       <ButtonBox>
-        <GpsButton onClick={handleGetRealLocation}>
+        <DefaultButton onClick={handleGetRealLocation}>
           <GpsFixedIcon />
-        </GpsButton>
+        </DefaultButton>
+        {isGetPage && isLoggedIn && (
+          <DefaultButton onClick={onClickMoveToCreate}>
+            <AddCircleOutlineIcon />
+          </DefaultButton>
+        )}
         {isCreatePage && (
-          <SetPositionButton onClick={handleGetCurrentLocation}>
-            <CheckIcon />
-          </SetPositionButton>
+          <>
+            <DefaultButton onClick={handleGetCurrentLocation}>
+              <CheckIcon />
+            </DefaultButton>
+            <DefaultButton onClick={onClickMoveToStudyPage}>
+              <HomeIcon />
+            </DefaultButton>
+          </>
         )}
       </ButtonBox>
     </Container>
   );
 };
 
-export default GoogleMapSearchBar;
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps, {})(GoogleMapSearchBar);

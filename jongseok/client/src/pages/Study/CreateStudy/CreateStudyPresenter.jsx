@@ -72,6 +72,7 @@ const CreateStudyPresenter = ({
   formData,
   handleFormChange,
   handleFormSubmit,
+  onClickMoveToStudyPage,
 }) => {
   return (
     <Container>
@@ -81,6 +82,7 @@ const CreateStudyPresenter = ({
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         handleGetRealLocation={handleGetRealLocation}
+        onClickMoveToStudyPage={onClickMoveToStudyPage}
         isCreatePage
       />
       <GoogleMapFrame>

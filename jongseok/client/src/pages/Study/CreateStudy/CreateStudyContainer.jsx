@@ -15,8 +15,8 @@ const initialStateOfCreateForm = {
   lat: '',
   lng: '',
   participant: '',
-  minParticipant: null,
-  maxParticipant: null,
+  minParticipant: undefined,
+  maxParticipant: undefined,
 };
 
 const CreateStudyContainer = ({ history, createStudy, auth }) => {
@@ -59,6 +59,10 @@ const CreateStudyContainer = ({ history, createStudy, auth }) => {
     createStudy({ ...formData, participant: auth.currentUserId }, history);
   };
 
+  const onClickMoveToStudyPage = () => {
+    history.push('/study');
+  };
+
   if (coordinates.lat === 0 || coordinates.lng === 0) return <Spinner />;
 
   return (
@@ -73,6 +77,7 @@ const CreateStudyContainer = ({ history, createStudy, auth }) => {
       formData={formData}
       handleFormChange={handleFormChange}
       handleFormSubmit={handleFormSubmit}
+      onClickMoveToStudyPage={onClickMoveToStudyPage}
     />
   );
 };

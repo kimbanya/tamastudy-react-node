@@ -26,6 +26,10 @@ const GetStudiesContainer = ({ history, getStudies, joinStudyById, studyState })
     history.push(`/study/${studyId}`);
   };
 
+  const onClickMoveToCreate = () => {
+    history.push('/study/create');
+  };
+
   if (coordinates.lat === 0 || coordinates.lng === 0) return <Spinner />;
   if (studyState.loading) return <Spinner />;
 
@@ -40,6 +44,7 @@ const GetStudiesContainer = ({ history, getStudies, joinStudyById, studyState })
       handleGetRealLocation={handleGetRealLocation}
       studies={studyState.studies}
       onClickToGetStudyById={onClickToGetStudyById}
+      onClickMoveToCreate={onClickMoveToCreate}
       joinStudyById={joinStudyById}
     />
   );

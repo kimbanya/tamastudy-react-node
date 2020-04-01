@@ -6,6 +6,8 @@ const {
   createStudy,
   getStudyById,
   joinStudyById,
+  updateLikeByStudyId,
+  updateUnLikeByStudyId,
 } = require('../../controllers/v1/study.controller');
 
 // model
@@ -24,5 +26,7 @@ router.get('/', getStudies);
 router.post('/create', getCurrentUserId, createStudy);
 router.get('/:studyId', getStudyById);
 router.put('/join/:studyId', getCurrentUserId, joinStudyById);
+router.put('/like/:studyId', getCurrentUserId, updateLikeByStudyId);
+router.put('/unlike/:studyId', getCurrentUserId, updateUnLikeByStudyId);
 
 module.exports = router;

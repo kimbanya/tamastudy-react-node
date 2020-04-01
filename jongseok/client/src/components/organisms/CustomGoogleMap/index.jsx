@@ -8,9 +8,6 @@ import mediaQuery from '../../../theme/mediaQuery';
 const GoogleMapFrame = styled.div`
   width: 100%;
   height: 30vh;
-  ${mediaQuery(1)} {
-    width: 50vw;
-  }
   position: relative;
 `;
 

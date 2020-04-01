@@ -5,12 +5,13 @@ const Study = require('../../database/models/Study');
 exports.createStudyTodo = asyncHandler(async (req, res, next) => {
   const existStudy = await Study.findById({ _id: req.params.studyId });
   if (!existStudy) {
-    return res.status(400).json({
-      success: false,
-      error: '스터디정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('스터디정보가 없습니다. '));
   }
+
+  if (existStudy.participant.find((pt) => pt.toString() === req.currentUserId) === undefined) {
+    return next(new Error('먼저 스터디에 참가해주세요. '));
+  }
+
   const newTodo = await StudyTodo.create({
     ...req.body,
     user: req.currentUserId,
@@ -31,11 +32,7 @@ exports.getStudyTodosByStudyId = asyncHandler(async (req, res, next) => {
   const existStudy = await Study.findById({ _id: req.params.studyId });
 
   if (!existStudy) {
-    return res.status(400).json({
-      success: false,
-      error: '스터디정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('스터디정보가 없습니다. '));
   }
 
   const todos = await StudyTodo.find({ study: req.params.studyId });
@@ -51,11 +48,7 @@ exports.updateCompletedStatusByStudyId = asyncHandler(async (req, res, next) => 
   const existStudy = await Study.findById({ _id: req.params.studyId });
 
   if (!existStudy) {
-    return res.status(400).json({
-      success: false,
-      error: '스터디정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('스터디정보가 없습니다. '));
   }
 
   let todo = await StudyTodo.findById({
@@ -63,11 +56,7 @@ exports.updateCompletedStatusByStudyId = asyncHandler(async (req, res, next) => 
   });
 
   if (!todo) {
-    return res.status(400).json({
-      success: false,
-      error: 'Todo 정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('Todo 정보가 없습니다. '));
   }
 
   todo = await StudyTodo.findByIdAndUpdate(
@@ -92,11 +81,7 @@ exports.deleteStudyTodoByStudyId = asyncHandler(async (req, res, next) => {
   const existStudy = await Study.findById({ _id: req.params.studyId });
 
   if (!existStudy) {
-    return res.status(400).json({
-      success: false,
-      error: '스터디정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('스터디정보가 없습니다. '));
   }
 
   const todo = await StudyTodo.findByIdAndDelete({
@@ -104,11 +89,7 @@ exports.deleteStudyTodoByStudyId = asyncHandler(async (req, res, next) => {
   });
 
   if (!todo) {
-    return res.status(400).json({
-      success: false,
-      error: 'Todo 정보가 없습니다.',
-      result: null,
-    });
+    return next(new Error('Todo 정보가 없습니다. '));
   }
 
   await existStudy.updateOne(

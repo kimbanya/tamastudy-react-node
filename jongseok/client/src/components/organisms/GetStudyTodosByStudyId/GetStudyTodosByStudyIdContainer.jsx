@@ -15,6 +15,7 @@ const initialStateOfStudyTodo = {
 };
 
 const GetStudyTodosByStudyIdContainer = ({
+  participant,
   match,
   getStudyTodosByStudyId,
   createStudyTodoByStudyId,
@@ -22,7 +23,6 @@ const GetStudyTodosByStudyIdContainer = ({
   deleteStudyTodoByStudyId,
   auth,
   studyTodoState,
-  isParticipate,
 }) => {
   useEffect(() => {
     getStudyTodosByStudyId(match.params.studyId);
@@ -65,7 +65,7 @@ const GetStudyTodosByStudyIdContainer = ({
         onClickDeleteTodo={onClickDeleteTodo}
         todos={studyTodoState.todos}
         currentUserId={auth.currentUserId}
-        isParticipate={isParticipate}
+        participant={studyTodoState.todo && studyTodoState.todo.participant}
       />
     </div>
   );

@@ -26,6 +26,8 @@ export const GET_STUDY_BY_ID = 'GET_STUDY_BY_ID';
 export const DELETE_STUDY_BY_ID = 'DELETE_STUDY_BY_ID';
 export const UPDATE_STUDY_BY_ID = 'UPDATE_STUDY_BY_ID';
 export const JOIN_STUDY_BY_ID = 'JOIN_STUDY_BY_ID';
+export const UPDATE_LIKE_BY_STUDY_ID = 'UPDATE_LIKE_BY_STUDY_ID';
+export const UPDATE_UNLIKE_BY_STUDY_ID = 'UPDATE_UNLIKE_BY_STUDY_ID';
 export const STUDY_ERROR = 'POST_ERROR';
 
 // Study Todo types

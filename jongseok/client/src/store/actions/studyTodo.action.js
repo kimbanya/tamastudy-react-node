@@ -16,7 +16,7 @@ export const getStudyTodosByStudyId = (studyId) => async (dispatch) => {
   } catch (err) {
     console.log(err);
     dispatch({ type: STUDY_TODO_ERROR });
-    toast.error(err.response.data.err);
+    toast.error(err.response.data.error);
   }
 };
 
@@ -36,7 +36,7 @@ export const createStudyTodoByStudyId = (studyId, formData) => async (dispatch) 
   } catch (err) {
     console.log(err);
     dispatch({ type: STUDY_TODO_ERROR });
-    toast.error(err.response.data.err);
+    toast.error(err.response.data.error);
   }
 };
 
@@ -63,7 +63,7 @@ export const updateStudyTodoByStudyId = (studyId, studyTodoId) => async (dispatc
   } catch (err) {
     console.log(err);
     dispatch({ type: STUDY_TODO_ERROR });
-    toast.error(err.response.data.err);
+    toast.error(err.response.data.error);
   }
 };
 
@@ -89,6 +89,6 @@ export const deleteStudyTodoByStudyId = (studyId, studyTodoId) => async (dispatc
   } catch (err) {
     console.log(err);
     dispatch({ type: STUDY_TODO_ERROR });
-    toast.error(err.response.data.err);
+    toast.error(err.response.data.error);
   }
 };

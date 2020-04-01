@@ -5,6 +5,8 @@ import {
   DELETE_STUDY_BY_ID,
   UPDATE_STUDY_BY_ID,
   JOIN_STUDY_BY_ID,
+  UPDATE_LIKE_BY_STUDY_ID,
+  UPDATE_UNLIKE_BY_STUDY_ID,
   STUDY_ERROR,
 } from '../types';
 
@@ -31,6 +33,14 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         studies: state.studies.map((study) => (study._id === payload._id ? payload : study)),
+        study: payload,
+        loading: false,
+      };
+    case UPDATE_LIKE_BY_STUDY_ID:
+    case UPDATE_UNLIKE_BY_STUDY_ID:
+      return {
+        ...state,
+        study: payload,
         loading: false,
       };
     case STUDY_ERROR:

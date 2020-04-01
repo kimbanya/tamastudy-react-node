@@ -17,20 +17,18 @@ const GetStudyTodosByStudyIdPresenter = ({
   onClickDeleteTodo,
   todos,
   currentUserId,
-  isParticipate,
+  participant,
 }) => {
   return (
     <section>
-      {isParticipate && (
-        <Input
-          type={'text'}
-          placeholder={'스터디 Todo List를 작성해주세요. '}
-          onChange={handleChange}
-          name={'text'}
-          value={formData.text}
-          onKeyPress={handleKeyPress}
-        />
-      )}
+      <Input
+        type={'text'}
+        placeholder={'스터디 Todo List를 작성해주세요. '}
+        onChange={handleChange}
+        name={'text'}
+        value={formData.text}
+        onKeyPress={handleKeyPress}
+      />
 
       <TodoContainer
         currentUserId={currentUserId}
