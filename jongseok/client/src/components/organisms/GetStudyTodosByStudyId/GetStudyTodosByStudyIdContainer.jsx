@@ -47,7 +47,8 @@ const GetStudyTodosByStudyIdContainer = ({
     updateStudyTodoByStudyId(match.params.studyId, studyTodoId);
   };
 
-  const onClickDeleteTodo = (studyTodoId) => {
+  const onClickDeleteTodo = (event, studyTodoId) => {
+    event.stopPropagation();
     deleteStudyTodoByStudyId(match.params.studyId, studyTodoId);
   };
 
