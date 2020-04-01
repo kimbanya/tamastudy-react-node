@@ -1,7 +1,11 @@
 const express = require('express');
 const studyTodoRouters = require('./studyTodo.route');
 // controller
-const { getStudies, createStudy } = require('../../controllers/v1/study.controller');
+const {
+  getStudies,
+  createStudy,
+  joinStudyByStudyId,
+} = require('../../controllers/v1/study.controller');
 
 // model
 const Study = require('../../database/models/Study');
@@ -17,4 +21,6 @@ router.use('/:studyId/studyTodo', studyTodoRouters);
 
 router.get('/', getStudies);
 router.post('/create', getCurrentUserId, createStudy);
+router.put('/join/:studyId', getCurrentUserId, joinStudyByStudyId);
+
 module.exports = router;

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getStudies } from '../../../store/actions/study.action';
+import { getStudies, joinStudyById } from '../../../store/actions/study.action';
 import GetStudiesPresenter from './GetStudiesPresenter';
 import Spinner from '../../../components/atoms/Spinner';
 
 import useGoogleMap from '../../../hooks/useGoogleMap';
 import { withRouter } from 'react-router-dom';
 
-const GetStudiesContainer = ({ history, getStudies, studyState }) => {
+const GetStudiesContainer = ({ history, getStudies, joinStudyById, studyState }) => {
   useEffect(() => {
     getStudies();
   }, [getStudies]);
@@ -40,6 +40,7 @@ const GetStudiesContainer = ({ history, getStudies, studyState }) => {
       handleGetRealLocation={handleGetRealLocation}
       studies={studyState.studies}
       onClickToGetStudyById={onClickToGetStudyById}
+      joinStudyById={joinStudyById}
     />
   );
 };
@@ -48,4 +49,6 @@ const mapStateToProps = ({ studyState }) => ({
   studyState,
 });
 
-export default withRouter(connect(mapStateToProps, { getStudies })(GetStudiesContainer));
+export default withRouter(
+  connect(mapStateToProps, { getStudies, joinStudyById })(GetStudiesContainer),
+);

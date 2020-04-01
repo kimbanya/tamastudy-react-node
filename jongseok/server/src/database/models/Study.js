@@ -48,6 +48,26 @@ const studySchema = new Schema({
     ref: 'User',
     required: true,
   },
+  participant: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  minParticipant: {
+    type: Number,
+    min: [2, '설정가능한 최소인원은 2명입니다. '],
+    max: [19, '설정가능한 최대인원은 20명입니다. '],
+    required: [true, '최소인원을 입력해주세요. '],
+    default: 2,
+  },
+  maxParticipant: {
+    type: Number,
+    min: [2, '설정가능한 최소인원은 20명입니다. '],
+    max: [20, '설정가능한 최대인원은 20명입니다. '],
+    required: [true, '최대인원을 입력해주세요. '],
+    default: 20,
+  },
   todos: [
     {
       type: mongoose.Types.ObjectId,

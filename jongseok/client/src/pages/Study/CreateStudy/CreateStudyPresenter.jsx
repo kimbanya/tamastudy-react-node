@@ -50,6 +50,9 @@ const StudyInput = styled.input`
   &:not(:last-of-type) {
     margin-bottom: ${theme.space}px;
   }
+  &:focus {
+    border: 1px solid ${theme.colors.base.darkGrey};
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -119,6 +122,30 @@ const CreateStudyPresenter = ({
           value={formData.imgUrl}
           placeholder={'Image Url'}
         />
+        <StudyInput
+          type="number"
+          onChange={handleFormChange}
+          name={'minParticipant'}
+          value={formData.minParticipant}
+          placeholder={'최소 멤버 설정 (Min : 2명)'}
+          min={2}
+          max={19}
+        />
+        /
+        <StudyInput
+          type="number"
+          onChange={handleFormChange}
+          name={'maxParticipant'}
+          value={formData.maxParticipant}
+          placeholder={'최대 멤버 설정 (Max : 20명)'}
+          min={2}
+          max={20}
+        />
+        {/* 
+        participant
+        maxParticipant
+        minParticipant
+        */}
         <SubmitButton text={'Submit'} />
       </StudyForm>
     </Container>

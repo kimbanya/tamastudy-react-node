@@ -39,6 +39,7 @@ const GetStudiesPresenter = ({
   handleDragEnd,
   studies,
   onClickToGetStudyById,
+  joinStudyById,
 }) => {
   return (
     <Container>
@@ -63,6 +64,7 @@ const GetStudiesPresenter = ({
                 lat={lat}
                 lng={lng}
                 onClickToGetStudyById={onClickToGetStudyById}
+                joinStudyById={joinStudyById}
                 {...study}
               />
             );
@@ -134,11 +136,23 @@ const DetailButton = styled(MarkerButton)`
   margin-bottom: ${theme.space}px;
 `;
 
-const AnyReactComponent = ({ _id, title, description, imgUrl, address, onClickToGetStudyById }) => {
+const AnyReactComponent = ({
+  _id,
+  title,
+  description,
+  imgUrl,
+  participant,
+  maxParticipant,
+  address,
+  onClickToGetStudyById,
+  joinStudyById,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { cutString } = useCutString();
 
   const handleModalControl = () => setIsModalOpen(!isModalOpen);
+
+  const currentParticipant = participant.length;
 
   return isModalOpen ? (
     <MarkerDetail>
@@ -146,7 +160,11 @@ const AnyReactComponent = ({ _id, title, description, imgUrl, address, onClickTo
       <MarkerDescription>{cutString(description, 50)}</MarkerDescription>
       <MarkerAddress>{address}</MarkerAddress>
       <MarkerButton onClick={handleModalControl} text={'닫기'} noMargin />
-      <JoinButton onClick={() => alert(_id)} text={'참가하기'} noMargin />
+      <JoinButton
+        onClick={() => joinStudyById(_id)}
+        text={`참가하기 ( ${currentParticipant} / ${maxParticipant} )`}
+        noMargin
+      />
       <DetailButton onClick={() => onClickToGetStudyById(_id)} text={'자세히보기'} noMargin />
     </MarkerDetail>
   ) : (

@@ -14,9 +14,12 @@ const initialStateOfCreateForm = {
   address: '',
   lat: '',
   lng: '',
+  participant: '',
+  minParticipant: null,
+  maxParticipant: null,
 };
 
-const CreateStudyContainer = ({ history, createStudy }) => {
+const CreateStudyContainer = ({ history, createStudy, auth }) => {
   const {
     bootstrapURLKeys,
     address,
@@ -53,7 +56,7 @@ const CreateStudyContainer = ({ history, createStudy }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    createStudy(formData, history);
+    createStudy({ ...formData, participant: auth.currentUserId }, history);
   };
 
   if (coordinates.lat === 0 || coordinates.lng === 0) return <Spinner />;
@@ -74,6 +77,6 @@ const CreateStudyContainer = ({ history, createStudy }) => {
   );
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ auth }) => ({ auth });
 
 export default withRouter(connect(mapStateToProps, { createStudy })(CreateStudyContainer));

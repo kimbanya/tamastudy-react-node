@@ -4,6 +4,7 @@ import {
   GET_STUDY_BY_ID,
   DELETE_STUDY_BY_ID,
   UPDATE_STUDY_BY_ID,
+  JOIN_STUDY_BY_ID,
   STUDY_ERROR,
 } from '../types';
 
@@ -19,13 +20,19 @@ export default (state = initialState, { type, payload }) => {
     case GET_STUDIES:
       return { ...state, studies: payload, loading: false };
     case CREATE_STUDY:
-      return { ...state, studies: [...state.studies, payload] };
+      return { ...state, studies: [...state.studies, payload], loading: false };
     case GET_STUDY_BY_ID:
       return state;
     case DELETE_STUDY_BY_ID:
       return state;
     case UPDATE_STUDY_BY_ID:
       return state;
+    case JOIN_STUDY_BY_ID:
+      return {
+        ...state,
+        studies: state.studies.map((study) => (study._id === payload._id ? payload : study)),
+        loading: false,
+      };
     case STUDY_ERROR:
       return { ...state, error: payload, loading: false };
     default:

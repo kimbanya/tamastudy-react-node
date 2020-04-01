@@ -27,3 +27,27 @@ exports.createStudy = asyncHandler(async (req, res, next) => {
     error: null,
   });
 });
+
+exports.joinStudyByStudyId = asyncHandler(async (req, res, next) => {
+  let updateParticipantInStudy = await Study.findById({ _id: req.params.studyId });
+
+  if (!updateParticipantInStudy) {
+    return next(new Error('스터디가 존재하지 않습니다.'));
+  }
+
+  if (updateParticipantInStudy.participant.find((p) => p.toString() === req.currentUserId)) {
+    return next(new Error('이미 참석하셨습니다.'));
+  }
+
+  updateParticipantInStudy = await Study.findByIdAndUpdate(
+    { _id: req.params.studyId },
+    { participant: [...updateParticipantInStudy.participant, req.currentUserId] },
+    { new: true, runValidators: false },
+  );
+
+  res.status(200).json({
+    success: true,
+    result: updateParticipantInStudy,
+    error: null,
+  });
+});

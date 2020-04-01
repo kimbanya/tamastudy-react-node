@@ -5,6 +5,7 @@ import { GOOGLE_MAP_KEY } from '../keys';
 
 const useGoogleMap = () => {
   const bootstrapURLKeys = {
+    // key: 'GOOGLE_MAP_KEY',
     key: GOOGLE_MAP_KEY,
     language: 'kr',
   };
