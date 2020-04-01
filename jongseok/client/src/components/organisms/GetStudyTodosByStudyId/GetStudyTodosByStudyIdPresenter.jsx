@@ -34,6 +34,7 @@ const TodoText = styled.p`
   font-size: 16px;
   font-weight: 300;
   cursor: pointer;
+  -webkit-text-fill-color: ${(props) => (props.completed ? theme.colors.base.white : 'inherit')};
   color: ${(props) => (props.completed ? theme.colors.base.white : 'inherit')};
   text-decoration: ${(props) => (props.completed ? 'line-through' : 'none')};
 `;
