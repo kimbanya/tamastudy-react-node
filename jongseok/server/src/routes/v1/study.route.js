@@ -4,7 +4,8 @@ const studyTodoRouters = require('./studyTodo.route');
 const {
   getStudies,
   createStudy,
-  joinStudyByStudyId,
+  getStudyById,
+  joinStudyById,
 } = require('../../controllers/v1/study.controller');
 
 // model
@@ -21,6 +22,7 @@ router.use('/:studyId/studyTodo', studyTodoRouters);
 
 router.get('/', getStudies);
 router.post('/create', getCurrentUserId, createStudy);
-router.put('/join/:studyId', getCurrentUserId, joinStudyByStudyId);
+router.get('/:studyId', getStudyById);
+router.put('/join/:studyId', getCurrentUserId, joinStudyById);
 
 module.exports = router;

@@ -79,11 +79,7 @@ exports.deletePostById = asyncHandler(async (req, res, next) => {
 
   // post가 존재하지 않을 때
   if (!post) {
-    return res.status(400).json({
-      success: false,
-      error: '포스트가 존재하지 않습니다.',
-      result: null,
-    });
+    return next(new Error('포스트가 존재하지 않습니다.'));
   }
 
   // 미들웨어(getCurrentUserId)를 통과했기 때문에, 아이디가 존재한다.
@@ -92,11 +88,7 @@ exports.deletePostById = asyncHandler(async (req, res, next) => {
   // 포스트에 있는 user(id)와 현재 컨트롤러를 호출하고있는 유저의 id를 비교하여 같지않다면 false를 반환
   // user는 objectId이므로 string으로 변환 후 비교한다.
   if (post.user.toString() !== currentUserId) {
-    return res.status(401).json({
-      success: false,
-      error: '해당 권한이 없습니다.',
-      result: null,
-    });
+    return next(new Error('해당 권한이 없습니다.'));
   }
 
   await User.updateOne(
@@ -132,11 +124,7 @@ exports.updatePostById = asyncHandler(async (req, res, next) => {
 
   // post가 존재하지 않을 때
   if (!post) {
-    return res.status(400).json({
-      success: false,
-      error: '포스트가 존재하지 않습니다.',
-      result: null,
-    });
+    return next(new Error('포스트가 존재하지 않습니다 .'));
   }
 
   // 미들웨어(getCurrentUserId)를 통과했기 때문에, 아이디가 존재한다.
@@ -145,11 +133,7 @@ exports.updatePostById = asyncHandler(async (req, res, next) => {
   // 포스트에 있는 user(id)와 현재 컨트롤러를 호출하고있는 유저의 id를 비교하여 같지않다면 false를 반환
   // user는 objectId이므로 string으로 변환 후 비교한다.
   if (post.user.toString() !== currentUserId) {
-    return res.status(401).json({
-      success: false,
-      error: '해당 권한이 없습니다.',
-      result: null,
-    });
+    return next(new Error('해당 권한이 없습니다.'));
   }
 
   // mongoose findByIdAndUpdate  => 무엇(포스트)을 업데이트(put)할지 찾아야하므로

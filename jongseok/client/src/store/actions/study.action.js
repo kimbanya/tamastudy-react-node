@@ -45,7 +45,8 @@ export const createStudy = (formData, history) => async (dispatch) => {
 
 export const getStudyById = (studyId) => async (dispatch) => {
   try {
-    let payload;
+    const response = await axios.get(`/api/v1/study/${studyId}`);
+    const payload = response.data.result;
     dispatch({ type: GET_STUDY_BY_ID, payload });
   } catch (err) {
     console.log(err);

@@ -78,21 +78,13 @@ exports.deletePostCommentById = asyncHandler(async (req, res, next) => {
   const postComment = await PostComment.findById(req.params.postCommentId);
 
   if (!postComment) {
-    return res.status(400).json({
-      success: false,
-      error: '댓글을 찾을 수 없습니다. ',
-      data: null,
-    });
+    return next(new Error('댓글을 찾을 수 없습니다. '));
   }
 
   const currentUserId = req.currentUserId;
 
   if (postComment.user.toString() !== currentUserId) {
-    return res.status(401).json({
-      success: false,
-      error: '해당 권한이 없습니다.',
-      result: null,
-    });
+    return next(new Error('해당 권한이 없습니다.'));
   }
 
   await User.updateOne(
@@ -133,21 +125,13 @@ exports.updatePostCommentById = asyncHandler(async (req, res, next) => {
   );
 
   if (!postComment) {
-    return res.status(400).json({
-      success: false,
-      error: '댓글을 찾을 수 없습니다. ',
-      data: null,
-    });
+    return next(new Error('댓글을 찾을 수 없습니다. '));
   }
 
   const currentUserId = req.currentUserId;
 
   if (postComment.user.toString() !== currentUserId) {
-    return res.status(401).json({
-      success: false,
-      error: '해당 권한이 없습니다.',
-      result: null,
-    });
+    return next(new Error('해당 권한이 없습니다.'));
   }
 
   res.status(200).json({

@@ -22,7 +22,7 @@ export default (state = initialState, { type, payload }) => {
     case CREATE_STUDY:
       return { ...state, studies: [...state.studies, payload], loading: false };
     case GET_STUDY_BY_ID:
-      return state;
+      return { ...state, study: payload, loading: false };
     case DELETE_STUDY_BY_ID:
       return state;
     case UPDATE_STUDY_BY_ID:

@@ -10,11 +10,7 @@ const createJWT = require('../../util/user/createJWT');
 exports.signup = asyncHandler(async (req, res, next) => {
   const existingUser = await User.findOne({ email: req.body.email });
   if (existingUser) {
-    return res.status(400).json({
-      success: false,
-      error: `${req.body.email}는 존재하는 이메일입니다. `,
-      data: null,
-    });
+    return next(new Error(`${req.body.email}는 존재하는 이메일입니다. `));
   }
   const newUser = await User.create({ ...req.body });
   const token = await createJWT(newUser._id);
