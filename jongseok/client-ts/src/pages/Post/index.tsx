@@ -18,5 +18,7 @@ const mapStateToProps = (state: IRootState) => ({
 export default connect(mapStateToProps, {})(Post);
 
 const Title = styled.h1`
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.base.grey};
+  margin-left: ${(props) => props.theme.space}px;
+  font-weight: ${(props) => props.theme.fonts.body1.fontWeight};
 `;

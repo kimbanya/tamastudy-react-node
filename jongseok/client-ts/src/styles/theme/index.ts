@@ -1,12 +1,12 @@
 // my-theme.ts
 import { DefaultTheme } from 'styled-components';
+import colors from './colors';
+import fonts from './fonts';
 
 const theme: DefaultTheme = {
-  borderRadius: '5px',
-  colors: {
-    main: 'cyan',
-    secondary: 'magenta',
-  },
+  space: 8,
+  fonts,
+  colors,
 };
 
 export default theme;

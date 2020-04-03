@@ -1,13 +1,11 @@
 import 'styled-components';
+import { IColors } from './styles/theme/colors';
+import { IFonts } from './styles/theme/fonts';
 
-// and extend them!
 declare module 'styled-components' {
   export interface DefaultTheme {
-    borderRadius: string;
-
-    colors: {
-      main: string;
-      secondary: string;
-    };
+    space: number;
+    fonts: IFonts;
+    colors: IColors;
   }
 }
