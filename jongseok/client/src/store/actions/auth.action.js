@@ -16,7 +16,7 @@ export const getMeFn = () => async (dispatch) => {
       },
     };
     const response = await axios.get('/api/v1/user/me', config);
-    const payload = response.data.data._id;
+    const payload = response.data.result._id;
     dispatch({ type: LOAD_USER, payload });
   } catch (err) {
     console.log(err.response.data.error);
@@ -28,7 +28,7 @@ export const getMeFn = () => async (dispatch) => {
 export const signupFn = (signupData, history) => async (dispatch) => {
   try {
     const response = await axios.post('/api/v1/user/signup', signupData);
-    const token = response.data.data;
+    const token = response.data.result;
     localStorage.setItem('token', token);
     dispatch({ type: LOGGED_IN });
     toast.success('회원가입 성공');
@@ -44,7 +44,7 @@ export const signupFn = (signupData, history) => async (dispatch) => {
 export const signinFn = (signinData, history) => async (dispatch) => {
   try {
     const response = await axios.post('/api/v1/user/signin', signinData);
-    const token = response.data.data;
+    const token = response.data.result;
     localStorage.setItem('token', token);
     dispatch({ type: LOGGED_IN });
     toast.success('로그인 성공');

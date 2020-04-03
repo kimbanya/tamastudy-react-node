@@ -1,3 +1,4 @@
+require('dotenv').config({ path: './.env' });
 // env val
 const keys = require('./keys');
 // library file require

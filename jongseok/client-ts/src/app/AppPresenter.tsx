@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Post from '../pages/Post';
-import Home from '../pages/Home';
+import GetPosts from '../components/pages/Post/GetPosts';
+import Home from '../components/pages/Home';
+import Sign from '../components/pages/Sign';
+import nonmemberComponent from '../hoc/nonmemberComponent';
 
 interface IProps {}
 
@@ -10,7 +12,10 @@ const AppPresenter: React.SFC<IProps> = (props) => {
     <Router>
       <Switch>
         <Route path={'/'} exact component={Home} />
-        <Route path={'/posts'} exact component={Post} />
+        <Route path={'/signin'} exact component={nonmemberComponent(Sign)} />
+        <Route path={'/signup'} exact component={nonmemberComponent(Sign)} />
+        <Route path={'/posts'} exact component={GetPosts} />
+        <Redirect from={'*'} to={'/'} />
       </Switch>
     </Router>
   );
