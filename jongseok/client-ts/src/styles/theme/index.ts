@@ -5,8 +5,8 @@ import fonts from './fonts';
 
 const theme: DefaultTheme = {
   space: 8,
-  fonts,
   colors,
+  fonts,
 };
 
 export default theme;

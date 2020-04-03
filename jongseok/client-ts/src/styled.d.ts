@@ -5,7 +5,7 @@ import { IFonts } from './styles/theme/fonts';
 declare module 'styled-components' {
   export interface DefaultTheme {
     space: number;
-    fonts: IFonts;
     colors: IColors;
+    fonts: IFonts;
   }
 }

@@ -4,7 +4,7 @@ services:
     restart: always
     depends_on:
       - api
-      - client
+      - client-ts
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
@@ -29,13 +29,13 @@ services:
       - ./server:/app
     env_file:
       - .env
-  client:
+  client-ts:
     build:
       dockerfile: Dockerfile.dev
-      context: ./client
+      context: ./client-ts
     volumes:
       - /app/node_modules
-      - ./client:/app
+      - ./client-ts:/app
     env_file:
       - .env
     stdin_open: true
