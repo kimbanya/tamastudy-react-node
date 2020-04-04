@@ -47,6 +47,7 @@ const SignContainer = ({ history, match, authState, signinFn }: Props) => {
       signinHandleSubmit(event);
       signinFn(signinFormData);
     } else {
+      signupHandleSubmit(event);
       //
     }
     history.push('/');

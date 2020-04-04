@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import formReset from './formReset';
+import 'normalize.css';
 
 export default createGlobalStyle`
     * {
