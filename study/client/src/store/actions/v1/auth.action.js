@@ -2,6 +2,8 @@ import { SIGN_UP, SIGN_IN } from '../../type';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
+// Curry 방식
+
 // 회원가입
 export const signupFn = (formData) => async (dispatch) => {
   try {
@@ -12,7 +14,7 @@ export const signupFn = (formData) => async (dispatch) => {
     dispatch({ type: SIGN_UP, payload: response.data.result });
 
     // 그냥 알람
-    toast.success('회원가입이 완료 되었습니다. ');
+    toast.success('회원가입이 완료 되었습니다. 홈으로 이동합니다.');
   } catch (err) {
     toast.error(err.response.data.error);
   }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import SignPresenter from './SignPresenter';
 import { connect } from 'react-redux';
 import { signupFn } from '../../../store/actions/v1/auth.action';
+import { toast } from 'react-toastify';
+import { withRouter } from 'react-router-dom';
 
 const initialStateForSignup = {
   username: '',
@@ -9,17 +11,18 @@ const initialStateForSignup = {
   password: '',
 };
 
-const SignContainer = ({ authState, signupFn }) => {
+const SignContainer = ({ history, match, authState, signupFn }) => {
   const [formData, setFormData] = useState(initialStateForSignup);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (formData.username === '' || formData.email === '' || formData.password === '') {
-      alert('회원가입 폼 정보를 입력해주세요. ');
+      toast.warn('회원가입 폼 정보를 입력해주세요. ');
       return;
     }
     signupFn(formData);
     setFormData(initialStateForSignup);
+    history.push('/');
   };
 
   const handleChange = (event) => {
@@ -66,4 +69,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { signupFn })(SignContainer);
+export default withRouter(connect(mapStateToProps, { signupFn })(SignContainer));
