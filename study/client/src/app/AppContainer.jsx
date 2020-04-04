@@ -8,7 +8,7 @@ import { loadUserFn } from '../store/actions/v1/auth.action';
 const AppContainer = ({ loadUserFn, authState }) => {
   useEffect(() => {
     loadUserFn();
-  }, [loadUserFn]);
+  }, [loadUserFn, authState.isLoggedIn]);
 
   console.log(authState);
 

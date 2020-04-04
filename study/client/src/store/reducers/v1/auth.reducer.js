@@ -10,10 +10,16 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOAD_USER:
-      return { ...state, isLoggedIn: true, loading: false, currentUserId: action.payload };
+      return {
+        ...state,
+        isLoggedIn: true,
+        loading: false,
+        currentUserId: action.payload,
+        error: null,
+      };
     case SIGN_UP:
     case SIGN_IN:
-      return { ...state, isLoggedIn: true, loading: false };
+      return { ...state, isLoggedIn: true, loading: false, error: null };
     case LOGGED_OUT:
       return state;
     case AUTH_ERROR:
