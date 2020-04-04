@@ -11,6 +11,7 @@ const AppPresenter = () => {
       <Switch>
         <Route path={'/'} exact component={Home} />
         <Route path={'/signup'} exact component={Sign} />
+        <Route path={'/signin'} exact component={Sign} />
         <Redirect from={'*'} to={'/'} />
       </Switch>
     </Router>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SignPresenter from './SignPresenter';
 import { connect } from 'react-redux';
-import { signupFn } from '../../../store/actions/v1/auth.action';
+import { signupFn, signinFn } from '../../../store/actions/v1/auth.action';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
 
@@ -11,17 +11,33 @@ const initialStateForSignup = {
   password: '',
 };
 
-const SignContainer = ({ history, match, authState, signupFn }) => {
-  const [formData, setFormData] = useState(initialStateForSignup);
+const initialStateForSignin = {
+  email: '',
+  password: '',
+};
+
+const SignContainer = ({ history, match, authState, signupFn, signinFn }) => {
+  const isSignup = match.path.startsWith('/signup');
+
+  const [formData, setFormData] = useState(
+    isSignup ? initialStateForSignup : initialStateForSignin,
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (formData.username === '' || formData.email === '' || formData.password === '') {
-      toast.warn('회원가입 폼 정보를 입력해주세요. ');
-      return;
+    if (isSignup) {
+      if (formData.username === '' || formData.email === '' || formData.password === '') {
+        toast.warn('회원가입 폼 정보를 입력해주세요. ');
+        return;
+      }
+      signupFn(formData);
+    } else {
+      if (formData.email === '' || formData.password === '') {
+        toast.warn('로그인 폼 정보를 입력해주세요. ');
+        return;
+      }
+      signinFn(formData);
     }
-    signupFn(formData);
-    setFormData(initialStateForSignup);
     history.push('/');
   };
 
@@ -34,14 +50,17 @@ const SignContainer = ({ history, match, authState, signupFn }) => {
 
   return (
     <div>
+      <h1>{isSignup ? '회원가입' : '로그인'}</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type={'text'}
-          placeholder={'유저명을 입력해주세요. '}
-          value={formData.username}
-          name={'username'}
-          onChange={handleChange}
-        />
+        {isSignup && (
+          <input
+            type={'text'}
+            placeholder={'유저명을 입력해주세요. '}
+            value={formData.username}
+            name={'username'}
+            onChange={handleChange}
+          />
+        )}
         <input
           type={'text'}
           placeholder={'이메일을 입력해주세요. '}
@@ -69,4 +88,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { signupFn })(SignContainer));
+export default withRouter(connect(mapStateToProps, { signupFn, signinFn })(SignContainer));
