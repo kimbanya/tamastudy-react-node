@@ -1,4 +1,4 @@
-import { SIGN_UP, SIGN_IN, LOGGED_OUT } from '../../type';
+import { LOAD_USER, SIGN_UP, SIGN_IN, LOGGED_OUT, AUTH_ERROR } from '../../type';
 
 const initialState = {
   isLoggedIn: false,
@@ -10,13 +10,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_USER:
+      return { ...state, isLoggedIn: true, loading: false, currentUserId: action.payload };
     case SIGN_UP:
     case SIGN_IN:
-      console.log('sign reducer');
       return { ...state, isLoggedIn: true, loading: false, token: action.payload };
     case LOGGED_OUT:
-      console.log('Logged out reducer');
       return state;
+    case AUTH_ERROR:
+      return { ...state, isLoggedIn: false, loading: false, error: action.payload };
     default:
       return state;
   }

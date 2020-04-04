@@ -67,7 +67,7 @@ exports.users = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     error: null,
-    data: users,
+    result: users,
   });
 });
 
@@ -88,6 +88,6 @@ exports.me = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     error: null,
-    data: me,
+    result: me,
   });
 });

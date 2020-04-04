@@ -1,9 +1,29 @@
-import { SIGN_UP, SIGN_IN } from '../../type';
+import { LOAD_USER, SIGN_UP, SIGN_IN, AUTH_ERROR } from '../../type';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const setLocalStorage = (token) => {
   localStorage.setItem('token', token);
+};
+
+export const loadUserFn = () => async (dispatch) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch({ type: AUTH_ERROR, payload: '토큰이 존재하지않습니다. ' });
+      return;
+    }
+    const config = {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get('http://localhost:5000/v1/user/me', config);
+    dispatch({ type: LOAD_USER, payload: response.data.result._id });
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
+  }
 };
 
 // 회원가입
@@ -21,6 +41,7 @@ export const signupFn = (formData) => async (dispatch) => {
     // 그냥 알람
     toast.success('회원가입이 완료 되었습니다. 홈으로 이동합니다.');
   } catch (err) {
+    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
   }
 };
@@ -40,6 +61,7 @@ export const signinFn = (formData) => async (dispatch) => {
     // 그냥 알람
     toast.success('로그인이 완료 되었습니다. 홈으로 이동합니다.');
   } catch (err) {
+    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
   }
 };
