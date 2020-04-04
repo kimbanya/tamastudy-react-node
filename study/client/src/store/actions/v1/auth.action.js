@@ -33,7 +33,7 @@ export const signupFn = (formData) => async (dispatch) => {
     const response = await axios.post('http://localhost:5000/v1/user/signup', formData);
 
     // 가공된 데이터를 리듀서에 주는 단계
-    dispatch({ type: SIGN_UP, payload: response.data.result });
+    dispatch({ type: SIGN_UP });
 
     // 로컬스토리지에 저장
     setLocalStorage(response.data.result);
@@ -53,7 +53,7 @@ export const signinFn = (formData) => async (dispatch) => {
     const response = await axios.post('http://localhost:5000/v1/user/signin', formData);
 
     // 가공된 데이터를 리듀서에 주는 단계
-    dispatch({ type: SIGN_IN, payload: response.data.result });
+    dispatch({ type: SIGN_IN });
 
     // 로컬스토리지에 저장
     setLocalStorage(response.data.result);
