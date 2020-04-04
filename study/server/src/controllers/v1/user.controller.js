@@ -48,7 +48,7 @@ exports.signin = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     error: null,
-    data: token,
+    result: token,
   });
 });
 

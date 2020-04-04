@@ -2,7 +2,9 @@ import { SIGN_UP, SIGN_IN } from '../../type';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-// Curry 방식
+const setLocalStorage = (token) => {
+  localStorage.setItem('token', token);
+};
 
 // 회원가입
 export const signupFn = (formData) => async (dispatch) => {
@@ -12,6 +14,9 @@ export const signupFn = (formData) => async (dispatch) => {
 
     // 가공된 데이터를 리듀서에 주는 단계
     dispatch({ type: SIGN_UP, payload: response.data.result });
+
+    // 로컬스토리지에 저장
+    setLocalStorage(response.data.result);
 
     // 그냥 알람
     toast.success('회원가입이 완료 되었습니다. 홈으로 이동합니다.');
@@ -28,6 +33,9 @@ export const signinFn = (formData) => async (dispatch) => {
 
     // 가공된 데이터를 리듀서에 주는 단계
     dispatch({ type: SIGN_IN, payload: response.data.result });
+
+    // 로컬스토리지에 저장
+    setLocalStorage(response.data.result);
 
     // 그냥 알람
     toast.success('로그인이 완료 되었습니다. 홈으로 이동합니다.');
