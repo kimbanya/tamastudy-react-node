@@ -17,7 +17,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     error: null,
-    data: token,
+    result: token,
   });
 });
 
