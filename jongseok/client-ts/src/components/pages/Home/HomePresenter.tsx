@@ -1,5 +1,6 @@
 import React from 'react';
 import CommonLayout from '../../CommonLayout/index';
+import { Link } from 'react-router-dom';
 import './style.css';
 
 interface Props {}
@@ -28,7 +29,7 @@ const HomePresenter = (props: Props) => {
                 <span></span>
                 <span></span>
               </div>
-              <a href="#">Buy Now</a>
+              <Link to={'#'}>Buy Now</Link>
             </div>
           </div>
         </div>

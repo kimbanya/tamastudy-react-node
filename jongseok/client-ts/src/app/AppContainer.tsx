@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppPresenter from './AppPresenter';
 import { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import GlobalStyle from '../styles/global';
+import { connect } from 'react-redux';
+import { IRootState } from '../store/reducers/index';
+import { loadUserFn } from '../store/actions/v1/auth.action';
 
-interface Props {}
+interface Props {
+  authState: IRootState['authState'];
+  loadUserFn: any;
+}
 
-const AppContainer = (props: Props) => {
+const AppContainer = ({ authState, loadUserFn }: Props) => {
+  useEffect(() => {
+    loadUserFn();
+  }, [loadUserFn, authState.isLoggedIn]);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -15,4 +25,10 @@ const AppContainer = (props: Props) => {
   );
 };
 
-export default AppContainer;
+const mapStateToProps = (state: IRootState) => {
+  return {
+    authState: state.authState,
+  };
+};
+
+export default connect(mapStateToProps, { loadUserFn })(AppContainer);

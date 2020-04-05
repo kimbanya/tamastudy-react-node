@@ -185,7 +185,7 @@
   font-weight: 600;
   color: #111;
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(200px);
   transition: 0.5s;
 }
 
