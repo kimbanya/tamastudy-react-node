@@ -23,6 +23,8 @@ const GetPostsPresenter = ({
   handleSearchChange,
   handleSearchSubmit,
 }: Props) => {
+  if (posts.length === 0) return <Wrapper>포스트를 찾을 수 없습니다.</Wrapper>;
+
   return (
     <Wrapper>
       <SearchBar>

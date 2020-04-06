@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import GetPostsPresenter from './GetPostsPresenter';
 import { connect } from 'react-redux';
 import { IRootState } from '../../../../store/reducers/index';
@@ -18,9 +18,9 @@ const GetPostsContainer = ({ postState, getPostsFn, getSearchPostsFn }: Props) =
     getPostsFn();
   }, [getPostsFn]);
 
-  const handleNextCursor = (cursor: string) => {
+  const handleNextCursor = useCallback((cursor: string) => {
     getPostsFn(cursor);
-  };
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchByTitle(e.target.value);
@@ -35,7 +35,7 @@ const GetPostsContainer = ({ postState, getPostsFn, getSearchPostsFn }: Props) =
   if (postState.loading) return <div>Loading ...</div>;
 
   return (
-    <CommonLayout>
+    <CommonLayout noFooter>
       <GetPostsPresenter
         posts={postState.posts}
         pageInfo={postState.pageInfo}

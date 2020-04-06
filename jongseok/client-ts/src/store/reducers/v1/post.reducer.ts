@@ -1,5 +1,11 @@
 export interface IPostAction {
-  type: 'GET_POSTS' | 'GET_SEARCH_POSTS_BY_TITLE' | 'CREATE_POST' | 'GET_POST_BY_ID' | 'POST_ERROR';
+  type:
+    | 'GET_POSTS'
+    | 'GET_MORE_POSTS'
+    | 'GET_SEARCH_POSTS_BY_TITLE'
+    | 'CREATE_POST'
+    | 'GET_POST_BY_ID'
+    | 'POST_ERROR';
   payload?: any;
 }
 
@@ -50,6 +56,14 @@ const initialState: IPostState = {
 export default (state = initialState, action: IPostAction): IPostState => {
   switch (action.type) {
     case 'GET_POSTS':
+      return {
+        ...state,
+        posts: action.payload.result,
+        total: action.payload.total,
+        pageInfo: action.payload.pageInfo,
+        loading: false,
+      };
+    case 'GET_MORE_POSTS':
       return {
         ...state,
         posts: [...state.posts, ...action.payload.result],

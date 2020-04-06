@@ -7,7 +7,11 @@ import { IPostCreateInitialState } from '../../../components/pages/Post/PostForm
 export const getPostsFn = (cursor?: string) => async (dispatch: Dispatch<IPostAction>) => {
   try {
     const response = await API.get(cursor ? `/post?cursor=${cursor}` : '/post');
-    dispatch({ type: 'GET_POSTS', payload: response.data });
+    if (cursor) {
+      dispatch({ type: 'GET_MORE_POSTS', payload: response.data });
+    } else {
+      dispatch({ type: 'GET_POSTS', payload: response.data });
+    }
   } catch (err) {
     dispatch({ type: 'POST_ERROR', payload: err.response.data.error });
     toast.error(err.response.data.error);

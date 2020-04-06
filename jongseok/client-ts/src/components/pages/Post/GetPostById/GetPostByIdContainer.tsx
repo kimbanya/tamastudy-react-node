@@ -11,7 +11,7 @@ interface Props extends RouteComponentProps<any> {
   getPostByIdFn: any;
 }
 
-const GetPostByIdContainer = ({ match, postState, getPostByIdFn }: Props) => {
+const GetPostByIdContainer = ({ history, match, postState, getPostByIdFn }: Props) => {
   useEffect(() => {
     getPostByIdFn(match.params.postId);
   }, [getPostByIdFn, match.params.postId]);
@@ -20,6 +20,7 @@ const GetPostByIdContainer = ({ match, postState, getPostByIdFn }: Props) => {
 
   return (
     <CommonLayout noFooter>
+      <button onClick={() => history.goBack()}>Back</button>
       <GetPostByIdPresenter post={postState.post} />
     </CommonLayout>
   );
