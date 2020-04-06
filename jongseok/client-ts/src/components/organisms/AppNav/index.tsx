@@ -1,24 +1,37 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {}
+interface Props extends RouteComponentProps<any> {}
 
-const AppNav = (props: Props) => {
+const AppNav = ({ location }: Props) => {
   return (
     <NavWrapper>
       <NavList>
-        <CustomLink to={'/posts'} activeClassName={'nav__link-active'}>
+        <CustomLink
+          to={'/posts'}
+          className={location.pathname.startsWith('/post') ? 'nav__link-active' : ''}
+        >
           POST
         </CustomLink>
       </NavList>
       <NavList>
-        <CustomLink to={'/studies'} activeClassName={'nav__link-active'}>
+        <CustomLink
+          to={'/studies'}
+          className={
+            location.pathname.startsWith('/studies') || location.pathname.startsWith('/study')
+              ? 'nav__link-active'
+              : ''
+          }
+        >
           STUDY
         </CustomLink>
       </NavList>
       <NavList>
-        <CustomLink to={'/contact'} activeClassName={'nav__link-active'}>
+        <CustomLink
+          to={'/contact'}
+          className={location.pathname.startsWith('/contact') ? 'nav__link-active' : ''}
+        >
           CONTACT
         </CustomLink>
       </NavList>
@@ -37,7 +50,7 @@ const NavList = styled.li`
   list-style: none;
 `;
 
-const CustomLink = styled(NavLink)`
+const CustomLink = styled(Link)`
   display: block;
   color: inherit;
   text-decoration: none;
@@ -57,4 +70,4 @@ const CustomLink = styled(NavLink)`
   }
 `;
 
-export default AppNav;
+export default withRouter(AppNav);
