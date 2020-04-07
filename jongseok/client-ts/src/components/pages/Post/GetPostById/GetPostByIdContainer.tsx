@@ -16,6 +16,8 @@ const GetPostByIdContainer = ({ history, match, postState, getPostByIdFn }: Prop
     getPostByIdFn(match.params.postId);
   }, [getPostByIdFn, match.params.postId]);
 
+  console.log(postState.loading);
+
   if (postState.loading) return <div>Loading ...</div>;
 
   return (

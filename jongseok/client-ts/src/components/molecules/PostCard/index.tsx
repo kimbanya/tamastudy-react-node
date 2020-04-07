@@ -15,7 +15,7 @@ interface Props extends RouteComponentProps<any> {
 const PostCard = ({ history, post }: Props) => {
   return (
     <Card onClick={() => history.push(`/post/${post._id}`)}>
-      <CardImage img={post.imgUrl} />
+      <CardImage img={post.imgUrl ? post.imgUrl : ''} />
       <CardText>
         <CardDate>{moment(post.createdAt).startOf('second').fromNow()}</CardDate>
         <CardTitle>{post.title}</CardTitle>
@@ -32,7 +32,7 @@ const PostCard = ({ history, post }: Props) => {
           <CardType>VIEW</CardType>
         </CardStat>
         <CardStat>
-          <CardValue>{post.postComments.length}</CardValue>
+          <CardValue>{post.postComments && post.postComments.length}</CardValue>
           <CardType>COMMENTS</CardType>
         </CardStat>
       </CardStats>
@@ -100,7 +100,7 @@ const CardHoverText = styled.p`
   margin-top: 8px;
 `;
 
-const CardImage = styled.div<{ img: string }>`
+const CardImage = styled.div<{ img?: string }>`
   background-image: url(${(props) => props.img});
   background-position: center;
   background-repeat: no-repeat;

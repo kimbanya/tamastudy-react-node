@@ -42,6 +42,7 @@ export const createPostFn = (formData: IPostCreateInitialState) => async (
 
 export const getPostByIdFn = (postId: string) => async (dispatch: Dispatch<IPostAction>) => {
   try {
+    dispatch({ type: 'SET_LOADING' });
     const response = await API.get(`/post/${postId}`);
     dispatch({ type: 'GET_POST_BY_ID', payload: response.data.result });
   } catch (err) {

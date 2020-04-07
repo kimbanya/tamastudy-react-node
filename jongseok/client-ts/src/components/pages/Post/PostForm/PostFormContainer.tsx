@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PostFormPresenter from './PostFormPresenter';
 import CommonLayout from '../../../CommonLayout/index';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
-import { createPostFn } from '../../../../store/actions/v1/post.action';
+import { createPostFn, getPostByIdFn } from '../../../../store/actions/v1/post.action';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { IRootState } from '../../../../store/reducers/index';
 
 export interface IPostCreateInitialState {
   title: string;
@@ -21,11 +22,32 @@ const initialStateForCreate: IPostCreateInitialState = {
 };
 
 interface Props extends RouteComponentProps<any> {
+  postState: IRootState['postState'];
   createPostFn: any;
+  getPostByIdFn: any;
 }
 
-const PostFormContainer = ({ history, createPostFn }: Props) => {
+const PostFormContainer = ({ history, match, postState, createPostFn, getPostByIdFn }: Props) => {
   const [formData, setFormData] = useState(initialStateForCreate);
+
+  useEffect(() => {
+    if (match.url !== '/post/create') {
+      getPostByIdFn(match.params.postId);
+    }
+  }, [getPostByIdFn, match.url, match.params.postId]);
+
+  useEffect(() => {
+    if (match.url !== '/post/create') {
+      if (postState.post.title && postState.post.description && postState.post.imgUrl) {
+        setFormData({
+          ...formData,
+          title: postState.post.title,
+          description: postState.post.description,
+          imgUrl: postState.post.imgUrl,
+        });
+      }
+    }
+  }, [match.url, match.params.postId, postState.post]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -34,10 +56,10 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
     });
   };
 
-  const handleDescriptionChange = (html: any) => {
+  const handleChangeDescription = (content: string) => {
     setFormData({
       ...formData,
-      description: html,
+      description: content,
     });
   };
 
@@ -61,18 +83,17 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
       return toast.error('썸네일 이미지주소를 확인해주세요. ');
     }
     createPostFn(formData);
-    // setTimeout(() => {
-    //   history.push('/posts');
-    // }, 1500);
     history.push('/posts');
   };
+
+  // if (postState.loading) return <div>Loading ...</div>;
 
   return (
     <CommonLayout>
       <PostFormPresenter
         formData={formData}
         onChange={handleChange}
-        handleDescriptionChange={handleDescriptionChange}
+        handleChangeDescription={handleChangeDescription}
         handleFileChange={handleFileChange}
         onSubmit={handleSubmit}
       />
@@ -80,4 +101,10 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
   );
 };
 
-export default withRouter(connect(null, { createPostFn })(PostFormContainer));
+const mapStateToProps = ({ postState }: IRootState) => ({
+  postState,
+});
+
+export default withRouter(
+  connect(mapStateToProps, { createPostFn, getPostByIdFn })(PostFormContainer),
+);

@@ -19,6 +19,7 @@ const AppPresenter: React.SFC<IProps> = (props) => {
         <Route path={'/signup'} exact component={nonmemberComponent(Sign)} />
         <Route path={'/posts'} exact component={GetPosts} />
         <Route path={'/post/create'} exact component={PostForm} />
+        <Route path={'/post/:postId/update'} component={PostForm} />
         <Route path={'/post/:postId'} component={GetPostById} />
         <Route path={'/studies'} exact component={() => <CommonLayout>studies</CommonLayout>} />
         <Route path={'/contact'} exact component={() => <CommonLayout>contact</CommonLayout>} />

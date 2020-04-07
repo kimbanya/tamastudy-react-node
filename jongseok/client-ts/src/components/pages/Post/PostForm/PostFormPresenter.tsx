@@ -1,33 +1,24 @@
 import React from 'react';
 import { IPostCreateInitialState } from './PostFormContainer';
 import styled from 'styled-components';
-import QuillEditor from '../../../editor/QuillEditor';
 import 'react-quill/dist/quill.snow.css';
+import DraftEditor from '../../../editor/DraftEditor';
 
 interface Props {
   formData: IPostCreateInitialState;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleDescriptionChange: any;
+  handleChangeDescription: any;
   handleFileChange: any;
 }
 
-const PostFormPresenter = ({
-  formData,
-  onChange,
-  onSubmit,
-  handleDescriptionChange,
-  handleFileChange,
-}: Props) => {
+const PostFormPresenter = ({ formData, onChange, onSubmit, handleChangeDescription }: Props) => {
   return (
     <Wrapper>
       <FormWrapper onSubmit={onSubmit}>
         <InputTitle type={'text'} onChange={onChange} name={'title'} value={formData.title} />
-        <QuillEditor
-          placeholder={'포스트내용을 입력해주세요. '}
-          onEditorChange={handleDescriptionChange}
-          onFilesChange={handleFileChange}
-        />
+        {/* handleChangeDescription={handleChangeDescription} */}
+        <DraftEditor />
         <InputThumbnail type={'text'} onChange={onChange} name={'imgUrl'} value={formData.imgUrl} />
         <SubmitButton type={'submit'}>CREATE POST</SubmitButton>
       </FormWrapper>

@@ -5,19 +5,20 @@ export interface IPostAction {
     | 'GET_SEARCH_POSTS_BY_TITLE'
     | 'CREATE_POST'
     | 'GET_POST_BY_ID'
+    | 'SET_LOADING'
     | 'POST_ERROR';
   payload?: any;
 }
 
 export interface IPost {
-  _id: string;
-  title: string;
-  description: string;
-  imgUrl: string;
-  user: string;
-  view: number;
-  postComments: string[];
-  createdAt: string;
+  _id?: string;
+  title?: string;
+  description?: string;
+  imgUrl?: string;
+  user?: string;
+  view?: number;
+  postComments?: string[];
+  createdAt?: string;
 }
 
 export interface IPostState {
@@ -39,22 +40,18 @@ const initialState: IPostState = {
     nextPageCursor: '',
     hasNextPage: false,
   },
-  post: {
-    _id: '',
-    title: '',
-    description: '',
-    imgUrl: '',
-    user: '',
-    view: 0,
-    postComments: [],
-    createdAt: '',
-  },
+  post: {},
   error: null,
   loading: true,
 };
 
 export default (state = initialState, action: IPostAction): IPostState => {
   switch (action.type) {
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: true,
+      };
     case 'GET_POSTS':
       return {
         ...state,

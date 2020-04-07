@@ -16,7 +16,7 @@ const GetPostsContainer = ({ postState, getPostsFn, getSearchPostsFn }: Props) =
 
   useEffect(() => {
     getPostsFn();
-  }, [getPostsFn]);
+  }, [getPostsFn, postState.posts.length]);
 
   const handleNextCursor = useCallback((cursor: string) => {
     getPostsFn(cursor);
