@@ -1,51 +1,68 @@
-import * as types from './../../actions/v1/types';
+import {
+  GetPostsAction,
+  GetSearchPostsByTitleAction,
+  GetMorePostsAction,
+  CreatePostAction,
+  GetPostByIdAction,
+  PostErrorAction,
+  IPostState,
+  GET_POSTS,
+  GET_SEARCH_POSTS_BY_TITLE,
+  GET_MORE_POSTS,
+  CREATE_POST,
+  GET_POST_BY_ID,
+  POST_ERROR,
+} from './../../actions/v1/types';
 
 type PostReducerActions =
-  | types.GetPostsAction
-  | types.GetSearchPostsByTitleAction
-  | types.GetMorePostsAction
-  | types.CreatePostAction
-  | types.GetPostByIdAction
-  | types.PostErrorAction;
+  | GetPostsAction
+  | GetSearchPostsByTitleAction
+  | GetMorePostsAction
+  | CreatePostAction
+  | GetPostByIdAction
+  | PostErrorAction;
 
-const initialState: types.IPostState = {
+const initialState: IPostState = {
   posts: [],
   total: 0,
   pageInfo: {
     nextPageCursor: '',
     hasNextPage: false,
   },
-  post: {},
+  post: null,
   error: null,
   loading: true,
 };
 
-export default (prevState = initialState, action: PostReducerActions): types.IPostState => {
-  const { type, payload } = action;
-  switch (type) {
-    case types.GET_POSTS:
-    case types.GET_SEARCH_POSTS_BY_TITLE:
+export default (prevState = initialState, action: PostReducerActions): IPostState => {
+  switch (action.type) {
+    case GET_POSTS:
+    case GET_SEARCH_POSTS_BY_TITLE:
+      const { posts, total, pageInfo } = action.payload;
       return {
         ...prevState,
-        posts: payload.posts!,
-        total: payload.total!,
-        pageInfo: payload.pageInfo!,
+        posts,
+        total,
+        pageInfo,
         loading: false,
       };
-    case types.GET_MORE_POSTS:
+    case GET_MORE_POSTS:
+      const { posts: morePosts, total: moreTotal, pageInfo: morePageInfo } = action.payload;
       return {
         ...prevState,
-        posts: [...prevState.posts, ...payload.posts!],
-        total: payload.total!,
-        pageInfo: payload.pageInfo!,
+        posts: [...prevState.posts, ...morePosts],
+        total: moreTotal,
+        pageInfo: morePageInfo,
         loading: false,
       };
-    case types.CREATE_POST:
+    case CREATE_POST:
       return { ...prevState, loading: false };
-    case types.GET_POST_BY_ID:
-      return { ...prevState, post: payload.post!, loading: false };
-    case types.POST_ERROR:
-      return { ...prevState, loading: false, error: payload.error! };
+    case GET_POST_BY_ID:
+      const { post } = action.payload;
+      return { ...prevState, post, loading: false };
+    case POST_ERROR:
+      const { error } = action.payload;
+      return { ...prevState, loading: false, error };
     default:
       return prevState;
   }

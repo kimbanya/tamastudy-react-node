@@ -1,7 +1,8 @@
 import * as reactToastify from 'react-toastify';
-import { ThunkDispatch } from 'redux-thunk';
+import { ThunkAction } from 'redux-thunk';
 import { ISignFormData } from '../../../components/pages/Sign/SignContainer';
 import { API, setAuthToken } from '../../../utils/axios';
+import { IRootState } from '../../reducers/index';
 import {
   LOAD_USER,
   SIGN_IN,
@@ -14,28 +15,30 @@ import {
 } from './types';
 
 // 유저 아이디 가져오기
-export const loadUserFn = () => async (
-  dispatch: ThunkDispatch<any, any, LoadUserAction | AuthErrorAction>,
-) => {
+export const loadUserFn = (): ThunkAction<
+  Promise<void>,
+  IRootState,
+  undefined,
+  LoadUserAction | AuthErrorAction
+> => async (dispatch, getState) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
+
+  console.log(getState, 'get State');
   try {
     const res = await API.get('/user/loaduser');
+    const currentUserId: string = res.data.result;
     dispatch({
       type: LOAD_USER,
       payload: {
-        token: null,
-        currentUserId: res.data.result,
-        error: null,
+        currentUserId,
       },
     });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        token: null,
-        currentUserId: null,
         error: err.response.data.error,
       },
     });
@@ -49,17 +52,19 @@ export const loadUserFn = () => async (
 };
 
 // 로그인
-export const signinFn = (formData: ISignFormData) => async (
-  dispatch: ThunkDispatch<any, any, SignInAction | AuthErrorAction>,
+export const signinFn = (
+  formData: ISignFormData,
+): ThunkAction<Promise<void>, IRootState, undefined, SignInAction | AuthErrorAction> => async (
+  dispatch,
+  getState,
 ) => {
   try {
     const res = await API.post('/user/signin', formData);
+    const token: string = res.data.result;
     dispatch({
       type: SIGN_IN,
       payload: {
-        token: res.data.result,
-        currentUserId: null,
-        error: null,
+        token,
       },
     });
     reactToastify.toast.success('로그인 성공');
@@ -67,8 +72,6 @@ export const signinFn = (formData: ISignFormData) => async (
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        token: null,
-        currentUserId: null,
         error: err.response.data.error,
       },
     });
@@ -77,17 +80,19 @@ export const signinFn = (formData: ISignFormData) => async (
 };
 
 // 회원가입
-export const signupFn = (formData: ISignFormData) => async (
-  dispatch: ThunkDispatch<any, any, SignUpAction | AuthErrorAction>,
+export const signupFn = (
+  formData: ISignFormData,
+): ThunkAction<Promise<void>, IRootState, undefined, SignUpAction | AuthErrorAction> => async (
+  dispatch,
+  getState,
 ) => {
   try {
     const res = await API.post('/user/signup', formData);
+    const token: string = res.data.result;
     dispatch({
       type: SIGN_UP,
       payload: {
-        token: res.data.result,
-        currentUserId: null,
-        error: null,
+        token,
       },
     });
     reactToastify.toast.success('회원가입이 완료되었습니다. ');
@@ -95,8 +100,6 @@ export const signupFn = (formData: ISignFormData) => async (
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        token: null,
-        currentUserId: null,
         error: err.response.data.error,
       },
     });

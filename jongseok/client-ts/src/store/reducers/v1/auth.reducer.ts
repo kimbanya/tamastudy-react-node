@@ -1,41 +1,49 @@
-import * as types from '../../actions/v1/types';
+import {
+  IAuthState,
+  LoadUserAction,
+  SignInAction,
+  SignUpAction,
+  AuthErrorAction,
+  LOAD_USER,
+  SIGN_IN,
+  SIGN_UP,
+  AUTH_ERROR,
+} from '../../actions/v1/types';
 
-type AuthReducerActions =
-  | types.LoadUserAction
-  | types.SignInAction
-  | types.SignUpAction
-  | types.AuthErrorAction;
+type AuthReducerActions = LoadUserAction | SignInAction | SignUpAction | AuthErrorAction;
 
-const initialState: types.IAuthState = {
+const initialState: IAuthState = {
   isLoggedIn: false,
   currentUserId: null,
   error: null,
   loading: true,
 };
 
-export default (prevState = initialState, action: AuthReducerActions): types.IAuthState => {
-  const { type, payload } = action;
-  switch (type) {
-    case types.LOAD_USER:
+export default (prevState: IAuthState = initialState, action: AuthReducerActions): IAuthState => {
+  switch (action.type) {
+    case LOAD_USER:
+      const { currentUserId } = action.payload;
       return {
         ...prevState,
         isLoggedIn: true,
-        currentUserId: payload.currentUserId,
+        currentUserId,
         loading: false,
       };
-    case types.SIGN_IN:
-      if (payload.token) {
-        localStorage.setItem('token', payload.token);
-      }
+    case SIGN_IN:
+    case SIGN_UP:
+      const { token } = action.payload;
+      localStorage.setItem('token', token);
       return { ...prevState, isLoggedIn: true, loading: false };
-    case types.SIGN_UP:
-      if (payload.token) {
-        localStorage.setItem('token', payload.token);
-      }
-      return { ...prevState, isLoggedIn: true, loading: false };
-    case types.AUTH_ERROR:
+    case AUTH_ERROR:
+      const { error } = action.payload;
       localStorage.removeItem('token');
-      return { ...prevState, isLoggedIn: false, currentUserId: null, loading: false };
+      return {
+        ...prevState,
+        isLoggedIn: false,
+        currentUserId: null,
+        loading: false,
+        error: error,
+      };
     default:
       return prevState;
   }

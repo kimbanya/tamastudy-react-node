@@ -1,8 +1,10 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ThunkDispatch } from 'redux-thunk';
+import { ThunkAction } from 'redux-thunk';
+import { IPost, IPostState } from './types';
 import { IPostCreateInitialState } from '../../../components/pages/Post/PostForm/PostFormContainer';
 import { API } from '../../../utils/axios';
+import { IRootState } from '../../reducers/index';
 import {
   GET_POSTS,
   GET_SEARCH_POSTS_BY_TITLE,
@@ -18,59 +20,96 @@ import {
   PostErrorAction,
 } from './types';
 
-export const getPostsFn = () => async (
-  dispatch: ThunkDispatch<any, any, GetPostsAction | PostErrorAction>,
-) => {
+export const getPostsFn = (): ThunkAction<
+  Promise<void>,
+  IRootState,
+  undefined,
+  GetPostsAction | PostErrorAction
+> => async (dispatch) => {
   try {
     const response = await API.get('/post');
+    const posts: IPost[] = response.data.result;
+    const total: number = response.data.total;
+    const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
     dispatch({
       type: GET_POSTS,
       payload: {
-        posts: response.data.result,
-        pageInfo: response.data.pageInfo,
-        total: response.data.total,
+        posts,
+        total,
+        pageInfo,
       },
     });
   } catch (err) {
-    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
     toast.error(err.response.data.error);
   }
 };
 
-export const getMorePostsFn = (cursor: string) => async (
-  dispatch: ThunkDispatch<any, any, GetMorePostsAction | PostErrorAction>,
-) => {
+export const getMorePostsFn = (
+  cursor: string,
+): ThunkAction<
+  Promise<void>,
+  IRootState,
+  undefined,
+  GetMorePostsAction | PostErrorAction
+> => async (dispatch) => {
   try {
     const response = await API.get(`/post?cursor=${cursor}`);
+    const posts: IPost[] = response.data.result;
+    const total: number = response.data.total;
+    const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
     dispatch({
       type: GET_MORE_POSTS,
       payload: {
-        posts: response.data.result,
-        pageInfo: response.data.pageInfo,
-        total: response.data.total,
+        posts,
+        total,
+        pageInfo,
       },
     });
   } catch (err) {
-    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
     toast.error(err.response.data.error);
   }
 };
 
-export const getSearchPostsFn = (title: string) => async (
-  dispatch: ThunkDispatch<any, any, GetSearchPostsByTitleAction | PostErrorAction>,
-) => {
+export const getSearchPostsFn = (
+  title: string,
+): ThunkAction<
+  Promise<void>,
+  IRootState,
+  undefined,
+  GetSearchPostsByTitleAction | PostErrorAction
+> => async (dispatch) => {
   try {
     const response = await API.get(title ? `/post?title=${title}` : '/post');
+    const posts: IPost[] = response.data.result;
+    const total: number = response.data.total;
+    const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
     dispatch({
       type: GET_SEARCH_POSTS_BY_TITLE,
       payload: {
-        posts: response.data.result,
-        pageInfo: response.data.pageInfo,
-        total: response.data.total,
+        posts,
+        total,
+        pageInfo,
       },
     });
   } catch (err) {
-    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
     toast.error(err.response.data.error);
   }
 };
@@ -78,31 +117,47 @@ export const getSearchPostsFn = (title: string) => async (
 export const createPostFn = (
   formData: IPostCreateInitialState,
   history: RouteComponentProps<any>['history'],
-) => async (dispatch: ThunkDispatch<any, any, CreatePostAction | PostErrorAction>) => {
+): ThunkAction<Promise<void>, IRootState, undefined, CreatePostAction | PostErrorAction> => async (
+  dispatch,
+) => {
   try {
-    await API.post('/post/create', formData);
-    dispatch({ type: CREATE_POST, payload: {} });
+    const res = await API.post('/post/create', formData);
+    const post: IPost = res.data.result;
+    dispatch({ type: CREATE_POST, payload: { post } });
     localStorage.removeItem('recent-content');
     history.push('/posts');
   } catch (err) {
-    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
     toast.error(err.response.data.error);
   }
 };
 
-export const getPostByIdFn = (postId: string) => async (
-  dispatch: ThunkDispatch<any, any, GetPostByIdAction | PostErrorAction>,
+export const getPostByIdFn = (
+  postId: string,
+): ThunkAction<Promise<void>, IRootState, undefined, GetPostByIdAction | PostErrorAction> => async (
+  dispatch,
 ) => {
   try {
     const response = await API.get(`/post/${postId}`);
+    const post: IPost = response.data.result;
     dispatch({
       type: GET_POST_BY_ID,
       payload: {
-        post: response.data.result,
+        post,
       },
     });
   } catch (err) {
-    dispatch({ type: POST_ERROR, payload: err.response.data.error });
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
     toast.error(err.response.data.error);
   }
 };

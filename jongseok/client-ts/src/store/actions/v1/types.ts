@@ -1,3 +1,5 @@
+import { Action } from 'redux';
+
 // Auth
 
 export interface IAuthState {
@@ -7,35 +9,30 @@ export interface IAuthState {
   loading: boolean;
 }
 
-export interface IAuthPayload {
-  currentUserId: string | null;
-  token: string | null;
-  error: string | null;
-}
-
 export const LOAD_USER = 'LOAD_USER' as const;
 export const SIGN_IN = 'SIGN_IN' as const;
 export const SIGN_UP = 'SIGN_UP' as const;
 export const AUTH_ERROR = 'AUTH_ERROR' as const;
 
-export interface LoadUserAction {
-  type: typeof LOAD_USER;
-  payload: IAuthPayload; // currentUserId
+export interface LoadUserAction extends Action<typeof LOAD_USER> {
+  payload: {
+    currentUserId: string;
+  };
 }
-
-export interface SignInAction {
-  type: typeof SIGN_IN;
-  payload: IAuthPayload; // token
+export interface SignInAction extends Action<typeof SIGN_IN> {
+  payload: {
+    token: string;
+  };
 }
-
-export interface SignUpAction {
-  type: typeof SIGN_UP;
-  payload: IAuthPayload; // token
+export interface SignUpAction extends Action<typeof SIGN_UP> {
+  payload: {
+    token: string;
+  };
 }
-
-export interface AuthErrorAction {
-  type: typeof AUTH_ERROR;
-  payload: IAuthPayload; // error message
+export interface AuthErrorAction extends Action<typeof AUTH_ERROR> {
+  payload: {
+    error: string;
+  };
 }
 
 // End of Auth
@@ -43,19 +40,19 @@ export interface AuthErrorAction {
 // Post
 
 export interface IPost {
-  _id?: string;
-  title?: string;
-  description?: string;
-  imgUrl?: string;
-  user?: string;
-  view?: number;
-  postComments?: string[];
-  createdAt?: string;
+  _id: string;
+  title: string;
+  description: string;
+  imgUrl: string;
+  user: string;
+  view: number;
+  postComments: string[];
+  createdAt: string;
 }
 
 export interface IPostState {
   posts: IPost[];
-  post: IPost;
+  post: IPost | null;
   error: string | null;
   loading: boolean;
   total: number;
@@ -65,50 +62,62 @@ export interface IPostState {
   };
 }
 
-export interface IPostPayload {
-  posts?: IPostState['posts'];
-  post?: IPostState['post'];
-  total?: IPostState['total'];
-  pageInfo?: IPostState['pageInfo'];
-  error?: IPostState['error'];
-}
-
 export const GET_POSTS = 'GET_POSTS' as const;
 export const GET_MORE_POSTS = 'GET_MORE_POSTS' as const;
 export const GET_SEARCH_POSTS_BY_TITLE = 'GET_SEARCH_POSTS_BY_TITLE' as const;
 export const CREATE_POST = 'CREATE_POST' as const;
 export const GET_POST_BY_ID = 'GET_POST_BY_ID' as const;
-export const SET_LOADING = 'SET_LOADING' as const;
 export const POST_ERROR = 'POST_ERROR' as const;
 
-export interface GetPostsAction {
-  type: typeof GET_POSTS;
-  payload: IPostPayload;
+export interface GetPostsAction extends Action<typeof GET_POSTS> {
+  payload: {
+    posts: IPost[];
+    total: number;
+    pageInfo: {
+      nextPageCursor: string;
+      hasNextPage: boolean;
+    };
+  };
 }
 
-export interface GetMorePostsAction {
-  type: typeof GET_MORE_POSTS;
-  payload: IPostPayload;
+export interface GetMorePostsAction extends Action<typeof GET_MORE_POSTS> {
+  payload: {
+    posts: IPost[];
+    total: number;
+    pageInfo: {
+      nextPageCursor: string;
+      hasNextPage: boolean;
+    };
+  };
 }
 
-export interface GetSearchPostsByTitleAction {
-  type: typeof GET_SEARCH_POSTS_BY_TITLE;
-  payload: IPostPayload;
+export interface GetSearchPostsByTitleAction extends Action<typeof GET_SEARCH_POSTS_BY_TITLE> {
+  payload: {
+    posts: IPost[];
+    total: number;
+    pageInfo: {
+      nextPageCursor: string;
+      hasNextPage: boolean;
+    };
+  };
 }
 
-export interface CreatePostAction {
-  type: typeof CREATE_POST;
-  payload: IPostPayload;
+export interface CreatePostAction extends Action<typeof CREATE_POST> {
+  payload: {
+    post: IPost;
+  };
 }
 
-export interface GetPostByIdAction {
-  type: typeof GET_POST_BY_ID;
-  payload: IPostPayload;
+export interface GetPostByIdAction extends Action<typeof GET_POST_BY_ID> {
+  payload: {
+    post: IPost;
+  };
 }
 
-export interface PostErrorAction {
-  type: typeof POST_ERROR;
-  payload: IPostPayload;
+export interface PostErrorAction extends Action<typeof POST_ERROR> {
+  payload: {
+    error: string;
+  };
 }
 
 // End of Post

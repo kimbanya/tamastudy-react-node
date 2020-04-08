@@ -17,6 +17,7 @@ const GetPostByIdContainer = ({ history, match, postState, getPostByIdFn }: Prop
   }, [getPostByIdFn, match.params.postId]);
 
   if (postState.loading) return <div>Loading ...</div>;
+  if (!postState.post) return <div>Loading ...</div>;
 
   return (
     <CommonLayout noFooter>
