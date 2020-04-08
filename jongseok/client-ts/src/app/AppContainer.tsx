@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import AppPresenter from './AppPresenter';
-import { ThemeProvider } from 'styled-components';
-import theme from '../styles/theme';
-import GlobalStyle from '../styles/global';
 import { connect } from 'react-redux';
-import { IRootState } from '../store/reducers/index';
-import { loadUserFn } from '../store/actions/v1/auth.action';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AppNavButton from '../components/organisms/AppNavButton/index';
+import { ThemeProvider } from 'styled-components';
+import AppPresenter from './AppPresenter';
+import { loadUserFn } from '../store/actions/v1/auth.action';
+import { IRootState } from '../store/reducers/index';
+import GlobalStyle from '../styles/global';
+import theme from '../styles/theme';
 
 interface Props {
   authState: IRootState['authState'];
@@ -26,7 +25,6 @@ const AppContainer = ({ authState, loadUserFn }: Props) => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppPresenter />
-      <AppNavButton />
       <ToastContainer position={'bottom-center'} />
     </ThemeProvider>
   );

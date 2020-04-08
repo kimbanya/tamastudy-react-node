@@ -11,12 +11,14 @@ import {
   GET_MORE_POSTS,
   CREATE_POST,
   GET_POST_BY_ID,
+  CLEAR_POST,
   POST_ERROR,
   GetPostsAction,
   GetSearchPostsByTitleAction,
   GetMorePostsAction,
   CreatePostAction,
   GetPostByIdAction,
+  ClearPostAction,
   PostErrorAction,
 } from './types';
 
@@ -160,4 +162,12 @@ export const getPostByIdFn = (
     });
     toast.error(err.response.data.error);
   }
+};
+
+export const clearPostFn = (): ThunkAction<void, IRootState, undefined, ClearPostAction> => (
+  dispatch,
+) => {
+  dispatch({
+    type: CLEAR_POST,
+  });
 };

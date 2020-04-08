@@ -6,6 +6,7 @@ import {
   Switch
   } from 'react-router-dom';
 import CommonLayout from '../components/CommonLayout/index';
+import AppNavButton from '../components/organisms/AppNavButton/index';
 import Home from '../components/pages/Home';
 import GetPostById from '../components/pages/Post/GetPostById';
 import GetPosts from '../components/pages/Post/GetPosts';
@@ -29,6 +30,7 @@ const AppPresenter: React.SFC<IProps> = (props) => {
         <Route path={'/contact'} exact component={() => <CommonLayout>contact</CommonLayout>} />
         <Redirect from={'*'} to={'/'} />
       </Switch>
+      <AppNavButton />
     </Router>
   );
 };

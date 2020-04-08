@@ -31,7 +31,7 @@ export interface SignUpAction extends Action<typeof SIGN_UP> {
 }
 export interface AuthErrorAction extends Action<typeof AUTH_ERROR> {
   payload: {
-    error: string;
+    error: any;
   };
 }
 
@@ -67,6 +67,7 @@ export const GET_MORE_POSTS = 'GET_MORE_POSTS' as const;
 export const GET_SEARCH_POSTS_BY_TITLE = 'GET_SEARCH_POSTS_BY_TITLE' as const;
 export const CREATE_POST = 'CREATE_POST' as const;
 export const GET_POST_BY_ID = 'GET_POST_BY_ID' as const;
+export const CLEAR_POST = 'CLEAR_POST' as const;
 export const POST_ERROR = 'POST_ERROR' as const;
 
 export interface GetPostsAction extends Action<typeof GET_POSTS> {
@@ -114,9 +115,11 @@ export interface GetPostByIdAction extends Action<typeof GET_POST_BY_ID> {
   };
 }
 
+export interface ClearPostAction extends Action<typeof CLEAR_POST> {}
+
 export interface PostErrorAction extends Action<typeof POST_ERROR> {
   payload: {
-    error: string;
+    error: any;
   };
 }
 

@@ -24,8 +24,6 @@ export const loadUserFn = (): ThunkAction<
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-
-  console.log(getState, 'get State');
   try {
     const res = await API.get('/user/loaduser');
     const currentUserId: string = res.data.result;

@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useBeforeunload } from 'react-beforeunload';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { css } from 'styled-components';
 import { ReactComponent as BackIcon } from '../../../assets/icons/back.svg';
 import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/menu.svg';
+interface Props extends RouteComponentProps<any> {}
 
-interface Props {}
+const AppNavButton = ({ history }: Props) => {
+  useBeforeunload((event) => event.preventDefault());
 
-const AppNavButton = (props: Props) => {
+  const onClickGoBack = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
+  const onClickHome = useCallback(() => {
+    history.push('/');
+  }, [history]);
+
   return (
     <Wrapper>
-      <Back />
-      <Home />
-      <Menu />
+      <Back onClick={onClickGoBack} />
+      <Home onClick={onClickHome} />
+      <Menu onClick={() => {}} />
     </Wrapper>
   );
 };
@@ -29,16 +41,21 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+const Buttons = css`
+  fill: ${(props) => props.theme.colors.base.white};
+  cursor: pointer;
+`;
+
 const Back = styled(BackIcon)`
-  fill: #ffff;
+  ${Buttons}
 `;
 
 const Home = styled(HomeIcon)`
-  fill: #ffff;
+  ${Buttons}
 `;
 
 const Menu = styled(MenuIcon)`
-  fill: #ffff;
+  ${Buttons}
 `;
 
-export default AppNavButton;
+export default withRouter(AppNavButton);

@@ -1,3 +1,4 @@
+import { ClearPostAction } from '../../actions/v1/types';
 import {
   GetPostsAction,
   GetSearchPostsByTitleAction,
@@ -11,6 +12,7 @@ import {
   GET_MORE_POSTS,
   CREATE_POST,
   GET_POST_BY_ID,
+  CLEAR_POST,
   POST_ERROR,
 } from './../../actions/v1/types';
 
@@ -20,6 +22,7 @@ type PostReducerActions =
   | GetMorePostsAction
   | CreatePostAction
   | GetPostByIdAction
+  | ClearPostAction
   | PostErrorAction;
 
 const initialState: IPostState = {
@@ -60,9 +63,12 @@ export default (prevState = initialState, action: PostReducerActions): IPostStat
     case GET_POST_BY_ID:
       const { post } = action.payload;
       return { ...prevState, post, loading: false };
+    case CLEAR_POST:
+      return { ...prevState, post: null };
     case POST_ERROR:
       const { error } = action.payload;
       return { ...prevState, loading: false, error };
+
     default:
       return prevState;
   }
