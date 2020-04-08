@@ -6,7 +6,7 @@ const CommentForm = styled.form``;
 
 const CommentInput = styled.input`
   padding: ${theme.space}px 0;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 600;
 `;
 

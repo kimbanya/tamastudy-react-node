@@ -1,32 +1,38 @@
-export interface IAuthAction {
-  type: 'LOAD_USER' | 'SIGN_IN' | 'SIGN_UP' | 'LOGGED_OUT' | 'AUTH_ERROR';
-  payload?: any;
-}
+import * as types from '../../actions/v1/types';
 
-export interface IAuthState {
-  isLoggedIn: boolean;
-  currentUserId: string | null;
-  error: string | null;
-  loading: boolean;
-}
+type AuthReducerActions =
+  | types.LoadUserAction
+  | types.SignInAction
+  | types.SignUpAction
+  | types.AuthErrorAction;
 
-const initialState: IAuthState = {
+const initialState: types.IAuthState = {
   isLoggedIn: false,
   currentUserId: null,
   error: null,
   loading: true,
 };
 
-export default (state = initialState, action: IAuthAction): IAuthState => {
+export default (prevState = initialState, action: AuthReducerActions): types.IAuthState => {
   const { type, payload } = action;
   switch (type) {
-    case 'LOAD_USER':
-      return { ...state, isLoggedIn: true, currentUserId: payload, loading: false };
-    case 'SIGN_IN':
-      return { ...state, isLoggedIn: true, loading: false };
-    case 'AUTH_ERROR':
-      return { ...initialState, loading: false };
+    case types.LOAD_USER:
+      return {
+        ...prevState,
+        isLoggedIn: true,
+        currentUserId: payload.currentUserId!,
+        loading: false,
+      };
+    case types.SIGN_IN:
+      localStorage.setItem('token', payload.token!);
+      return { ...prevState, isLoggedIn: true, loading: false };
+    case types.SIGN_UP:
+      localStorage.setItem('token', payload.token!);
+      return { ...prevState, isLoggedIn: true, loading: false };
+    case types.AUTH_ERROR:
+      localStorage.removeItem('token');
+      return { ...prevState, isLoggedIn: false, currentUserId: null, loading: false };
     default:
-      return state;
+      return prevState;
   }
 };

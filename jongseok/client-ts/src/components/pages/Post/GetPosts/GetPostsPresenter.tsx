@@ -1,10 +1,10 @@
 import React from 'react';
-import { IPostState } from '../../../../store/reducers/v1/post.reducer';
 import styled, { css } from 'styled-components';
-import { mediaQueries } from '../../../../styles/mediaQuery';
-import PostCard from '../../../molecules/PostCard';
-import Icon from '../../../atoms/Icon';
 import MoreIcon from '../../../../assets/icons/more.svg';
+import { IPostState } from '../../../../store/actions/v1/types';
+import { mediaQueries } from '../../../../styles/mediaQuery';
+import Icon from '../../../atoms/Icon';
+import PostCard from '../../../molecules/PostCard';
 
 interface Props {
   posts: IPostState['posts'];
@@ -49,6 +49,9 @@ const GetPostsPresenter = ({
 };
 
 const Wrapper = styled.div`
+  * {
+    font-family: 'Share', cursive;
+  }
   margin-top: ${(props) => props.theme.space * 2}px;
 `;
 

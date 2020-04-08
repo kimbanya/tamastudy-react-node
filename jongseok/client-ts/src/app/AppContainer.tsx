@@ -8,6 +8,7 @@ import { IRootState } from '../store/reducers/index';
 import { loadUserFn } from '../store/actions/v1/auth.action';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AppNavButton from '../components/organisms/AppNavButton/index';
 
 interface Props {
   authState: IRootState['authState'];
@@ -16,13 +17,16 @@ interface Props {
 
 const AppContainer = ({ authState, loadUserFn }: Props) => {
   useEffect(() => {
-    loadUserFn();
+    if (localStorage.token) {
+      loadUserFn();
+    }
   }, [loadUserFn, authState.isLoggedIn]);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <AppPresenter />
+      <AppNavButton />
       <ToastContainer position={'bottom-center'} />
     </ThemeProvider>
   );

@@ -1,39 +1,14 @@
-export interface IPostAction {
-  type:
-    | 'GET_POSTS'
-    | 'GET_MORE_POSTS'
-    | 'GET_SEARCH_POSTS_BY_TITLE'
-    | 'CREATE_POST'
-    | 'GET_POST_BY_ID'
-    | 'SET_LOADING'
-    | 'POST_ERROR';
-  payload?: any;
-}
+import * as types from './../../actions/v1/types';
 
-export interface IPost {
-  _id?: string;
-  title?: string;
-  description?: string;
-  imgUrl?: string;
-  user?: string;
-  view?: number;
-  postComments?: string[];
-  createdAt?: string;
-}
+type PostReducerActions =
+  | types.GetPostsAction
+  | types.GetSearchPostsByTitleAction
+  | types.GetMorePostsAction
+  | types.CreatePostAction
+  | types.GetPostByIdAction
+  | types.PostErrorAction;
 
-export interface IPostState {
-  posts: IPost[];
-  post: IPost;
-  error: string | null;
-  loading: boolean;
-  total: number;
-  pageInfo: {
-    nextPageCursor: string;
-    hasNextPage: boolean;
-  };
-}
-
-const initialState: IPostState = {
+const initialState: types.IPostState = {
   posts: [],
   total: 0,
   pageInfo: {
@@ -45,44 +20,33 @@ const initialState: IPostState = {
   loading: true,
 };
 
-export default (state = initialState, action: IPostAction): IPostState => {
-  switch (action.type) {
-    case 'SET_LOADING':
+export default (prevState = initialState, action: PostReducerActions): types.IPostState => {
+  const { type, payload } = action;
+  switch (type) {
+    case types.GET_POSTS:
+    case types.GET_SEARCH_POSTS_BY_TITLE:
       return {
-        ...state,
-        loading: true,
-      };
-    case 'GET_POSTS':
-      return {
-        ...state,
-        posts: action.payload.result,
-        total: action.payload.total,
-        pageInfo: action.payload.pageInfo,
+        ...prevState,
+        posts: payload.posts!,
+        total: payload.total!,
+        pageInfo: payload.pageInfo!,
         loading: false,
       };
-    case 'GET_MORE_POSTS':
+    case types.GET_MORE_POSTS:
       return {
-        ...state,
-        posts: [...state.posts, ...action.payload.result],
-        total: action.payload.total,
-        pageInfo: action.payload.pageInfo,
+        ...prevState,
+        posts: [...prevState.posts, ...payload.posts!],
+        total: payload.total!,
+        pageInfo: payload.pageInfo!,
         loading: false,
       };
-    case 'GET_SEARCH_POSTS_BY_TITLE':
-      return {
-        ...state,
-        posts: action.payload.result,
-        total: action.payload.total,
-        pageInfo: action.payload.pageInfo,
-        loading: false,
-      };
-    case 'CREATE_POST':
-      return { ...state, loading: false };
-    case 'GET_POST_BY_ID':
-      return { ...state, post: action.payload, loading: false };
-    case 'POST_ERROR':
-      return { ...state, loading: false, error: action.payload };
+    case types.CREATE_POST:
+      return { ...prevState, loading: false };
+    case types.GET_POST_BY_ID:
+      return { ...prevState, post: payload.post!, loading: false };
+    case types.POST_ERROR:
+      return { ...prevState, loading: false, error: payload.error! };
     default:
-      return state;
+      return prevState;
   }
 };

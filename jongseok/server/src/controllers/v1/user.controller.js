@@ -3,6 +3,22 @@ const User = require('../../database/models/User');
 const createJWT = require('../../util/user/createJWT');
 
 // Public
+// get
+// me
+// postman uri ex
+// http://localhost:4000/v1/user/loaduser
+exports.loadUser = asyncHandler(async (req, res, next) => {
+  if (!req.currentUserId) {
+    return next('유저 정보를 불러올 수 없습니다. - loadUser');
+  }
+  res.status(200).json({
+    success: true,
+    error: null,
+    result: req.currentUserId,
+  });
+});
+
+// Public
 // post
 // signup
 // postman uri ex
@@ -81,7 +97,7 @@ exports.me = asyncHandler(async (req, res, next) => {
   if (!me) {
     return res.status(401).json({
       success: false,
-      error: '잘못된 경로입니다.',
+      error: null,
       result: null,
     });
   }

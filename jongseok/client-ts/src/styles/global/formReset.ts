@@ -16,7 +16,7 @@ export default css`
     line-height: 1;
 
     /* Browsers have different default form fonts */
-    font-size: 13px;
+    font-size: 1.3rem;
     font-family: Arial;
   }
 

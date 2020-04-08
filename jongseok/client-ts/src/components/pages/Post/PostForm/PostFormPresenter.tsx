@@ -1,14 +1,14 @@
 import React from 'react';
-import { IPostCreateInitialState } from './PostFormContainer';
-import styled from 'styled-components';
 import 'react-quill/dist/quill.snow.css';
+import styled from 'styled-components';
+import { IPostCreateInitialState } from './PostFormContainer';
 import DraftEditor from '../../../editor/DraftEditor';
 
 interface Props {
   formData: IPostCreateInitialState;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleChangeDescription: any;
+  handleChangeDescription: (content: string) => void;
   handleFileChange: any;
 }
 
@@ -17,8 +17,7 @@ const PostFormPresenter = ({ formData, onChange, onSubmit, handleChangeDescripti
     <Wrapper>
       <FormWrapper onSubmit={onSubmit}>
         <InputTitle type={'text'} onChange={onChange} name={'title'} value={formData.title} />
-        {/* handleChangeDescription={handleChangeDescription} */}
-        <DraftEditor />
+        <DraftEditor handleChangeDescription={handleChangeDescription} />
         <InputThumbnail type={'text'} onChange={onChange} name={'imgUrl'} value={formData.imgUrl} />
         <SubmitButton type={'submit'}>CREATE POST</SubmitButton>
       </FormWrapper>
@@ -40,12 +39,12 @@ const InputTitle = styled.input.attrs((props) => ({
 }))`
   width: 100%;
   padding: 8px 16px 8px 0;
-  font-size: 26px;
+  font-size: 2.6rem;
   font-family: 'Share', cursive;
   margin-left: 8px;
   &::placeholder {
     font-style: italic;
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 300;
   }
 `;

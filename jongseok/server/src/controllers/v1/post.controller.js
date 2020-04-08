@@ -49,8 +49,6 @@ exports.getPosts = asyncHandler(async (req, res, next) => {
 
   posts = hasNextPage ? posts.slice(0, -1) : posts;
 
-  console.log(posts.length);
-
   res.status(200).json({
     success: true,
     error: null,

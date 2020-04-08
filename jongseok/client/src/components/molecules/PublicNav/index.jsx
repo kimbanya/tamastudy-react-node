@@ -24,7 +24,7 @@ const CustomNavLink = styled(NavLink)`
   color: inherit;
   font-weight: 700;
   text-shadow: ${(props) => props.current && ``};
-  font-size: 18px;
+  font-size: 1.8rem;
   line-height: ${theme.space * 3}px;
 `;
 

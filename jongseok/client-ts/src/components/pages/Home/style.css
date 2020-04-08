@@ -128,7 +128,7 @@
 .container .card .contentBx .size h3 {
   color: #fff;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 1.4rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-right: 10px;
@@ -139,7 +139,7 @@
   height: 15px;
   line-height: 15px;
   text-align: center;
-  font-size: 8px;
+  font-size: 0.8rem;
   display: inline-block;
   color: #111;
   background-color: #fff;

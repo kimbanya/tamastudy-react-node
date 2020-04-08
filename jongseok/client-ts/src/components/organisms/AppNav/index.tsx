@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
 interface Props extends RouteComponentProps<any> {}
 
@@ -55,7 +55,7 @@ const CustomLink = styled(Link)`
   color: inherit;
   text-decoration: none;
   font-family: 'Share', cursive;
-  font-size: 11px;
+  font-size: 1.1rem;
   box-sizing: border-box;
   ${(props) =>
     css`

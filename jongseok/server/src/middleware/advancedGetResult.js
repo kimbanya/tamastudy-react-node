@@ -46,8 +46,6 @@ const advancedGetResult = (model) => async (req, res, next) => {
 
   const hasNextPage = models.length > limit;
 
-  console.log(hasNextPage);
-
   // Pagination result
   const pagination = {};
 

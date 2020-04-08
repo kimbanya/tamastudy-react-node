@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import PostFormPresenter from './PostFormPresenter';
-import CommonLayout from '../../../CommonLayout/index';
-import { toast } from 'react-toastify';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import PostFormPresenter from './PostFormPresenter';
 import { createPostFn, getPostByIdFn } from '../../../../store/actions/v1/post.action';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { IRootState } from '../../../../store/reducers/index';
+import CommonLayout from '../../../CommonLayout/index';
 
 export interface IPostCreateInitialState {
   title: string;
@@ -27,27 +27,8 @@ interface Props extends RouteComponentProps<any> {
   getPostByIdFn: any;
 }
 
-const PostFormContainer = ({ history, match, postState, createPostFn, getPostByIdFn }: Props) => {
+const PostFormContainer = ({ history, createPostFn }: Props) => {
   const [formData, setFormData] = useState(initialStateForCreate);
-
-  useEffect(() => {
-    if (match.url !== '/post/create') {
-      getPostByIdFn(match.params.postId);
-    }
-  }, [getPostByIdFn, match.url, match.params.postId]);
-
-  useEffect(() => {
-    if (match.url !== '/post/create') {
-      if (postState.post.title && postState.post.description && postState.post.imgUrl) {
-        setFormData({
-          ...formData,
-          title: postState.post.title,
-          description: postState.post.description,
-          imgUrl: postState.post.imgUrl,
-        });
-      }
-    }
-  }, [match.url, match.params.postId, postState.post]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -71,7 +52,7 @@ const PostFormContainer = ({ history, match, postState, createPostFn, getPostByI
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    const { title, description, imgUrl } = formData;
+    const { title, description } = formData;
     e.preventDefault();
     if (title.length === 0) {
       return toast.error('타이틀은 필수입력사항입니다. ');
@@ -79,11 +60,7 @@ const PostFormContainer = ({ history, match, postState, createPostFn, getPostByI
     if (description.length === 0) {
       return toast.error('포스트내용은 필수입력사항입니다. ');
     }
-    if (!imgUrl.startsWith('https://')) {
-      return toast.error('썸네일 이미지주소를 확인해주세요. ');
-    }
-    createPostFn(formData);
-    history.push('/posts');
+    createPostFn(formData, history);
   };
 
   // if (postState.loading) return <div>Loading ...</div>;

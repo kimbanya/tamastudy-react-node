@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// Redux
 import { Provider as ReduxProvider } from 'react-redux';
-import store from './store';
-// Router
 import AppRouter from './app';
+import store from './store';
 
 ReactDOM.render(
   <ReduxProvider store={store}>

@@ -9,7 +9,7 @@ const Links = ({ linkTitle, linkTo, ...rest }) => {
         to={linkTo}
         css={css`
           text-decoration: none;
-          font-size: 20px;
+          font-size: 2rem;
           font-weight: 600;
           color: grey;
           transition: all 0.3s;

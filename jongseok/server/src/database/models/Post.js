@@ -6,10 +6,12 @@ const postSchema = new Schema({
   title: {
     type: String,
     required: [true, '타이틀을 입력해주세요. '],
+    maxlength: [50, '타이틀은 50자 이내로 입력해주세요. '],
   },
   description: {
     type: String,
     required: [true, '본문을 입력해주세요. '],
+    maxlength: 10000,
   },
   imgUrl: {
     type: String,
@@ -35,7 +37,7 @@ const postSchema = new Schema({
   },
 });
 
-postSchema.pre('remove', async function(next) {
+postSchema.pre('remove', async function (next) {
   try {
     await PostComment.deleteMany({
       post: this._id,

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import GetPostByIdPresenter from './GetPostByIdPresenter';
-import CommonLayout from '../../../CommonLayout/index';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import GetPostByIdPresenter from './GetPostByIdPresenter';
 import { getPostByIdFn } from '../../../../store/actions/v1/post.action';
 import { IRootState } from '../../../../store/reducers/index';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import CommonLayout from '../../../CommonLayout/index';
 
 interface Props extends RouteComponentProps<any> {
   postState: IRootState['postState'];
@@ -16,14 +16,12 @@ const GetPostByIdContainer = ({ history, match, postState, getPostByIdFn }: Prop
     getPostByIdFn(match.params.postId);
   }, [getPostByIdFn, match.params.postId]);
 
-  console.log(postState.loading);
-
   if (postState.loading) return <div>Loading ...</div>;
 
   return (
     <CommonLayout noFooter>
-      <button onClick={() => history.goBack()}>Back</button>
       <GetPostByIdPresenter post={postState.post} />
+      <button onClick={() => history.goBack()}>Back</button>
     </CommonLayout>
   );
 };

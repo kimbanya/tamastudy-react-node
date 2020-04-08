@@ -65,7 +65,7 @@ const PostTitle = styled.div`
 const PostUserName = styled.div`
   text-align: right;
   margin-top: ${theme.space}px;
-  font-size: 14px;
+  font-size: 1.4rem;
 `;
 
 const PostCreatedAt = styled.div`
@@ -77,7 +77,7 @@ const PostCommentAlert = styled.div`
   top: 0;
   right: 0;
   padding: ${theme.space * 2}px;
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: 900;
   border-top-right-radius: 8px;
   -webkit-text-fill-color: ${theme.colors.base.white};

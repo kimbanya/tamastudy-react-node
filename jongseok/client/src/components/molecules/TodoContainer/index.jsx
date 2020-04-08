@@ -36,7 +36,7 @@ const TodoItem = styled.div`
 `;
 
 const TodoText = styled.p`
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 300;
   -webkit-text-fill-color: ${(props) => (props.completed ? theme.colors.base.white : 'inherit')};
   color: ${(props) => (props.completed ? theme.colors.base.white : 'inherit')};
@@ -96,9 +96,7 @@ const TodoContainer = ({ currentUserId, todos, onClickChangeTodoStatus, onClickD
             {todo.completed && (
               <CompleteDate completed={todo.completed}>
                 {/* {moment(todo.updatedAt).format('LL')} */}
-                {moment(todo.updatedAt)
-                  .startOf('second')
-                  .fromNow()}
+                {moment(todo.updatedAt).startOf('second').fromNow()}
               </CompleteDate>
             )}
             {todo.user === currentUserId && (

@@ -1,10 +1,10 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import Icon from '../../atoms/Icon';
-import DefaultUserIcon from '../../../assets/icons/user.svg';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import DefaultUserIcon from '../../../assets/icons/user.svg';
 import { IRootState } from '../../../store/reducers/index';
+import Icon from '../../atoms/Icon';
 
 interface IProps extends RouteComponentProps<any> {
   authState: IRootState['authState'];
@@ -45,7 +45,7 @@ const UserIcon = styled(Icon)<{ isLoggedIn: boolean }>`
 const Title = styled.div`
   font-family: 'Share', cursive;
   justify-self: center;
-  font-size: 20px;
+  font-size: 2rem;
   text-transform: uppercase;
   font-weight: 700;
   line-height: 24px;

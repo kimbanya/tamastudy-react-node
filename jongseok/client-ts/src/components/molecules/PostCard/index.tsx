@@ -1,21 +1,31 @@
-import React from 'react';
-import { IPost } from '../../../store/reducers/v1/post.reducer';
 import moment from 'moment';
 import 'moment/locale/ko';
+import React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { mediaQueries } from '../../../styles/mediaQuery';
-import Icon from '../../atoms/Icon';
 import OpenIcon from '../../../assets/icons/open.svg';
+import useSetDefaultImage from '../../../hooks/useSetDefaultImage';
+import { IPost } from '../../../store/actions/v1/types';
+import { mediaQueries } from '../../../styles/mediaQuery';
+import { ellipsis } from '../../../styles/utils/text';
+import Icon from '../../atoms/Icon';
 
 interface Props extends RouteComponentProps<any> {
   post: IPost;
 }
 
 const PostCard = ({ history, post }: Props) => {
+  const { imgLoadError, setDefaultImageFn } = useSetDefaultImage();
+
   return (
     <Card onClick={() => history.push(`/post/${post._id}`)}>
-      <CardImage img={post.imgUrl ? post.imgUrl : ''} />
+      <CardImage
+        src={post.imgUrl}
+        err={imgLoadError}
+        onError={(e: any) => {
+          setDefaultImageFn(e, 'image');
+        }}
+      />
       <CardText>
         <CardDate>{moment(post.createdAt).startOf('second').fromNow()}</CardDate>
         <CardTitle>{post.title}</CardTitle>
@@ -45,24 +55,17 @@ const PostCard = ({ history, post }: Props) => {
 };
 
 const Card = styled.div`
-  * {
-    font-family: 'Share', cursive;
-  }
   align-self: center;
-
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: 240px;
   border-radius: 4px;
   overflow: hidden;
-
   background: white;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
   text-align: center;
-
   transition: 0.5s ease;
   cursor: pointer;
-
   position: relative;
 
   &:hover .postCard__hover {
@@ -100,12 +103,12 @@ const CardHoverText = styled.p`
   margin-top: 8px;
 `;
 
-const CardImage = styled.div<{ img?: string }>`
-  background-image: url(${(props) => props.img});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
+const CardImage = styled.img<{ err: boolean }>`
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   ${mediaQueries('mobileL')`
     grid-area: image;
   `}
@@ -116,20 +119,28 @@ const CardText = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(47, 47, 47, 0.7) 60%,
+    rgba(190, 190, 190, 0.05) 100%
+  );
 
+  padding: 16px 0 8px;
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 50px;
+  bottom: 36px;
 
   ${mediaQueries('mobileL')`
     position:initial;
     grid-area: text;
+    background: none;
   `}
 `;
 
 const CardDate = styled.span`
-  font-size: 10px;
+  font-size: 1rem;
   color: white;
 
   ${mediaQueries('mobileL')`
@@ -139,10 +150,10 @@ const CardDate = styled.span`
 
 const CardTitle = styled.p`
   margin-top: 4px;
-  font-size: 16px;
+  font-size: 1.6rem;
   color: white;
   font-weight: 700;
-
+  ${ellipsis()};
   ${mediaQueries('mobileL')`
     color: black;
   `}
@@ -175,15 +186,15 @@ const CardStat = styled.div`
 `;
 
 const CardValue = styled.div`
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: 500;
   &:sup {
-    font-size: 6px;
+    font-size: 0.6rem;
   }
 `;
 
 const CardType = styled.div`
-  font-size: 6px;
+  font-size: 0.6rem;
   font-weight: 300;
   text-transform: uppercase;
 `;

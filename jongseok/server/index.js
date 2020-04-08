@@ -14,6 +14,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
 // local file require
+const { setCurrentUserId } = require('./src/middleware/auth');
 const mongoClient = require('./src/database/mongoDB');
 const v1Route = require('./src/routes/v1');
 const errorResponse = require('./src/middleware/errorResponse');
@@ -41,6 +42,9 @@ app.use(hpp());
 
 // static folder 설정
 app.use(express.static(path.join(__dirname, 'public')));
+
+// set currentUserId middleware
+app.use(setCurrentUserId);
 
 // 3. Routes
 app.use('/v1', v1Route);
