@@ -20,14 +20,18 @@ export default (prevState = initialState, action: AuthReducerActions): types.IAu
       return {
         ...prevState,
         isLoggedIn: true,
-        currentUserId: payload.currentUserId!,
+        currentUserId: payload.currentUserId,
         loading: false,
       };
     case types.SIGN_IN:
-      localStorage.setItem('token', payload.token!);
+      if (payload.token) {
+        localStorage.setItem('token', payload.token);
+      }
       return { ...prevState, isLoggedIn: true, loading: false };
     case types.SIGN_UP:
-      localStorage.setItem('token', payload.token!);
+      if (payload.token) {
+        localStorage.setItem('token', payload.token);
+      }
       return { ...prevState, isLoggedIn: true, loading: false };
     case types.AUTH_ERROR:
       localStorage.removeItem('token');

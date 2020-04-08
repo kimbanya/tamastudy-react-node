@@ -1,5 +1,4 @@
 import * as reactToastify from 'react-toastify';
-import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { ISignFormData } from '../../../components/pages/Sign/SignContainer';
 import { API, setAuthToken } from '../../../utils/axios';
@@ -26,13 +25,17 @@ export const loadUserFn = () => async (
     dispatch({
       type: LOAD_USER,
       payload: {
+        token: null,
         currentUserId: res.data.result,
+        error: null,
       },
     });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
+        token: null,
+        currentUserId: null,
         error: err.response.data.error,
       },
     });
@@ -51,10 +54,24 @@ export const signinFn = (formData: ISignFormData) => async (
 ) => {
   try {
     const res = await API.post('/user/signin', formData);
-    dispatch({ type: SIGN_IN, payload: { token: res.data.result } });
+    dispatch({
+      type: SIGN_IN,
+      payload: {
+        token: res.data.result,
+        currentUserId: null,
+        error: null,
+      },
+    });
     reactToastify.toast.success('로그인 성공');
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: { error: err.response.data.error } });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        token: null,
+        currentUserId: null,
+        error: err.response.data.error,
+      },
+    });
     reactToastify.toast.error(err.response.data.error);
   }
 };
@@ -65,10 +82,24 @@ export const signupFn = (formData: ISignFormData) => async (
 ) => {
   try {
     const res = await API.post('/user/signup', formData);
-    dispatch({ type: SIGN_UP, payload: { token: res.data.result } });
+    dispatch({
+      type: SIGN_UP,
+      payload: {
+        token: res.data.result,
+        currentUserId: null,
+        error: null,
+      },
+    });
     reactToastify.toast.success('회원가입이 완료되었습니다. ');
   } catch (err) {
-    dispatch({ type: AUTH_ERROR, payload: { error: err.response.data.error } });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        token: null,
+        currentUserId: null,
+        error: err.response.data.error,
+      },
+    });
     reactToastify.toast.error(err.response.data.error);
   }
 };

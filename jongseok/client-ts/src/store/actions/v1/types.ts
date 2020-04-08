@@ -8,10 +8,9 @@ export interface IAuthState {
 }
 
 export interface IAuthPayload {
-  isLoggedIn?: boolean;
-  currentUserId?: string | null;
-  token?: string | null;
-  error?: string | null;
+  currentUserId: string | null;
+  token: string | null;
+  error: string | null;
 }
 
 export const LOAD_USER = 'LOAD_USER' as const;
