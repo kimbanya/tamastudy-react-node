@@ -1,18 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import DefaultUserIcon from '../../../assets/icons/user.svg';
 import { IRootState } from '../../../store/reducers/index';
 import Icon from '../../atoms/Icon';
 
-interface IProps extends RouteComponentProps<any> {
-  authState: IRootState['authState'];
-}
+interface IProps extends RouteComponentProps<any> {}
 
 const LoggedInIcon = 'https://t1.daumcdn.net/cfile/tistory/2122B33357320AEB30';
 
-const AppHeader = ({ authState, history }: IProps) => {
+const AppHeader = ({ history }: IProps) => {
+  const authState = useSelector((state: IRootState) => state.authState);
   const { isLoggedIn } = authState;
   return (
     <HeaderWrapper>
@@ -52,8 +51,4 @@ const Title = styled.div`
   cursor: pointer;
 `;
 
-const mapStateToPRops = (state: IRootState) => ({
-  authState: state.authState,
-});
-
-export default withRouter(connect(mapStateToPRops)(AppHeader));
+export default withRouter(AppHeader);

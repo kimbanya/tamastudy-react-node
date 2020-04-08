@@ -1,6 +1,6 @@
 import React from 'react';
-import { ISignFormData } from './SignContainer';
-import CommonLayout from '../../CommonLayout';
+import CommonLayout from '../../../CommonLayout';
+import { ISignFormData } from '../auth-types';
 
 interface Props {
   isSignin: boolean;

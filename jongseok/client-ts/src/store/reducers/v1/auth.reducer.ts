@@ -8,7 +8,7 @@ import {
   SIGN_IN,
   SIGN_UP,
   AUTH_ERROR,
-} from '../../actions/v1/types';
+} from '../../store-types';
 
 type AuthReducerActions = LoadUserAction | SignInAction | SignUpAction | AuthErrorAction;
 

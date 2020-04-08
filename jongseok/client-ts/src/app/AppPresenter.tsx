@@ -7,11 +7,11 @@ import {
   } from 'react-router-dom';
 import CommonLayout from '../components/CommonLayout/index';
 import AppNavButton from '../components/organisms/AppNavButton/index';
+import Sign from '../components/pages/Auth/SignForm';
 import Home from '../components/pages/Home';
 import GetPostById from '../components/pages/Post/GetPostById';
 import GetPosts from '../components/pages/Post/GetPosts';
 import PostForm from '../components/pages/Post/PostForm';
-import Sign from '../components/pages/Sign';
 
 interface IProps {}
 

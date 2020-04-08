@@ -1,10 +1,10 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
-import { IPost, IPostState } from './types';
-import { IPostCreateInitialState } from '../../../components/pages/Post/PostForm/PostFormContainer';
+import { IPostCreateInitialState } from '../../../components/pages/Post/post-types';
 import { API } from '../../../utils/axios';
 import { IRootState } from '../../reducers/index';
+import { IPost, IPostState } from '../../store-types';
 import {
   GET_POSTS,
   GET_SEARCH_POSTS_BY_TITLE,
@@ -20,7 +20,7 @@ import {
   GetPostByIdAction,
   ClearPostAction,
   PostErrorAction,
-} from './types';
+} from '../../store-types';
 
 export const getPostsFn = (): ThunkAction<
   Promise<void>,

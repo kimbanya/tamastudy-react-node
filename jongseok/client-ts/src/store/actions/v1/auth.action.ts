@@ -1,6 +1,6 @@
 import * as reactToastify from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
-import { ISignFormData } from '../../../components/pages/Sign/SignContainer';
+import { ISignFormData } from '../../../components/pages/Auth/auth-types';
 import { API, setAuthToken } from '../../../utils/axios';
 import { IRootState } from '../../reducers/index';
 import {
@@ -12,7 +12,7 @@ import {
   SignInAction,
   SignUpAction,
   AuthErrorAction,
-} from './types';
+} from '../../store-types';
 
 // 유저 아이디 가져오기
 export const loadUserFn = (): ThunkAction<

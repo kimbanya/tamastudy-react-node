@@ -1,41 +1,50 @@
+import draftToHtml from 'draftjs-to-html';
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import GetPostByIdPresenter from './GetPostByIdPresenter';
-import { clearPostFn, getPostByIdFn } from '../../../../store/actions/v1/post.action';
+import { postActions } from '../../../../store/actions';
 import { IRootState } from '../../../../store/reducers/index';
 import CommonLayout from '../../../CommonLayout/index';
 
-interface Props extends RouteComponentProps<any> {
-  postState: IRootState['postState'];
-  getPostByIdFn: any;
-  clearPostFn: any;
-}
+interface Props extends RouteComponentProps<any> {}
 
-const GetPostByIdContainer = ({ history, match, postState, getPostByIdFn, clearPostFn }: Props) => {
+const GetPostByIdContainer = ({ history, match }: Props) => {
+  const [html, setHtml] = React.useState<string>('');
+  const postState = useSelector((state: IRootState) => state.postState);
+  const dispatch = useDispatch();
+
   useEffect(() => {
+    // 페이지 이동 시에 redux store의 post를 삭제하여, 다른 post 페이지 방문 시 깜빡임 방지
     history.listen(() => {
-      clearPostFn();
+      dispatch(postActions.clearPostFn());
     });
-  }, [history, clearPostFn]);
+  }, [history, dispatch]);
+
   useEffect(() => {
-    getPostByIdFn(match.params.postId);
-  }, [getPostByIdFn, match.params.postId]);
+    const handle = () => {
+      if (postState) {
+        if (postState.post) {
+          setHtml(draftToHtml(JSON.parse(postState.post.description)));
+        }
+      }
+    };
+    handle();
+  }, [html, postState]);
+
+  useEffect(() => {
+    dispatch(postActions.getPostByIdFn(match.params.postId));
+  }, [dispatch, match.params.postId]);
 
   if (postState.loading) return <div>Loading ...</div>;
   if (!postState.post) return <div>Loading ...</div>;
+  if (!html) return <div>Loading ...</div>;
 
   return (
     <CommonLayout noFooter>
-      <GetPostByIdPresenter post={postState.post} />
+      <GetPostByIdPresenter post={postState.post} html={html} />
     </CommonLayout>
   );
 };
 
-const mapStateToProps = ({ postState }: IRootState) => ({
-  postState,
-});
-
-export default withRouter(
-  connect(mapStateToProps, { getPostByIdFn, clearPostFn })(GetPostByIdContainer),
-);
+export default withRouter(GetPostByIdContainer);

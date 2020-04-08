@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import MoreIcon from '../../../../assets/icons/more.svg';
-import { IPostState } from '../../../../store/actions/v1/types';
+import { IPostState } from '../../../../store/store-types';
 import { mediaQueries } from '../../../../styles/mediaQuery';
 import Icon from '../../../atoms/Icon';
 import PostCard from '../../../molecules/PostCard';

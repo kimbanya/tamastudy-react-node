@@ -9,7 +9,6 @@ interface IProps extends RouteComponentProps<any> {
 
 export default (ChildComponent: any) => {
   const ComposedComponent = ({ history, authState, ...props }: IProps) => {
-    console.log(authState.isLoggedIn);
     const shouldNavigateAway = useCallback(() => {
       if (authState.isLoggedIn) {
         history.push('/');

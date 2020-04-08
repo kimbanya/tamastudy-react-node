@@ -1,44 +1,44 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GetPostsPresenter from './GetPostsPresenter';
+import { postActions } from '../../../../store/actions';
 import { IRootState } from '../../../../store/reducers/index';
 import CommonLayout from '../../../CommonLayout/index';
-import {
-  getPostsFn,
-  getMorePostsFn,
-  getSearchPostsFn,
-} from '../../../../store/actions/v1/post.action';
 
-interface Props {
-  postState: IRootState['postState'];
-  getPostsFn: any;
-  getMorePostsFn: any;
-  getSearchPostsFn: any;
-}
+interface Props {}
 
-const GetPostsContainer = ({ postState, getPostsFn, getMorePostsFn, getSearchPostsFn }: Props) => {
+const GetPostsContainer = (props: Props) => {
   const [searchByTitle, setSearchByTitle] = useState('');
 
+  const postState = useSelector((state: IRootState) => state.postState);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    getPostsFn();
-  }, [getPostsFn]);
+    dispatch(postActions.getPostsFn());
+  }, [dispatch]);
 
   const handleNextCursor = useCallback(
     (cursor: string) => {
-      getMorePostsFn(cursor);
+      dispatch(postActions.getMorePostsFn(cursor));
     },
-    [getMorePostsFn],
+    [dispatch],
   );
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchByTitle(e.target.value);
-  };
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchByTitle(e.target.value);
+    },
+    [setSearchByTitle],
+  );
 
-  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      getSearchPostsFn(searchByTitle);
-    }
-  };
+  const handleSearchSubmit = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        dispatch(postActions.getSearchPostsFn(searchByTitle));
+      }
+    },
+    [dispatch, searchByTitle],
+  );
 
   if (postState.loading) return <div>Loading ...</div>;
 
@@ -56,10 +56,4 @@ const GetPostsContainer = ({ postState, getPostsFn, getMorePostsFn, getSearchPos
   );
 };
 
-const mapStateToProps = ({ postState }: IRootState) => ({
-  postState,
-});
-
-export default connect(mapStateToProps, { getPostsFn, getMorePostsFn, getSearchPostsFn })(
-  GetPostsContainer,
-);
+export default GetPostsContainer;

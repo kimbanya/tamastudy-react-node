@@ -5,7 +5,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import OpenIcon from '../../../assets/icons/open.svg';
 import useSetDefaultImage from '../../../hooks/useSetDefaultImage';
-import { IPost } from '../../../store/actions/v1/types';
+import { IPost } from '../../../store/store-types';
 import { mediaQueries } from '../../../styles/mediaQuery';
 import { ellipsis } from '../../../styles/utils/text';
 import Icon from '../../atoms/Icon';

@@ -20,8 +20,6 @@ export default (ChildComponent: any) => {
       return () => {};
     }, [shouldNavigateAway]);
 
-    console.log(authState);
-
     return <ChildComponent {...props} />;
   };
   const mapStateToProps = ({ authState }: IRootState) => ({

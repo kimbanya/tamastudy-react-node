@@ -1,3 +1,1 @@
-import GetPostById from './GetPostByIdContainer';
-
-export default GetPostById;
+export { default } from './GetPostByIdContainer';

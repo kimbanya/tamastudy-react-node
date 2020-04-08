@@ -1,15 +1,14 @@
 import React from 'react';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
-import { IPostCreateInitialState } from './PostFormContainer';
 import DraftEditor from '../../../editor/DraftEditor';
+import { IPostCreateInitialState } from '../post-types';
 
 interface Props {
   formData: IPostCreateInitialState;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => string | number | undefined;
   handleChangeDescription: (content: string) => void;
-  handleFileChange: any;
 }
 
 const PostFormPresenter = ({ formData, onChange, onSubmit, handleChangeDescription }: Props) => {

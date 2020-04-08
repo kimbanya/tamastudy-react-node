@@ -1,4 +1,4 @@
-import { ClearPostAction } from '../../actions/v1/types';
+import { ClearPostAction } from '../../store-types';
 import {
   GetPostsAction,
   GetSearchPostsByTitleAction,
@@ -14,7 +14,7 @@ import {
   GET_POST_BY_ID,
   CLEAR_POST,
   POST_ERROR,
-} from './../../actions/v1/types';
+} from '../../store-types';
 
 type PostReducerActions =
   | GetPostsAction

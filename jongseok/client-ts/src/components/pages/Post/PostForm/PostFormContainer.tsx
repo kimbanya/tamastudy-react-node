@@ -1,34 +1,23 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PostFormPresenter from './PostFormPresenter';
-import { createPostFn, getPostByIdFn } from '../../../../store/actions/v1/post.action';
-import { IRootState } from '../../../../store/reducers/index';
+import { postActions } from '../../../../store/actions';
 import CommonLayout from '../../../CommonLayout/index';
-
-export interface IPostCreateInitialState {
-  title: string;
-  description: string;
-  imgUrl: string;
-  files: string[];
-}
+import { IPostCreateInitialState } from '../post-types';
 
 const initialStateForCreate: IPostCreateInitialState = {
   title: '',
   description: '',
   imgUrl: '',
-  files: [],
 };
 
-interface Props extends RouteComponentProps<any> {
-  postState: IRootState['postState'];
-  createPostFn: any;
-  getPostByIdFn: any;
-}
+interface Props extends RouteComponentProps<any> {}
 
-const PostFormContainer = ({ history, createPostFn }: Props) => {
+const PostFormContainer = ({ history }: Props) => {
   const [formData, setFormData] = useState(initialStateForCreate);
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -44,13 +33,6 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
     });
   };
 
-  const handleFileChange = (files: string[]) => {
-    setFormData({
-      ...formData,
-      files: files,
-    });
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const { title, description } = formData;
     e.preventDefault();
@@ -60,10 +42,8 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
     if (description.length === 0) {
       return toast.error('포스트내용은 필수입력사항입니다. ');
     }
-    createPostFn(formData, history);
+    dispatch(postActions.createPostFn(formData, history));
   };
-
-  // if (postState.loading) return <div>Loading ...</div>;
 
   return (
     <CommonLayout>
@@ -71,17 +51,10 @@ const PostFormContainer = ({ history, createPostFn }: Props) => {
         formData={formData}
         onChange={handleChange}
         handleChangeDescription={handleChangeDescription}
-        handleFileChange={handleFileChange}
         onSubmit={handleSubmit}
       />
     </CommonLayout>
   );
 };
 
-const mapStateToProps = ({ postState }: IRootState) => ({
-  postState,
-});
-
-export default withRouter(
-  connect(mapStateToProps, { createPostFn, getPostByIdFn })(PostFormContainer),
-);
+export default withRouter(PostFormContainer);

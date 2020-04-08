@@ -1,27 +1,14 @@
-import draftToHtml from 'draftjs-to-html';
 import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
-import { IPost } from '../../../../store/actions/v1/types';
+import { IPost } from '../../../../store/store-types';
 
 interface Props {
   post: IPost;
+  html: string;
 }
 
-const GetPostByIdPresenter = ({ post }: Props) => {
-  const [html, setHtml] = React.useState<any>('');
-
-  React.useEffect(() => {
-    const handle = () => {
-      if (post.description) {
-        setHtml(draftToHtml(JSON.parse(post.description)));
-      }
-    };
-    handle();
-  }, [html, post.description]);
-
-  if (html.length === 0) return <div>Loading ...</div>;
-
+const GetPostByIdPresenter = ({ post, html }: Props) => {
   return (
     <PresenterWrapper>
       <Category>Web</Category>
