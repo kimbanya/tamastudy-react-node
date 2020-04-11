@@ -10,8 +10,6 @@ const AppContainer = ({ loadUserFn, authState }) => {
     loadUserFn();
   }, [loadUserFn, authState.isLoggedIn]);
 
-  console.log(authState);
-
   return (
     <>
       <AppPresenter />
