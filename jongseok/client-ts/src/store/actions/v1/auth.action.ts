@@ -25,7 +25,7 @@ export const loadUserFn = (): ThunkAction<
     setAuthToken(localStorage.token);
   }
   try {
-    const res = await API.get('/user/loaduser');
+    const res = await API.get('/v1/user/loaduser');
     const currentUserId: string = res.data.result;
     dispatch({
       type: LOAD_USER,
@@ -57,7 +57,7 @@ export const signinFn = (
   getState,
 ) => {
   try {
-    const res = await API.post('/user/signin', formData);
+    const res = await API.post('/v1/user/signin', formData);
     const token: string = res.data.result;
     dispatch({
       type: SIGN_IN,
@@ -85,7 +85,7 @@ export const signupFn = (
   getState,
 ) => {
   try {
-    const res = await API.post('/user/signup', formData);
+    const res = await API.post('/v1/user/signup', formData);
     const token: string = res.data.result;
     dispatch({
       type: SIGN_UP,

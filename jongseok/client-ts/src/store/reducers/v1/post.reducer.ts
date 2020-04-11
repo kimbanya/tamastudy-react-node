@@ -1,12 +1,6 @@
-import { ClearPostAction } from '../../store-types';
 import {
-  GetPostsAction,
-  GetSearchPostsByTitleAction,
-  GetMorePostsAction,
-  CreatePostAction,
-  GetPostByIdAction,
-  PostErrorAction,
   IPostState,
+  PostReducerActions,
   GET_POSTS,
   GET_SEARCH_POSTS_BY_TITLE,
   GET_MORE_POSTS,
@@ -15,15 +9,6 @@ import {
   CLEAR_POST,
   POST_ERROR,
 } from '../../store-types';
-
-type PostReducerActions =
-  | GetPostsAction
-  | GetSearchPostsByTitleAction
-  | GetMorePostsAction
-  | CreatePostAction
-  | GetPostByIdAction
-  | ClearPostAction
-  | PostErrorAction;
 
 const initialState: IPostState = {
   posts: [],
@@ -37,38 +22,33 @@ const initialState: IPostState = {
   loading: true,
 };
 
-export default (prevState = initialState, action: PostReducerActions): IPostState => {
+export default (prevState: IPostState = initialState, action: PostReducerActions): IPostState => {
   switch (action.type) {
     case GET_POSTS:
     case GET_SEARCH_POSTS_BY_TITLE:
-      const { posts, total, pageInfo } = action.payload;
       return {
         ...prevState,
-        posts,
-        total,
-        pageInfo,
+        posts: action.payload.posts,
+        total: action.payload.total,
+        pageInfo: action.payload.pageInfo,
         loading: false,
       };
     case GET_MORE_POSTS:
-      const { posts: morePosts, total: moreTotal, pageInfo: morePageInfo } = action.payload;
       return {
         ...prevState,
-        posts: [...prevState.posts, ...morePosts],
-        total: moreTotal,
-        pageInfo: morePageInfo,
+        posts: [...prevState.posts, ...action.payload.posts],
+        total: action.payload.total,
+        pageInfo: action.payload.pageInfo,
         loading: false,
       };
     case CREATE_POST:
       return { ...prevState, loading: false };
     case GET_POST_BY_ID:
-      const { post } = action.payload;
-      return { ...prevState, post, loading: false };
+      return { ...prevState, post: action.payload.post, loading: false };
     case CLEAR_POST:
       return { ...prevState, post: null };
     case POST_ERROR:
-      const { error } = action.payload;
-      return { ...prevState, loading: false, error };
-
+      return { ...prevState, loading: false, error: action.payload.error };
     default:
       return prevState;
   }

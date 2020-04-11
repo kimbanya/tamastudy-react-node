@@ -1,7 +1,19 @@
 import { Action } from 'redux';
 
-// Auth
+/**
+ * Table of Contents:
+ *
+ * VERSION 1 - auth, post
+ * VERSION 2 - 미정
+ *
+ * --------------------------------------------------------------------------
+ */
 
+/* ==========================================================================
+   VERSION 1 (v1)
+   ========================================================================== */
+
+// 1. Auth
 export interface IAuthState {
   isLoggedIn: boolean;
   currentUserId: string | null;
@@ -35,9 +47,11 @@ export interface AuthErrorAction extends Action<typeof AUTH_ERROR> {
   };
 }
 
+export type AuthReducerActions = LoadUserAction | SignInAction | SignUpAction | AuthErrorAction;
+
 // End of Auth
 
-// Post
+// 2. Post
 
 export interface IPost {
   _id: string;
@@ -122,5 +136,14 @@ export interface PostErrorAction extends Action<typeof POST_ERROR> {
     error: any;
   };
 }
+
+export type PostReducerActions =
+  | GetPostsAction
+  | GetSearchPostsByTitleAction
+  | GetMorePostsAction
+  | CreatePostAction
+  | GetPostByIdAction
+  | ClearPostAction
+  | PostErrorAction;
 
 // End of Post

@@ -1,27 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import DefaultUserIcon from '../../../assets/icons/user.svg';
 import { IRootState } from '../../../store/reducers/index';
 import Icon from '../../atoms/Icon';
+import BackDrop from '../../molecules/BackDrop/index';
+import SideMenu from '../../molecules/SideMenu/index';
 
 interface IProps extends RouteComponentProps<any> {}
 
 const LoggedInIcon = 'https://t1.daumcdn.net/cfile/tistory/2122B33357320AEB30';
 
 const AppHeader = ({ history }: IProps) => {
+  // side navigation controller
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const handleMenu = () => {
+    setMenuIsOpen((status: boolean) => !status);
+  };
+  // start
   const authState = useSelector((state: IRootState) => state.authState);
   const { isLoggedIn } = authState;
   return (
-    <HeaderWrapper>
-      <UserIcon
-        isLoggedIn={isLoggedIn}
-        src={isLoggedIn ? LoggedInIcon : DefaultUserIcon}
-        size={isLoggedIn ? 24 : 22}
-      />
-      <Title onClick={() => history.push('/')}>TAMASTUDY</Title>
-    </HeaderWrapper>
+    <>
+      <HeaderWrapper>
+        <UserIcon
+          isLoggedIn={isLoggedIn}
+          src={isLoggedIn ? LoggedInIcon : DefaultUserIcon}
+          size={isLoggedIn ? 24 : 22}
+          onClick={handleMenu}
+        />
+        <Title onClick={() => history.push('/')}>TAMASTUDY</Title>
+      </HeaderWrapper>
+      <BackDrop menuIsOpen={menuIsOpen} onClose={handleMenu} />
+      <SideMenu menuIsOpen={menuIsOpen} />
+    </>
   );
 };
 

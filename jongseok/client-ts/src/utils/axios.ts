@@ -4,8 +4,8 @@ import axios from 'axios';
 export const API = axios.create({
   baseURL:
     process.env.NODE_ENV === 'development'
-      ? (axios.defaults.baseURL = 'http://localhost:5000/v1')
-      : (axios.defaults.baseURL = '/api/v1'),
+      ? (axios.defaults.baseURL = 'http://localhost:5000')
+      : (axios.defaults.baseURL = '/api'),
 });
 
 // auto input axios config

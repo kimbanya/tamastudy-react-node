@@ -29,7 +29,7 @@ export const getPostsFn = (): ThunkAction<
   GetPostsAction | PostErrorAction
 > => async (dispatch) => {
   try {
-    const response = await API.get('/post');
+    const response = await API.get('/v1/post');
     const posts: IPost[] = response.data.result;
     const total: number = response.data.total;
     const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
@@ -61,7 +61,7 @@ export const getMorePostsFn = (
   GetMorePostsAction | PostErrorAction
 > => async (dispatch) => {
   try {
-    const response = await API.get(`/post?cursor=${cursor}`);
+    const response = await API.get(`/v1/post?cursor=${cursor}`);
     const posts: IPost[] = response.data.result;
     const total: number = response.data.total;
     const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
@@ -93,7 +93,7 @@ export const getSearchPostsFn = (
   GetSearchPostsByTitleAction | PostErrorAction
 > => async (dispatch) => {
   try {
-    const response = await API.get(title ? `/post?title=${title}` : '/post');
+    const response = await API.get(title ? `/v1/post?title=${title}` : '/v1/post');
     const posts: IPost[] = response.data.result;
     const total: number = response.data.total;
     const pageInfo: IPostState['pageInfo'] = response.data.pageInfo;
@@ -123,7 +123,7 @@ export const createPostFn = (
   dispatch,
 ) => {
   try {
-    const res = await API.post('/post/create', formData);
+    const res = await API.post('/v1/post/create', formData);
     const post: IPost = res.data.result;
     dispatch({ type: CREATE_POST, payload: { post } });
     localStorage.removeItem('recent-content');
@@ -145,7 +145,7 @@ export const getPostByIdFn = (
   dispatch,
 ) => {
   try {
-    const response = await API.get(`/post/${postId}`);
+    const response = await API.get(`/v1/post/${postId}`);
     const post: IPost = response.data.result;
     dispatch({
       type: GET_POST_BY_ID,
