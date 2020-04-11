@@ -5,19 +5,20 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Home from '../components/pages/Home';
 import Sign from '../components/pages/Sign';
 import GetPosts from '../components/pages/Post/GetPosts';
+import CreatePost from '../components/pages/Post/CreatePost';
 
 // hoc
 import requireAuth from '../components/hoc/requireAuth';
-import notRequireAuth from '../components/hoc/notRequireAuth';
 
 const AppPresenter = () => {
   return (
     <Router>
       <Switch>
         <Route path={'/'} exact component={Home} />
-        <Route path={'/signup'} exact component={notRequireAuth(Sign)} />
-        <Route path={'/signin'} exact component={notRequireAuth(Sign)} />
-        <Route path={'/posts'} exact component={requireAuth(GetPosts)} />
+        <Route path={'/signup'} exact component={requireAuth(Sign, false)} />
+        <Route path={'/signin'} exact component={requireAuth(Sign, false)} />
+        <Route path={'/posts'} exact component={GetPosts} />
+        <Route path={'/post/create'} exact component={requireAuth(CreatePost, true)} />
         <Redirect from={'*'} to={'/'} />
       </Switch>
     </Router>

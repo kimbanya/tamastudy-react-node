@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-export default (ChildComponent) => {
+export default (ChildComponent, isRequire = true) => {
   const ComposedComponent = (props) => {
     const history = useHistory();
 
+    const handleRoutingFn = useCallback(() => {
+      if (isRequire) {
+        if (!props.authState.loading && !props.authState.isLoggedIn) {
+          history.push('/');
+        }
+      } else {
+        if (!props.authState.loading && props.authState.isLoggedIn) {
+          history.push('/');
+        }
+      }
+    }, [history, props.authState.loading, props.authState.isLoggedIn]);
+
+    useEffect(() => {
+      handleRoutingFn();
+    }, [handleRoutingFn]);
+
     if (props.authState.loading) {
       return <div>Loading ...</div>;
-    }
-
-    if (!props.authState.isLoggedIn) {
-      history.push('/');
     }
 
     return <ChildComponent {...props} />;
