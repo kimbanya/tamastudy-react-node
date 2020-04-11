@@ -3,9 +3,11 @@ import { useDispatch } from 'react-redux';
 import { createPostFn } from '../../../../store/actions/v1/post.action';
 import { useFormik } from 'formik';
 import { yupValidate } from './util';
+import { useHistory } from 'react-router-dom';
 
 const CreatePost = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const postFormik = useFormik({
     initialValues: {
@@ -15,7 +17,7 @@ const CreatePost = () => {
     },
     validationSchema: yupValidate,
     onSubmit: (formData) => {
-      dispatch(createPostFn(formData));
+      dispatch(createPostFn(formData, history));
     },
   });
 
