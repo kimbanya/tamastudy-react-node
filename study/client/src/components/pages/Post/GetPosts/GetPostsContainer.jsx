@@ -9,11 +9,13 @@ const GetPostsContainer = () => {
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch, getPosts]);
+  }, [dispatch]);
+
+  if (postState.loading) return <div> Post Loading ...</div>;
 
   return (
     <div>
-      <GetPostsPresenter />
+      <GetPostsPresenter posts={postState.posts} />
     </div>
   );
 };

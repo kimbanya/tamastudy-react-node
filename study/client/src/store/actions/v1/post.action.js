@@ -5,10 +5,12 @@ import { GET_POSTS, POST_ERROR } from '../../type';
 export const getPosts = () => async (dispatch) => {
   try {
     const response = await axios.get('http://localhost:5000/v1/post');
-    dispatch({
-      type: GET_POSTS,
-      payload: response.data,
-    });
+    setTimeout(() => {
+      dispatch({
+        type: GET_POSTS,
+        payload: response.data,
+      });
+    }, 500);
   } catch (err) {
     console.error(err.response.data.err);
     dispatch({

@@ -22,7 +22,7 @@ export const loadUserFn = () => async (dispatch) => {
 
     setTimeout(() => {
       dispatch({ type: LOAD_USER, payload: response.data.result._id });
-    }, 1000);
+    }, 500);
   } catch (err) {
     dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
