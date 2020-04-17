@@ -81,4 +81,6 @@ const studySchema = new Schema({
   },
 });
 
+Study;
+
 module.exports = mongoose.model('Study', studySchema);
