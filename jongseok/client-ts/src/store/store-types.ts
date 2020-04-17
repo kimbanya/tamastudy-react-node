@@ -64,13 +64,30 @@ export interface IPost {
   createdAt: string;
 }
 
+export interface IPostComment {
+  _id: string;
+  text: string;
+  user: {
+    _id: string;
+    username: string;
+  };
+  createdAt: string;
+}
+
 export interface IPostState {
   posts: IPost[];
   post: IPost | null;
+  postComments: IPostComment[];
+  postComment: IPostComment | null;
   error: string | null;
   loading: boolean;
   total: number;
   pageInfo: {
+    nextPageCursor: string;
+    hasNextPage: boolean;
+  };
+  commentTotal: number;
+  commentPageInfo: {
     nextPageCursor: string;
     hasNextPage: boolean;
   };
@@ -82,6 +99,10 @@ export const GET_SEARCH_POSTS_BY_TITLE = 'GET_SEARCH_POSTS_BY_TITLE' as const;
 export const CREATE_POST = 'CREATE_POST' as const;
 export const GET_POST_BY_ID = 'GET_POST_BY_ID' as const;
 export const CLEAR_POST = 'CLEAR_POST' as const;
+export const CREATE_POST_COMMENT_BY_POST_ID = 'CREATE_POST_COMMENT_BY_POST_ID' as const;
+export const DELETE_POST_BY_ID = 'DELETE_POST_BY_ID' as const;
+export const GET_POST_COMMENTS_BY_POST_ID = 'GET_POST_COMMENTS_BY_POST_ID' as const;
+export const DELETE_POST_COMMENT_BY_COMMENT_ID = 'DELETE_POST_COMMENT_BY_COMMENT_ID' as const;
 export const POST_ERROR = 'POST_ERROR' as const;
 
 export interface GetPostsAction extends Action<typeof GET_POSTS> {
@@ -131,6 +152,31 @@ export interface GetPostByIdAction extends Action<typeof GET_POST_BY_ID> {
 
 export interface ClearPostAction extends Action<typeof CLEAR_POST> {}
 
+export interface CreatePostCommentByPostId extends Action<typeof CREATE_POST_COMMENT_BY_POST_ID> {
+  payload: {
+    postComment: IPostComment;
+  };
+}
+
+export interface GetPostCommentsByPostId extends Action<typeof GET_POST_COMMENTS_BY_POST_ID> {
+  payload: {
+    postComments: IPostComment[];
+    commentTotal: number;
+    commentPageInfo: {
+      nextPageCursor: string;
+      hasNextPage: boolean;
+    };
+  };
+}
+
+export interface DeletePostById extends Action<typeof DELETE_POST_BY_ID> {
+  payload: string;
+}
+export interface DeletePostCommentByCommentId
+  extends Action<typeof DELETE_POST_COMMENT_BY_COMMENT_ID> {
+  payload: string;
+}
+
 export interface PostErrorAction extends Action<typeof POST_ERROR> {
   payload: {
     error: any;
@@ -144,6 +190,10 @@ export type PostReducerActions =
   | CreatePostAction
   | GetPostByIdAction
   | ClearPostAction
+  | CreatePostCommentByPostId
+  | DeletePostById
+  | GetPostCommentsByPostId
+  | DeletePostCommentByCommentId
   | PostErrorAction;
 
 // End of Post

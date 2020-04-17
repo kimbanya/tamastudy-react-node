@@ -23,16 +23,26 @@ export const loadUserFn = (): ThunkAction<
 > => async (dispatch, getState) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
+  } else {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        error: '로그인을 해주세요. ',
+      },
+    });
+    return;
   }
   try {
     const res = await API.get('/v1/user/loaduser');
     const currentUserId: string = res.data.result;
-    dispatch({
-      type: LOAD_USER,
-      payload: {
-        currentUserId,
-      },
-    });
+    setTimeout(() => {
+      dispatch({
+        type: LOAD_USER,
+        payload: {
+          currentUserId,
+        },
+      });
+    }, 500);
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

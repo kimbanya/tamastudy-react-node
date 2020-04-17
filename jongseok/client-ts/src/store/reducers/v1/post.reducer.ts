@@ -1,4 +1,9 @@
 import {
+  DELETE_POST_BY_ID,
+  GET_POST_COMMENTS_BY_POST_ID,
+  DELETE_POST_COMMENT_BY_COMMENT_ID,
+} from '../../store-types';
+import {
   IPostState,
   PostReducerActions,
   GET_POSTS,
@@ -12,12 +17,20 @@ import {
 
 const initialState: IPostState = {
   posts: [],
+  post: null,
   total: 0,
   pageInfo: {
     nextPageCursor: '',
     hasNextPage: false,
   },
-  post: null,
+  //
+  postComments: [],
+  postComment: null,
+  commentTotal: 0,
+  commentPageInfo: {
+    nextPageCursor: '',
+    hasNextPage: false,
+  },
   error: null,
   loading: true,
 };
@@ -47,6 +60,25 @@ export default (prevState: IPostState = initialState, action: PostReducerActions
       return { ...prevState, post: action.payload.post, loading: false };
     case CLEAR_POST:
       return { ...prevState, post: null };
+    case DELETE_POST_BY_ID:
+      return {
+        ...prevState,
+        posts: prevState.posts.filter((post) => post._id !== action.payload),
+        loading: false,
+      };
+    case GET_POST_COMMENTS_BY_POST_ID:
+      return {
+        ...prevState,
+        postComments: action.payload.postComments,
+        commentPageInfo: action.payload.commentPageInfo,
+        commentTotal: action.payload.commentTotal,
+      };
+    case DELETE_POST_COMMENT_BY_COMMENT_ID:
+      return {
+        ...prevState,
+        postComments: prevState.postComments.filter((comment) => comment._id !== action.payload),
+        loading: false,
+      };
     case POST_ERROR:
       return { ...prevState, loading: false, error: action.payload.error };
     default:

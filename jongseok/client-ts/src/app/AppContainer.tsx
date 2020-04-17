@@ -6,7 +6,6 @@ import { ThemeProvider } from 'styled-components';
 import AppPresenter from './AppPresenter';
 import { loadUserFn } from '../store/actions/v1/auth.action';
 import { IRootState } from '../store/reducers/index';
-import GlobalStyle from '../styles/global';
 import theme from '../styles/theme';
 
 interface Props {
@@ -16,14 +15,11 @@ interface Props {
 
 const AppContainer = ({ authState, loadUserFn }: Props) => {
   useEffect(() => {
-    if (localStorage.token) {
-      loadUserFn();
-    }
+    loadUserFn();
   }, [loadUserFn, authState.isLoggedIn]);
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
       <AppPresenter />
       <ToastContainer position={'bottom-center'} />
     </ThemeProvider>

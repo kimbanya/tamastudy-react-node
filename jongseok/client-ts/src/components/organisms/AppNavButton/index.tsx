@@ -1,15 +1,15 @@
 import React, { useCallback } from 'react';
-import { useBeforeunload } from 'react-beforeunload';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { css } from 'styled-components';
 import { ReactComponent as BackIcon } from '../../../assets/icons/back.svg';
 import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg';
 import { ReactComponent as MenuIcon } from '../../../assets/icons/menu.svg';
+// import { useBeforeunload } from 'react-beforeunload';
 interface Props extends RouteComponentProps<any> {}
 
 const AppNavButton = ({ history }: Props) => {
-  useBeforeunload((event) => event.preventDefault());
+  // useBeforeunload((event) => event.preventDefault()); // Todo
 
   const onClickGoBack = useCallback(() => {
     history.goBack();

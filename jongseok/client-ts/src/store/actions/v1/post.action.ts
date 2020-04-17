@@ -4,8 +4,15 @@ import { ThunkAction } from 'redux-thunk';
 import { IPostCreateInitialState } from '../../../components/pages/Post/post-types';
 import { API } from '../../../utils/axios';
 import { IRootState } from '../../reducers/index';
-import { IPost, IPostState } from '../../store-types';
+import { DeletePostCommentByCommentId } from '../../store-types';
 import {
+  DELETE_POST_BY_ID,
+  DeletePostById,
+  DELETE_POST_COMMENT_BY_COMMENT_ID,
+  GetPostCommentsByPostId,
+  IPost,
+  IPostState,
+  GET_POST_COMMENTS_BY_POST_ID,
   GET_POSTS,
   GET_SEARCH_POSTS_BY_TITLE,
   GET_MORE_POSTS,
@@ -126,7 +133,7 @@ export const createPostFn = (
     const res = await API.post('/v1/post/create', formData);
     const post: IPost = res.data.result;
     dispatch({ type: CREATE_POST, payload: { post } });
-    localStorage.removeItem('recent-content');
+    localStorage.removeItem('content');
     history.push('/posts');
   } catch (err) {
     dispatch({
@@ -164,10 +171,88 @@ export const getPostByIdFn = (
   }
 };
 
+export const deletePostByIdFn = (
+  postId: string,
+  history: RouteComponentProps<any>['history'],
+): ThunkAction<Promise<void>, IRootState, undefined, DeletePostById | PostErrorAction> => async (
+  dispatch,
+) => {
+  try {
+    if (window.confirm('삭제하시겠습니까? ')) {
+      await API.delete(`/v1/post/delete/${postId}`);
+      dispatch({
+        type: DELETE_POST_BY_ID,
+        payload: postId,
+      });
+      history.push('/posts');
+    }
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
+    toast.error(err.response.data.error);
+  }
+};
+
 export const clearPostFn = (): ThunkAction<void, IRootState, undefined, ClearPostAction> => (
   dispatch,
 ) => {
   dispatch({
     type: CLEAR_POST,
   });
+};
+
+export const getPostCommentsByPostId = (
+  postId: string,
+): ThunkAction<void, IRootState, undefined, GetPostCommentsByPostId | PostErrorAction> => async (
+  dispatch,
+) => {
+  try {
+    const response = await API.get(`/v1/post/${postId}/comment?limit=20`);
+    dispatch({
+      type: GET_POST_COMMENTS_BY_POST_ID,
+      payload: {
+        postComments: response.data.result,
+        commentPageInfo: response.data.pageInfo,
+        commentTotal: response.data.total,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
+    toast.error(err.response.data.error);
+  }
+};
+
+export const deletePostCommentByPostId = (
+  postId: string,
+  postCommentId: string,
+): ThunkAction<
+  void,
+  IRootState,
+  undefined,
+  DeletePostCommentByCommentId | PostErrorAction
+> => async (dispatch) => {
+  try {
+    await API.delete(`/v1/post/${postId}/comment/delete/${postCommentId}`);
+    dispatch({
+      type: DELETE_POST_COMMENT_BY_COMMENT_ID,
+      payload: postCommentId,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: {
+        error: err.response.data.error,
+      },
+    });
+    toast.error(err.response.data.error);
+  }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'react-quill/dist/quill.snow.css';
 import styled from 'styled-components';
-import DraftEditor from '../../../editor/DraftEditor';
+import SlateEditor from '../../../editor/SlateEditor';
 import { IPostCreateInitialState } from '../post-types';
 
 interface Props {
@@ -9,14 +9,27 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => string | number | undefined;
   handleChangeDescription: (content: string) => void;
+  titleInputRef: React.RefObject<HTMLInputElement>;
 }
 
-const PostFormPresenter = ({ formData, onChange, onSubmit, handleChangeDescription }: Props) => {
+const PostFormPresenter = ({
+  formData,
+  onChange,
+  onSubmit,
+  handleChangeDescription,
+  titleInputRef,
+}: Props) => {
   return (
     <Wrapper>
       <FormWrapper onSubmit={onSubmit}>
-        <InputTitle type={'text'} onChange={onChange} name={'title'} value={formData.title} />
-        <DraftEditor handleChangeDescription={handleChangeDescription} />
+        <InputTitle
+          type={'text'}
+          onChange={onChange}
+          name={'title'}
+          value={formData.title}
+          ref={titleInputRef}
+        />
+        <SlateEditor onChange={handleChangeDescription} />
         <InputThumbnail type={'text'} onChange={onChange} name={'imgUrl'} value={formData.imgUrl} />
         <SubmitButton type={'submit'}>CREATE POST</SubmitButton>
       </FormWrapper>
@@ -37,10 +50,10 @@ const InputTitle = styled.input.attrs((props) => ({
   placeholder: '타이틀을 입력해주세요 .',
 }))`
   width: 100%;
+  box-sizing: border-box;
   padding: 8px 16px 8px 0;
-  font-size: 2.6rem;
+  font-size: 1.5rem;
   font-family: 'Share', cursive;
-  margin-left: 8px;
   &::placeholder {
     font-style: italic;
     font-size: 2rem;

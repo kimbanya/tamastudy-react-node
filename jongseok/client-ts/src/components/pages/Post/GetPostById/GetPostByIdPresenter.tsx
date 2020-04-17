@@ -2,13 +2,15 @@ import moment from 'moment';
 import React from 'react';
 import styled from 'styled-components';
 import { IPost } from '../../../../store/store-types';
+import SlateEditor from '../../../editor/SlateEditor';
+import PostComments from '../../../organisms/PostComments/PostCommentsContainer';
 
 interface Props {
   post: IPost;
-  html: string;
+  handleDeletePost: (postId: string) => () => void;
 }
 
-const GetPostByIdPresenter = ({ post, html }: Props) => {
+const GetPostByIdPresenter = ({ post, handleDeletePost }: Props) => {
   return (
     <PresenterWrapper>
       <Category>Web</Category>
@@ -34,7 +36,12 @@ const GetPostByIdPresenter = ({ post, html }: Props) => {
         <span>CreatedAt {moment(post.createdAt).format('LLLL')}</span>
         <span>View {post.view}</span>
       </ElseWrapper>
-      <Content dangerouslySetInnerHTML={{ __html: html }} />
+      <SlateEditor readOnly content={post.description} />
+      <ButtonWrapper>
+        <button>수정</button>
+        <button onClick={handleDeletePost(post._id)}>삭제</button>
+      </ButtonWrapper>
+      <PostComments />
     </PresenterWrapper>
   );
 };
@@ -101,10 +108,19 @@ const ElseWrapper = styled.div`
   }
 `;
 
-const Content = styled.div`
-  * {
-    width: 100% !important;
-    word-break: break-all;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: ${(props) => props.theme.space * 4}px 0;
+  > button {
+    cursor: pointer;
+    outline: none;
+    background-color: ${(props) => props.theme.colors.base.black};
+    color: ${(props) => props.theme.colors.base.white};
+    box-sizing: border-box;
+    padding: ${(props) => `${props.theme.space}px ${props.theme.space * 2}px`};
+    margin: 0 ${(props) => `${props.theme.space}px`};
   }
 `;
 

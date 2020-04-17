@@ -1,4 +1,3 @@
-import draftToHtml from 'draftjs-to-html';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
@@ -10,7 +9,6 @@ import CommonLayout from '../../../CommonLayout/index';
 interface Props extends RouteComponentProps<any> {}
 
 const GetPostByIdContainer = ({ history, match }: Props) => {
-  const [html, setHtml] = React.useState<string>('');
   const postState = useSelector((state: IRootState) => state.postState);
   const dispatch = useDispatch();
 
@@ -22,27 +20,19 @@ const GetPostByIdContainer = ({ history, match }: Props) => {
   }, [history, dispatch]);
 
   useEffect(() => {
-    const handle = () => {
-      if (postState) {
-        if (postState.post) {
-          setHtml(draftToHtml(JSON.parse(postState.post.description)));
-        }
-      }
-    };
-    handle();
-  }, [html, postState]);
-
-  useEffect(() => {
     dispatch(postActions.getPostByIdFn(match.params.postId));
   }, [dispatch, match.params.postId]);
 
+  const handleDeletePost = (postId: string) => () => {
+    dispatch(postActions.deletePostByIdFn(postId, history));
+  };
+
   if (postState.loading) return <div>Loading ...</div>;
   if (!postState.post) return <div>Loading ...</div>;
-  if (!html) return <div>Loading ...</div>;
 
   return (
     <CommonLayout noFooter>
-      <GetPostByIdPresenter post={postState.post} html={html} />
+      <GetPostByIdPresenter post={postState.post} handleDeletePost={handleDeletePost} />
     </CommonLayout>
   );
 };

@@ -26,7 +26,7 @@ exports.createPostComment = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     error: null,
-    data: postComment,
+    result: postComment,
   });
 });
 
@@ -65,7 +65,7 @@ exports.getPostComments = asyncHandler(async (req, res, next) => {
       nextPageCursor: hasNextPage ? postComments[postComments.length - 1]._id : null,
       hasNextPage,
     },
-    data: postComments,
+    result: postComments,
   });
 });
 

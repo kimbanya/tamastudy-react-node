@@ -6,6 +6,7 @@ import {
   Switch
   } from 'react-router-dom';
 import CommonLayout from '../components/CommonLayout/index';
+import withAuth from '../components/hoc/withAuth';
 import AppNavButton from '../components/organisms/AppNavButton/index';
 import Sign from '../components/pages/Auth/SignForm';
 import Home from '../components/pages/Home';
@@ -23,7 +24,7 @@ const AppPresenter: React.SFC<IProps> = (props) => {
         <Route path={'/signin'} exact component={Sign} />
         <Route path={'/signup'} exact component={Sign} />
         <Route path={'/posts'} exact component={GetPosts} />
-        <Route path={'/post/create'} exact component={PostForm} />
+        <Route path={'/post/create'} exact component={withAuth(PostForm, true)} />
         <Route path={'/post/:postId/update'} component={PostForm} />
         <Route path={'/post/:postId'} component={GetPostById} />
         <Route path={'/studies'} exact component={() => <CommonLayout>studies</CommonLayout>} />

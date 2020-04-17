@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -17,6 +17,13 @@ interface Props extends RouteComponentProps<any> {}
 
 const PostFormContainer = ({ history }: Props) => {
   const [formData, setFormData] = useState(initialStateForCreate);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
+  }, []);
+
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +52,8 @@ const PostFormContainer = ({ history }: Props) => {
     dispatch(postActions.createPostFn(formData, history));
   };
 
+  console.log(formData);
+
   return (
     <CommonLayout>
       <PostFormPresenter
@@ -52,6 +61,7 @@ const PostFormContainer = ({ history }: Props) => {
         onChange={handleChange}
         handleChangeDescription={handleChangeDescription}
         onSubmit={handleSubmit}
+        titleInputRef={titleInputRef}
       />
     </CommonLayout>
   );
