@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Study } from '../../../models/v1/study';
+import User from '../../../models/v1/user.model';
 import asyncHandler from '../../../utils/asyncHandler';
 
 //  Public
@@ -84,5 +85,50 @@ export const unlike = asyncHandler(async (req, res, next) => {
     { likes: study.likes },
     { new: true, runValidators: false },
   );
+  res.status(200).json(study);
+});
+
+//  Private
+//  PUT
+//  v1/study/:studyId/join
+export const joinStudy = asyncHandler(async (req, res, next) => {
+  let study = await Study.findById({ _id: req.params.studyId });
+  if (!study) return next('스터디가 존재하지 않습니다. ');
+  const includesUser = !!study.participants.find(
+    (user) => user.toString() === req.user._id.toString(),
+  );
+  if (includesUser) return next('이미 참석하셨습니다. ');
+  study.participants = [...study.participants, req.user._id];
+  study = await Study.findByIdAndUpdate(
+    { _id: req.params.studyId },
+    { participants: study.participants },
+    { new: true, runValidators: false },
+  );
+  let user = await User.findById({ _id: req.user._id });
+  if (!user) return next('비정상적인 접근입니다. ');
+  user.joinedStudies = [...user.joinedStudies, study?._id];
+  await user.save();
+  res.status(200).json(study);
+});
+
+//  Private
+//  PUT
+//  v1/study/:studyId/quit
+export const quitStudy = asyncHandler(async (req, res, next) => {
+  let study = await Study.findById({ _id: req.params.studyId });
+  if (!study) return next('스터디가 존재하지 않습니다. ');
+  const includesUser = !!study.participants.find(
+    (user) => user.toString() === req.user._id.toString(),
+  );
+  if (!includesUser) return next('참석하지않은 스터디입니다. ');
+  study.participants = study.participants.filter(
+    (user) => user.toString() !== req.user._id.toString(),
+  );
+  study = await Study.findByIdAndUpdate(
+    { _id: req.params.studyId },
+    { participants: study.participants },
+    { new: true, runValidators: false },
+  );
+  await User.updateOne({ _id: req.user._id }, { $pull: { joinedStudies: study?._id } });
   res.status(200).json(study);
 });

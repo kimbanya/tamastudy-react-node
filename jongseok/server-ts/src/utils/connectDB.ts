@@ -7,6 +7,7 @@ export default async () => {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     });
     console.log('> SERVER : 몽고디비에 연결되었습니다. ');
   } catch (error) {

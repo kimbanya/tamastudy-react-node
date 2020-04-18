@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose, { Document, Schema } from 'mongoose';
+import { IStudy } from './study/study.model';
 import config from '../../config';
 import emailValidator from '../../utils/emailValidator';
 
@@ -9,6 +10,7 @@ export interface IUser extends Document {
   avatar: string;
   email: string;
   password: string;
+  joinedStudies: IStudy['_id'][];
   comparePassword: (candidatePassword: string) => boolean;
   generateJWT: () => string;
   toAuthJSON: () => IAuthJSON;
@@ -19,6 +21,7 @@ interface IAuthJSON {
   avatar: IUser['avatar'];
   username: IUser['username'];
   email: IUser['email'];
+  joinedStudies: IUser['joinedStudies'];
   token: string;
 }
 
@@ -44,6 +47,12 @@ const UserSchema: Schema = new Schema(
       required: [true, '비밀번호는 필수입니다. '],
       trim: true,
     },
+    joinedStudies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Study',
+      },
+    ],
   },
   {
     timestamps: true,
@@ -86,6 +95,7 @@ UserSchema.methods.toAuthJSON = function (): IAuthJSON {
     username: this.username,
     email: this.email,
     token: this.generateJWT(),
+    joinedStudies: this.joinedStudies,
   };
 };
 
