@@ -2,7 +2,7 @@ import { LOAD_USER, SIGN_UP, SIGN_IN, AUTH_ERROR } from '../../type';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const setsessionStorage = (token) => {
+const setSessionStorage = (token) => {
   sessionStorage.setItem('token', token);
 };
 
@@ -39,7 +39,7 @@ export const signupFn = (formData, history) => async (dispatch) => {
     dispatch({ type: SIGN_UP });
 
     // 로컬스토리지에 저장
-    setsessionStorage(response.data.result);
+    setSessionStorage(response.data.result);
 
     // 그냥 알람
     toast.success('회원가입이 완료 되었습니다. 홈으로 이동합니다.');
@@ -60,7 +60,7 @@ export const signinFn = (formData, history) => async (dispatch) => {
     dispatch({ type: SIGN_IN });
 
     // 로컬스토리지에 저장
-    setsessionStorage(response.data.result);
+    setSessionStorage(response.data.result);
 
     // 그냥 알람
     toast.success('로그인이 완료 되었습니다. 홈으로 이동합니다.');

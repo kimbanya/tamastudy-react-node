@@ -1,4 +1,4 @@
-const advancedGetReusult = model => async (req, res, next) => {
+const advancedGetReusult = (model) => async (req, res, next) => {
   const limit = req.query.limit ? parseInt(req.query.limit) : 7;
 
   let query = {};
@@ -9,7 +9,12 @@ const advancedGetReusult = model => async (req, res, next) => {
   let data = await model
     .find(query)
     .sort({ _id: -1, createdAt: -1 })
-    .limit(limit + 1); // limit만큼만 데이터를 가져옴
+    .limit(limit + 1)
+    .populate({
+      path: 'user',
+      model: 'User',
+      select: 'username',
+    }); // limit만큼만 데이터를 가져옴
 
   const hasNextPage = data.length > limit;
 
