@@ -1,4 +1,11 @@
-import { GET_POSTS, CREATE_POST, GET_POST_BY_ID, POST_ERROR } from '../../type';
+import {
+  GET_POSTS,
+  CREATE_POST,
+  GET_POST_BY_ID,
+  DELETE_POST_BY_ID,
+  CLEAR_POST,
+  POST_ERROR,
+} from '../../type';
 
 const initialState = {
   posts: [],
@@ -32,6 +39,19 @@ export default (prevState = initialState, action) => {
       return {
         ...prevState,
         post: action.payload,
+        loading: false,
+      };
+    case DELETE_POST_BY_ID:
+      return {
+        ...prevState,
+        post: {},
+        posts: prevState.posts.filter((post) => post._id !== action.payload),
+        loading: false,
+      };
+    case CLEAR_POST:
+      return {
+        ...prevState,
+        post: {},
         loading: false,
       };
     case POST_ERROR:

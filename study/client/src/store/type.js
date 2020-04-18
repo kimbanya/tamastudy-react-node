@@ -9,4 +9,6 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const GET_POSTS = 'GET_POSTS';
 export const CREATE_POST = 'CREATE_POST';
 export const GET_POST_BY_ID = 'GET_POST_BY_ID';
+export const DELETE_POST_BY_ID = 'DELETE_POST_BY_ID';
+export const CLEAR_POST = 'CLEAR_POST';
 export const POST_ERROR = 'POST_ERROR';
