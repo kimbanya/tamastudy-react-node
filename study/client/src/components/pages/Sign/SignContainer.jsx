@@ -30,15 +30,14 @@ const SignContainer = ({ history, match, authState, signupFn, signinFn }) => {
         toast.warn('회원가입 폼 정보를 입력해주세요. ');
         return;
       }
-      signupFn(formData);
+      signupFn(formData, history);
     } else {
       if (formData.email === '' || formData.password === '') {
         toast.warn('로그인 폼 정보를 입력해주세요. ');
         return;
       }
-      signinFn(formData);
+      signinFn(formData, history);
     }
-    history.push('/');
   };
 
   const handleChange = (event) => {

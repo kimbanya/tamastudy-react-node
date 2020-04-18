@@ -28,7 +28,7 @@ const SignPresenter = ({ isSignup, formData, handleChange, handleSubmit }) => {
           name={'password'}
           onChange={handleChange}
         />
-        <button type={'submit'}>회원가입</button>
+        <button type={'submit'}>{isSignup ? '회원가입' : '로그인'}</button>
       </form>
     </div>
   );

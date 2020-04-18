@@ -30,7 +30,7 @@ export const loadUserFn = () => async (dispatch) => {
 };
 
 // 회원가입
-export const signupFn = (formData) => async (dispatch) => {
+export const signupFn = (formData, history) => async (dispatch) => {
   try {
     // 서버에 데이터를 주고, 받은 데이터를 가공하는 단계
     const response = await axios.post('http://localhost:5000/v1/user/signup', formData);
@@ -43,6 +43,7 @@ export const signupFn = (formData) => async (dispatch) => {
 
     // 그냥 알람
     toast.success('회원가입이 완료 되었습니다. 홈으로 이동합니다.');
+    history.push('/');
   } catch (err) {
     dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
@@ -50,7 +51,7 @@ export const signupFn = (formData) => async (dispatch) => {
 };
 
 // 로그인
-export const signinFn = (formData) => async (dispatch) => {
+export const signinFn = (formData, history) => async (dispatch) => {
   try {
     // 서버에 데이터를 주고, 받은 데이터를 가공하는 단계
     const response = await axios.post('http://localhost:5000/v1/user/signin', formData);
@@ -63,6 +64,7 @@ export const signinFn = (formData) => async (dispatch) => {
 
     // 그냥 알람
     toast.success('로그인이 완료 되었습니다. 홈으로 이동합니다.');
+    history.push('/');
   } catch (err) {
     dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
