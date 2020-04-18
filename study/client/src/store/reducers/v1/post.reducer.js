@@ -1,4 +1,4 @@
-import { GET_POSTS, CREATE_POST, POST_ERROR } from '../../type';
+import { GET_POSTS, CREATE_POST, GET_POST_BY_ID, POST_ERROR } from '../../type';
 
 const initialState = {
   posts: [],
@@ -23,6 +23,12 @@ export default (prevState = initialState, action) => {
         loading: false,
       };
     case CREATE_POST:
+      return {
+        ...prevState,
+        post: action.payload,
+        loading: false,
+      };
+    case GET_POST_BY_ID:
       return {
         ...prevState,
         post: action.payload,

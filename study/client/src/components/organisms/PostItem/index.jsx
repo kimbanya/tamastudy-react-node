@@ -4,11 +4,13 @@ import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import FaceIcon from '@material-ui/icons/Face';
 import CreateIcon from '@material-ui/icons/Create';
+import { useHistory } from 'react-router-dom';
 
-const PostItem = ({ title, imgUrl, view, user, createdAt }) => {
+const PostItem = ({ _id, title, description, imgUrl, view, user, createdAt, isPost = false }) => {
+  const history = useHistory();
   return (
-    <Wrapper>
-      <Image src={imgUrl} alt={''} />
+    <Wrapper onClick={() => history.push(`/post/${_id}`)} isPost={isPost}>
+      <Image src={imgUrl} alt={''} isPost={isPost} />
       <InfoBox>
         <Title>{title}</Title>
         <BlockBox>
@@ -26,6 +28,7 @@ const PostItem = ({ title, imgUrl, view, user, createdAt }) => {
           </CreatedAt>
         </BlockBox>
       </InfoBox>
+      {isPost && <Description>{description}</Description>}
     </Wrapper>
   );
 };
@@ -34,9 +37,9 @@ const Wrapper = styled('div')`
   border: 1px solid #eeeeee;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: ${(props) => (props.isPost ? 'flex-start' : 'flex-end')};
+  ${(props) => !props.isPost && 'cursor: pointer'};
   position: relative;
-  cursor: pointer;
 `;
 
 const Image = styled('img')`
@@ -47,7 +50,11 @@ const Image = styled('img')`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.8;
+  opacity: ${(props) => (props.isPost ? '0.5' : '0.7')};
+  transition: all 0.2s ease-in;
+  &:hover {
+    ${(props) => !props.isPost && 'opacity: 1'}
+  }
 `;
 
 const InfoBox = styled('div')`
@@ -82,6 +89,12 @@ const User = styled(BlockItem)``;
 const CreatedAt = styled(BlockItem)``;
 const InnerText = styled('p')`
   margin-top: 4px;
+`;
+
+const Description = styled('div')`
+  z-index: 1;
+  box-sizing: border-box;
+  padding: 32px;
 `;
 
 export default PostItem;
