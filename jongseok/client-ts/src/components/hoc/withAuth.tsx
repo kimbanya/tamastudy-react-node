@@ -10,8 +10,6 @@ export default (ChildComponent: any, isRequireAuth: boolean) => {
     const history = useHistory();
     const authState = useSelector(({ authState }: IRootState) => authState);
 
-    console.log(authState);
-
     const handleRoutingFn = useCallback(() => {
       if (isRequireAuth) {
         if (!authState.loading && !authState.isLoggedIn) {

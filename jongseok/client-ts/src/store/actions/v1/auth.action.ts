@@ -1,6 +1,5 @@
 import * as reactToastify from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
-import { ISignFormData } from '../../../components/pages/Auth/auth-types';
 import { API, setAuthToken } from '../../../utils/axios';
 import { IRootState } from '../../reducers/index';
 import {
@@ -61,7 +60,7 @@ export const loadUserFn = (): ThunkAction<
 
 // 로그인
 export const signinFn = (
-  formData: ISignFormData,
+  formData: any,
 ): ThunkAction<Promise<void>, IRootState, undefined, SignInAction | AuthErrorAction> => async (
   dispatch,
   getState,
@@ -89,7 +88,7 @@ export const signinFn = (
 
 // 회원가입
 export const signupFn = (
-  formData: ISignFormData,
+  formData: any,
 ): ThunkAction<Promise<void>, IRootState, undefined, SignUpAction | AuthErrorAction> => async (
   dispatch,
   getState,
