@@ -20,14 +20,13 @@ const AppHeader = ({ history }: IProps) => {
   };
   // start
   const authState = useSelector((state: IRootState) => state.authState);
-  const { isLoggedIn } = authState;
   return (
     <>
       <HeaderWrapper>
         <UserIcon
-          isLoggedIn={isLoggedIn}
-          src={isLoggedIn ? LoggedInIcon : DefaultUserIcon}
-          size={isLoggedIn ? 24 : 22}
+          isLoggedIn={authState.isLoggedIn}
+          src={authState.isLoggedIn ? LoggedInIcon : DefaultUserIcon}
+          size={authState.isLoggedIn ? 24 : 22}
           onClick={handleMenu}
         />
         <Title onClick={() => history.push('/')}>TAMASTUDY</Title>

@@ -1,38 +1,49 @@
+import { REGISTER } from '../../store-types';
 import {
+  AUTH_ERROR,
   AuthReducerActions,
   IAuthState,
   LOAD_USER,
-  SIGN_IN,
-  SIGN_UP,
-  AUTH_ERROR,
+  LOGOUT,
+  LOGIN,
 } from '../../store-types';
 
 const initialState: IAuthState = {
   isLoggedIn: false,
-  currentUserId: null,
+  user: null,
   error: null,
   loading: true,
 };
 
-export default (prevState: IAuthState = initialState, action: AuthReducerActions): IAuthState => {
+export default (prevState: IAuthState = initialState, action: AuthReducerActions) => {
   switch (action.type) {
     case LOAD_USER:
       return {
         ...prevState,
-        isLoggedIn: true,
-        currentUserId: action.payload.currentUserId,
         loading: false,
+        isLoggedIn: true,
+        user: action.payload.user,
       };
-    case SIGN_IN:
-    case SIGN_UP:
-      localStorage.setItem('token', action.payload.token);
-      return { ...prevState, isLoggedIn: true, loading: false };
-    case AUTH_ERROR:
-      localStorage.removeItem('token');
+    case LOGIN:
       return {
         ...prevState,
-        isLoggedIn: false,
-        currentUserId: null,
+        loading: false,
+        isLoggedIn: true,
+        user: action.payload.user,
+      };
+    case LOGOUT:
+      return {
+        ...initialState,
+        loading: false,
+      };
+    case REGISTER:
+      return {
+        ...initialState,
+        loading: false,
+      };
+    case AUTH_ERROR:
+      return {
+        ...prevState,
         loading: false,
         error: action.payload.error,
       };

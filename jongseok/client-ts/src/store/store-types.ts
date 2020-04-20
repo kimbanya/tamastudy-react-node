@@ -14,40 +14,51 @@ import { Action } from 'redux';
    ========================================================================== */
 
 // 1. Auth
+export interface IUserState {
+  _id: string;
+  username: string;
+}
+
 export interface IAuthState {
   isLoggedIn: boolean;
-  currentUserId: string | null;
+  user: IUserState | null;
   error: string | null;
   loading: boolean;
 }
 
 export const LOAD_USER = 'LOAD_USER' as const;
-export const SIGN_IN = 'SIGN_IN' as const;
-export const SIGN_UP = 'SIGN_UP' as const;
+export const LOGIN = 'LOGIN' as const;
+export const LOGOUT = 'LOGOUT' as const;
+export const REGISTER = 'REGISTER' as const;
 export const AUTH_ERROR = 'AUTH_ERROR' as const;
 
 export interface LoadUserAction extends Action<typeof LOAD_USER> {
   payload: {
-    currentUserId: string;
+    user: IUserState;
   };
 }
-export interface SignInAction extends Action<typeof SIGN_IN> {
+export interface LoginAction extends Action<typeof LOGIN> {
   payload: {
-    token: string;
+    user: IUserState;
   };
 }
-export interface SignUpAction extends Action<typeof SIGN_UP> {
-  payload: {
-    token: string;
-  };
-}
+
+export interface LogoutAction extends Action<typeof LOGOUT> {}
+
+export interface RegisterAction extends Action<typeof REGISTER> {}
+
 export interface AuthErrorAction extends Action<typeof AUTH_ERROR> {
   payload: {
     error: any;
   };
 }
 
-export type AuthReducerActions = LoadUserAction | SignInAction | SignUpAction | AuthErrorAction;
+export type AuthReducerActions =
+  | LoadUserAction
+  | LoginAction
+  | LogoutAction
+  | RegisterAction
+  | AuthErrorAction;
 
 // End of Auth
 

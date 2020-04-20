@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 // create base url
 export const API = axios.create({
@@ -8,11 +8,18 @@ export const API = axios.create({
       : (axios.defaults.baseURL = '/api'),
 });
 
-// auto input axios config
-export const setAuthToken = (token?: string) => {
-  if (token) {
-    API.defaults.headers.authorization = `Bearer ${token}`;
-  } else {
-    delete API.defaults.headers.authorization;
-  }
-};
+// interceptor
+API.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const token = window.localStorage.getItem('token') || '';
+
+    if (token) {
+      config.headers.authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);

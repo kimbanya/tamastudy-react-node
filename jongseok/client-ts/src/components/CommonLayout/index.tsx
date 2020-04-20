@@ -1,18 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import AppHeader from '../organisms/AppHeader';
-import AppNav from '../organisms/AppNav';
 import { mediaQueries } from '../../styles/mediaQuery';
+import AppHeader from '../organisms/AppHeader';
 
 interface IProps {
   className?: string;
   noHeader?: boolean;
-  noNav?: boolean;
   noFooter?: boolean;
 }
 const CommonLayout: React.SFC<IProps> = ({
   noHeader = false,
-  noNav = false,
   noFooter = false,
   className,
   children,
@@ -20,7 +17,6 @@ const CommonLayout: React.SFC<IProps> = ({
   return (
     <LayoutWrapper className={className}>
       {!noHeader && <AppHeader />}
-      {!noNav && <AppNav />}
       <section>{children}</section>
       {!noFooter && <footer>footer</footer>}
     </LayoutWrapper>
@@ -34,7 +30,6 @@ const LayoutWrapper = styled.div`
     grid-gap: ${props.theme.space}px;
   `}
   display: grid;
-  grid-template-rows: max-content min-content min-content 60px;
   width: 100%;
   box-sizing: border-box;
   ${mediaQueries('tablet')`

@@ -1,35 +1,29 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from 'styled-components';
 import AppPresenter from './AppPresenter';
 import { loadUserFn } from '../store/actions/v1/auth.action';
-import { IRootState } from '../store/reducers/index';
 import theme from '../styles/theme';
 
-interface Props {
-  authState: IRootState['authState'];
-  loadUserFn: any;
-}
+interface Props {}
 
-const AppContainer = ({ authState, loadUserFn }: Props) => {
+const AppContainer = (props: Props) => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    loadUserFn();
-  }, [loadUserFn, authState.isLoggedIn]);
-
+    if (window.localStorage.getItem('token')) {
+      dispatch(loadUserFn());
+    } else {
+      return;
+    }
+  }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>
       <AppPresenter />
-      <ToastContainer position={'bottom-center'} />
+      <ToastContainer position={'bottom-center'} autoClose={1500} />
     </ThemeProvider>
   );
 };
 
-const mapStateToProps = (state: IRootState) => {
-  return {
-    authState: state.authState,
-  };
-};
-
-export default connect(mapStateToProps, { loadUserFn })(AppContainer);
+export default AppContainer;

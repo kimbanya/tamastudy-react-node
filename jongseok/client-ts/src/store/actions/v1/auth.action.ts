@@ -1,115 +1,130 @@
-import * as reactToastify from 'react-toastify';
+import { RouteComponentProps } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { ThunkAction } from 'redux-thunk';
-import { API, setAuthToken } from '../../../utils/axios';
+import { API } from '../../../utils/axios';
 import { IRootState } from '../../reducers/index';
 import {
-  LOAD_USER,
-  SIGN_IN,
-  SIGN_UP,
   AUTH_ERROR,
-  LoadUserAction,
-  SignInAction,
-  SignUpAction,
   AuthErrorAction,
+  LOAD_USER,
+  LoadUserAction,
+  LoginAction,
+  LogoutAction,
+  LOGOUT,
+  LOGIN,
+  REGISTER,
+  RegisterAction,
 } from '../../store-types';
 
-// 유저 아이디 가져오기
 export const loadUserFn = (): ThunkAction<
   Promise<void>,
   IRootState,
   undefined,
   LoadUserAction | AuthErrorAction
 > => async (dispatch, getState) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  } else {
+  try {
+    const response = await API.get('/v1/user/me');
     dispatch({
-      type: AUTH_ERROR,
+      type: LOAD_USER,
       payload: {
-        error: '로그인을 해주세요. ',
+        user: response.data,
       },
     });
-    return;
-  }
-  try {
-    const res = await API.get('/v1/user/loaduser');
-    const currentUserId: string = res.data.result;
-    setTimeout(() => {
-      dispatch({
-        type: LOAD_USER,
-        payload: {
-          currentUserId,
-        },
-      });
-    }, 500);
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        error: err.response.data.error,
+        error: '유저 정보를 불러오는데에 실패하였습니다. ',
       },
     });
-    reactToastify.toast.error(`비정상적인 접근으로 인해 3초후에 새로고침됩니다. `, {
-      autoClose: 3000,
-    });
-    setTimeout(() => {
-      window.location.reload();
-    }, 3000);
+    toast.error(err.response.data);
+    if (err.response.data) {
+      window.localStorage.removeItem('token');
+    }
   }
 };
 
-// 로그인
-export const signinFn = (
-  formData: any,
-): ThunkAction<Promise<void>, IRootState, undefined, SignInAction | AuthErrorAction> => async (
+export const loginFn = (
+  values: {
+    email: string;
+    password: string;
+  },
+  history: RouteComponentProps<any>['history'],
+): ThunkAction<Promise<void>, IRootState, undefined, LoginAction | AuthErrorAction> => async (
   dispatch,
   getState,
 ) => {
   try {
-    const res = await API.post('/v1/user/signin', formData);
-    const token: string = res.data.result;
+    const response = await API.post('/v1/user/login', values);
+    window.localStorage.setItem('token', response.data.token);
     dispatch({
-      type: SIGN_IN,
+      type: LOGIN,
       payload: {
-        token,
+        user: response.data,
       },
     });
-    reactToastify.toast.success('로그인 성공');
+    toast.success('로그인 성공!');
+    history.push('/');
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        error: err.response.data.error,
+        error: err,
       },
     });
-    reactToastify.toast.error(err.response.data.error);
+    toast.error(err.response.data.error);
   }
 };
 
-// 회원가입
-export const signupFn = (
-  formData: any,
-): ThunkAction<Promise<void>, IRootState, undefined, SignUpAction | AuthErrorAction> => async (
+export const registerFn = (
+  values: {
+    username: string;
+    email: string;
+    password: string;
+  },
+  history: RouteComponentProps<any>['history'],
+): ThunkAction<Promise<void>, IRootState, undefined, RegisterAction | AuthErrorAction> => async (
   dispatch,
   getState,
 ) => {
   try {
-    const res = await API.post('/v1/user/signup', formData);
-    const token: string = res.data.result;
+    await API.post('/v1/user/register', values);
     dispatch({
-      type: SIGN_UP,
-      payload: {
-        token,
-      },
+      type: REGISTER,
     });
-    reactToastify.toast.success('회원가입이 완료되었습니다. ');
+    toast.success('회원가입 성공! 로그인페이지로 이동합니다. ');
+    history.push('/login');
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        error: err.response.data.error,
+        error: err,
       },
     });
-    reactToastify.toast.error(err.response.data.error);
+    toast.error(err.response.data.error);
+  }
+};
+
+export const logoutFn = (
+  history: RouteComponentProps<any>['history'],
+): ThunkAction<Promise<void>, IRootState, undefined, LogoutAction | AuthErrorAction> => async (
+  dispatch,
+  getState,
+) => {
+  try {
+    window.localStorage.removeItem('token');
+    dispatch({
+      type: LOGOUT,
+    });
+    toast.success('로그아웃 되었습니다.');
+    history.push('/');
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        error: err,
+      },
+    });
+    toast.error(err);
   }
 };
