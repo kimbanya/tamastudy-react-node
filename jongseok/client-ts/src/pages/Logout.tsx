@@ -11,7 +11,7 @@ const Logout = (props: Props) => {
   useEffect(() => {
     dispatch(logoutFn(history));
   }, [dispatch, history]);
-  return <div>wow</div>;
+  return <div>Logout ...</div>;
 };
 
 export default Logout;
