@@ -31,7 +31,17 @@ export const getStudy = asyncHandler(async (req: Request, res: Response, next) =
     { _id: req.params.studyId },
     { $inc: { view: 1 } },
     { new: true, runValidators: false },
-  );
+  )
+    .populate({
+      path: 'category',
+      model: 'StudyCategory',
+      select: 'name',
+    })
+    .populate({
+      path: 'user',
+      model: 'User',
+      select: 'username',
+    });
   if (!study) return next('존재하지않는 스터디입니다. ');
   res.status(200).json(study);
 });
@@ -71,7 +81,17 @@ export const like = asyncHandler(async (req, res, next) => {
     { _id: req.params.studyId },
     { likes: study.likes },
     { new: true, runValidators: false },
-  );
+  )
+    .populate({
+      path: 'category',
+      model: 'StudyCategory',
+      select: 'name',
+    })
+    .populate({
+      path: 'user',
+      model: 'User',
+      select: 'username',
+    });
   res.status(200).json(study);
 });
 
@@ -88,7 +108,17 @@ export const unlike = asyncHandler(async (req, res, next) => {
     { _id: req.params.studyId },
     { likes: study.likes },
     { new: true, runValidators: false },
-  );
+  )
+    .populate({
+      path: 'category',
+      model: 'StudyCategory',
+      select: 'name',
+    })
+    .populate({
+      path: 'user',
+      model: 'User',
+      select: 'username',
+    });
   res.status(200).json(study);
 });
 

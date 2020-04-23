@@ -1,6 +1,6 @@
 import ClearIcon from '@material-ui/icons/Clear';
 import WhereToVoteIcon from '@material-ui/icons/WhereToVote';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -34,7 +34,7 @@ const MapMarker = ({
   user,
   view,
 }: Props) => {
-  let isJoined = useRef(participants.includes(currentUserId));
+  const [isJoined, setIsJoined] = useState(participants.includes(currentUserId));
   const history = useHistory();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -56,12 +56,13 @@ const MapMarker = ({
   const onClickDetail = useCallback(
     (event: React.MouseEvent<HTMLParagraphElement>) => {
       event.stopPropagation();
-      history.push(`/${_id}`);
+      history.push(`/${_id}/detail`);
     },
     [history, _id],
   );
 
   const onClickJoinStudy = useCallback(() => {
+    setIsJoined((prevState) => !prevState);
     dispatch(joinStudy(_id));
   }, [dispatch, _id]);
 
@@ -79,12 +80,12 @@ const MapMarker = ({
           <DetailButtonBox onClick={onClickDetail}>
             <span>세부페이지로</span>
           </DetailButtonBox>
-          <JoinButtonBox onClick={onClickJoinStudy} isJoined={isJoined.current}>
+          <JoinButtonBox onClick={onClickJoinStudy} isJoined={isJoined}>
             {loadingJoin ? (
               `loading`
             ) : (
               <>
-                <span>{isJoined.current ? '참가완료' : '참가하기'}</span>
+                <span>{isJoined ? '참가완료' : '참가하기'}</span>
                 <span>
                   ( {participants.length} / {maxParticipants} )
                 </span>
@@ -94,7 +95,7 @@ const MapMarker = ({
         </InfoBox>
       ) : (
         <IconBox onClick={onClickMark}>
-          <WhereToVoteIcon fontSize={'large'} color={isJoined.current ? 'action' : 'error'} />
+          <WhereToVoteIcon fontSize={'large'} color={isJoined ? 'action' : 'error'} />
         </IconBox>
       )}
     </Wrapper>

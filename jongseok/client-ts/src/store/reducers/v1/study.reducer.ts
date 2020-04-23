@@ -1,5 +1,10 @@
-import { GET_STUDIES_FAIL, GET_STUDIES_PENDING, GET_STUDIES_SUCCESS } from '../../store-types';
 import {
+  GET_STUDIES_FAIL,
+  GET_STUDIES_PENDING,
+  GET_STUDIES_SUCCESS,
+  GET_STUDY_SUCCESS,
+  GET_STUDY_PENDING,
+  GET_STUDY_FAIL,
   GET_STUDY_CATEGORIES_PENDING,
   GET_STUDY_CATEGORIES_SUCCESS,
   GET_STUDY_CATEGORIES_FAIL,
@@ -14,12 +19,41 @@ import {
   QUIT_STUDY_FAIL,
   IStudyState,
   StudyReducerActions,
+  LIKE_STUDY_SUCCESS,
+  UNLIKE_STUDY_SUCCESS,
+  LIKE_STUDY_PENDING,
+  UNLIKE_STUDY_PENDING,
+  LIKE_STUDY_FAIL,
+  UNLIKE_STUDY_FAIL,
 } from '../../store-types';
 
 const initialState: IStudyState = {
   categories: [],
   studies: [],
-  study: null,
+  study: {
+    _id: '',
+    address: '',
+    category: {
+      name: '',
+    },
+    comments: [],
+    createdAt: '',
+    description: '',
+    lat: 0,
+    likes: [],
+    lng: 0,
+    maxParticipants: 0,
+    minParticipants: 0,
+    participants: [],
+    thumbnail: '',
+    title: '',
+    todos: [],
+    updatedAt: '',
+    user: {
+      username: '',
+    },
+    view: 0,
+  },
   error: null,
   loading: true,
 };
@@ -31,6 +65,9 @@ export default (prevState: IStudyState = initialState, action: StudyReducerActio
     case GET_STUDIES_PENDING:
     case JOIN_STUDY_PENDING:
     case QUIT_STUDY_PENDING:
+    case GET_STUDY_PENDING:
+    case LIKE_STUDY_PENDING:
+    case UNLIKE_STUDY_PENDING:
       return {
         ...prevState,
         loading: action.payload,
@@ -46,19 +83,37 @@ export default (prevState: IStudyState = initialState, action: StudyReducerActio
     case GET_STUDIES_SUCCESS:
       return { ...prevState, loading: false, studies: action.payload };
     case JOIN_STUDY_SUCCESS:
-    case QUIT_STUDY_SUCCESS:
+    case LIKE_STUDY_SUCCESS:
       return {
         ...prevState,
         loading: false,
         studies: prevState.studies.map((study) =>
           study._id === action.payload?._id ? action.payload : study,
         ),
+        study: action.payload,
+      };
+    case QUIT_STUDY_SUCCESS:
+    case UNLIKE_STUDY_SUCCESS:
+      return {
+        ...prevState,
+        loading: false,
+        studies: prevState.studies.filter((study) => study._id !== action.payload._id),
+        study: action.payload,
+      };
+    case GET_STUDY_SUCCESS:
+      return {
+        ...prevState,
+        loading: false,
+        study: action.payload,
       };
     case GET_STUDY_CATEGORIES_FAIL:
     case CREATE_STUDY_CATEGORY_FAIL:
     case GET_STUDIES_FAIL:
     case JOIN_STUDY_FAIL:
     case QUIT_STUDY_FAIL:
+    case GET_STUDY_FAIL:
+    case LIKE_STUDY_FAIL:
+    case UNLIKE_STUDY_FAIL:
       return {
         ...prevState,
         loading: false,

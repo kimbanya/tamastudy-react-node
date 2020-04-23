@@ -23,7 +23,9 @@ const AppPresenter: React.SFC<IProps> = (props) => {
       <Switch>
         <Route path={'/'} exact component={Main} />
         <Route path={'/create'} exact component={requireAuth(CreateStudy)} />
-        <Route path={'/:studyId'} component={Detail} />
+        <Route path={'/:studyId/detail'} exact component={Detail} />
+        <Route path={'/:studyId/todo'} exact component={Detail} />
+        <Route path={'/:studyId/member'} exact component={Detail} />
         <Route path={'/register'} exact component={Register} />
         <Route path={'/login'} exact component={Login} />
         <Route path={'/Logout'} exact component={Logout} />

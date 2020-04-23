@@ -1,38 +1,42 @@
 import React from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-interface Props extends RouteComponentProps<any> {}
+interface Props {
+  currentStudyId: string;
+}
 
-const AppNav = ({ location }: Props) => {
+const DetailNav = ({ currentStudyId }: Props) => {
+  const location = useLocation();
+
   return (
     <NavWrapper>
       <NavList>
         <CustomLink
-          to={'/posts'}
-          className={location.pathname.startsWith('/post') ? 'nav__link-active' : ''}
+          to={`/${currentStudyId}/detail`}
+          className={location.pathname.includes('/detail') ? 'nav__link-active' : ''}
         >
-          POST
+          Info
         </CustomLink>
       </NavList>
       <NavList>
         <CustomLink
-          to={'/studies'}
+          to={`/${currentStudyId}/todo`}
           className={
-            location.pathname.startsWith('/studies') || location.pathname.startsWith('/study')
+            location.pathname.includes('/todo') || location.pathname.startsWith('/study')
               ? 'nav__link-active'
               : ''
           }
         >
-          STUDY
+          Todo
         </CustomLink>
       </NavList>
       <NavList>
         <CustomLink
-          to={'/contact'}
-          className={location.pathname.startsWith('/contact') ? 'nav__link-active' : ''}
+          to={`/${currentStudyId}/member`}
+          className={location.pathname.includes('/member') ? 'nav__link-active' : ''}
         >
-          CONTACT
+          Member
         </CustomLink>
       </NavList>
     </NavWrapper>
@@ -70,4 +74,4 @@ const CustomLink = styled(Link)`
   }
 `;
 
-export default withRouter(AppNav);
+export default DetailNav;

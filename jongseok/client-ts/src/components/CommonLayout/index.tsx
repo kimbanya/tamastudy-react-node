@@ -32,6 +32,7 @@ const LayoutWrapper = styled.div`
   display: grid;
   width: 100%;
   box-sizing: border-box;
+  padding-bottom: 72px;
   ${mediaQueries('tablet')`
     width: 768px;
     margin-left: auto;

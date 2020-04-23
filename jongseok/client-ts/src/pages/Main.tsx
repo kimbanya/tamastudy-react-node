@@ -19,7 +19,7 @@ const Main = (props: Props) => {
     return () => {
       isCancelled = true;
     };
-  }, [dispatch]);
+  }, [dispatch, studyState.study.participants.length]);
 
   if (!authState.user) return null;
 

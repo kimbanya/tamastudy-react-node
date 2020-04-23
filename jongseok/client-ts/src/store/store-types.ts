@@ -234,7 +234,9 @@ export interface IStudy {
   lat: number;
   lng: number;
   address: string;
-  user: string;
+  user: {
+    username: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -242,7 +244,7 @@ export interface IStudy {
 export interface IStudyState {
   categories: ICategory[];
   studies: IStudy[];
-  study: IStudy | null;
+  study: IStudy;
   error: string | null;
   loading: boolean;
 }
@@ -313,7 +315,7 @@ export interface JoinStudyPendingAction extends Action<typeof JOIN_STUDY_PENDING
 }
 
 export interface JoinStudySuccessAction extends Action<typeof JOIN_STUDY_SUCCESS> {
-  payload: any;
+  payload: IStudy;
 }
 
 export interface JoinStudyFailAction extends Action<typeof JOIN_STUDY_FAIL> {
@@ -330,10 +332,61 @@ export interface QuitStudyPendingAction extends Action<typeof QUIT_STUDY_PENDING
 }
 
 export interface QuitStudySuccessAction extends Action<typeof QUIT_STUDY_SUCCESS> {
-  payload: any;
+  payload: IStudy;
 }
 
 export interface QuitStudyFailAction extends Action<typeof QUIT_STUDY_FAIL> {
+  payload: string;
+}
+
+// GetStudy
+export const GET_STUDY_PENDING = 'GET_STUDY_PENDING' as const;
+export const GET_STUDY_SUCCESS = 'GET_STUDY_SUCCESS' as const;
+export const GET_STUDY_FAIL = 'GET_STUDY_FAIL' as const;
+
+export interface GetStudyPendingAction extends Action<typeof GET_STUDY_PENDING> {
+  payload: true;
+}
+
+export interface GetStudySuccessAction extends Action<typeof GET_STUDY_SUCCESS> {
+  payload: IStudy;
+}
+
+export interface GetStudyFailAction extends Action<typeof GET_STUDY_FAIL> {
+  payload: string;
+}
+
+// Join Study
+export const LIKE_STUDY_PENDING = 'LIKE_STUDY_PENDING' as const;
+export const LIKE_STUDY_SUCCESS = 'LIKE_STUDY_SUCCESS' as const;
+export const LIKE_STUDY_FAIL = 'LIKE_STUDY_FAIL' as const;
+
+export interface LikeStudyPendingAction extends Action<typeof LIKE_STUDY_PENDING> {
+  payload: true;
+}
+
+export interface LikeStudySuccessAction extends Action<typeof LIKE_STUDY_SUCCESS> {
+  payload: IStudy;
+}
+
+export interface LikeStudyFailAction extends Action<typeof LIKE_STUDY_FAIL> {
+  payload: string;
+}
+
+// QuitStudy
+export const UNLIKE_STUDY_PENDING = 'UNLIKE_STUDY_PENDING' as const;
+export const UNLIKE_STUDY_SUCCESS = 'UNLIKE_STUDY_SUCCESS' as const;
+export const UNLIKE_STUDY_FAIL = 'UNLIKE_STUDY_FAIL' as const;
+
+export interface UnlikeStudyPendingAction extends Action<typeof UNLIKE_STUDY_PENDING> {
+  payload: true;
+}
+
+export interface UnlikeStudySuccessAction extends Action<typeof UNLIKE_STUDY_SUCCESS> {
+  payload: IStudy;
+}
+
+export interface UnlikeStudyFailAction extends Action<typeof UNLIKE_STUDY_FAIL> {
   payload: string;
 }
 
@@ -352,4 +405,13 @@ export type StudyReducerActions =
   | JoinStudyFailAction
   | QuitStudyPendingAction
   | QuitStudySuccessAction
-  | QuitStudyFailAction;
+  | QuitStudyFailAction
+  | GetStudyPendingAction
+  | GetStudySuccessAction
+  | GetStudyFailAction
+  | LikeStudyPendingAction
+  | LikeStudySuccessAction
+  | LikeStudyFailAction
+  | UnlikeStudyPendingAction
+  | UnlikeStudySuccessAction
+  | UnlikeStudyFailAction;
