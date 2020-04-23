@@ -1,25 +1,67 @@
 import GoogleMapReact from 'google-map-react';
 import React from 'react';
+import styled from 'styled-components';
 import useGoogleMap from '../../../hooks/useGoogleMap';
+import { IStudyState } from '../../../store/store-types';
+import MapMarker from '../../molecules/MapMarker/';
+import SearchBar from '../../molecules/SearchBar';
 
-interface Props {}
+interface Props {
+  studies: IStudyState['studies'];
+  loading: IStudyState['loading'];
+  currentUserId: string;
+}
 
-const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
-
-const GoogleMap = (props: Props) => {
-  const { bootstrapURLKeys, coordinates } = useGoogleMap();
-  if (coordinates.lat === 0 || coordinates.lng === 0) return <div> Loading ...</div>;
+const GoogleMap = ({ studies, loading, currentUserId }: Props) => {
+  const {
+    bootstrapURLKeys,
+    geoInfo,
+    handleDragEnd,
+    handleSearchBarChange,
+    handleSearchBarSubmit,
+    searchAddress,
+  } = useGoogleMap();
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
-      <GoogleMapReact
-        bootstrapURLKeys={bootstrapURLKeys}
-        defaultCenter={coordinates}
-        defaultZoom={11}
-      >
-        <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
-      </GoogleMapReact>
-    </div>
+    <Wrapper>
+      <SearchBar
+        handleSearchBarChange={handleSearchBarChange}
+        handleSearchBarSubmit={handleSearchBarSubmit}
+        searchAddress={searchAddress}
+      />
+      <MapWrapper>
+        <GoogleMapReact
+          bootstrapURLKeys={bootstrapURLKeys}
+          center={{ lat: geoInfo.lat, lng: geoInfo.lng }}
+          defaultZoom={15}
+          onDragEnd={handleDragEnd}
+        >
+          {studies.map((st) => (
+            <MapMarker key={st._id} loading={loading} currentUserId={currentUserId} {...st} />
+          ))}
+        </GoogleMapReact>
+        <Center>+</Center>
+      </MapWrapper>
+    </Wrapper>
   );
 };
 
 export default GoogleMap;
+
+const Wrapper = styled.section`
+  margin-top: 16px;
+`;
+
+const MapWrapper = styled.div`
+  width: 100%;
+  height: 60vh;
+  position: relative;
+`;
+
+const Center = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 8px;
+  height: 8px;
+`;

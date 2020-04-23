@@ -12,11 +12,7 @@ interface Props {}
 const AppContainer = (props: Props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (window.localStorage.getItem('token')) {
-      dispatch(loadUserFn());
-    } else {
-      return;
-    }
+    dispatch(loadUserFn());
   }, [dispatch]);
   return (
     <ThemeProvider theme={theme}>

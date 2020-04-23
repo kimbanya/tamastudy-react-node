@@ -208,3 +208,148 @@ export type PostReducerActions =
   | PostErrorAction;
 
 // End of Post
+
+// Study
+
+export interface ICategory {
+  _id: string;
+  name: string;
+}
+
+export interface IStudy {
+  view: number;
+  likes: any[];
+  minParticipants: number;
+  maxParticipants: number;
+  participants: any[];
+  todos: any[];
+  comments: string[];
+  _id: string;
+  category: {
+    name: string;
+  };
+  title: string;
+  description: string;
+  thumbnail: string;
+  lat: number;
+  lng: number;
+  address: string;
+  user: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IStudyState {
+  categories: ICategory[];
+  studies: IStudy[];
+  study: IStudy | null;
+  error: string | null;
+  loading: boolean;
+}
+
+// Get Categories
+export const GET_STUDY_CATEGORIES_PENDING = 'GET_STUDY_CATEGORIES_PENDING' as const;
+export const GET_STUDY_CATEGORIES_SUCCESS = 'GET_STUDY_CATEGORIES_SUCCESS' as const;
+export const GET_STUDY_CATEGORIES_FAIL = 'GET_STUDY_CATEGORIES_FAIL' as const;
+
+export interface GetStudyCategoriesPendingAction
+  extends Action<typeof GET_STUDY_CATEGORIES_PENDING> {
+  payload: true;
+}
+
+export interface GetStudyCategoriesSuccessAction
+  extends Action<typeof GET_STUDY_CATEGORIES_SUCCESS> {
+  payload: {
+    _id: string;
+    name: string;
+  }[];
+}
+
+export interface GetStudyCategoriesFailAction extends Action<typeof GET_STUDY_CATEGORIES_FAIL> {
+  payload: string;
+}
+
+// Create Study
+export const CREATE_STUDY_CATEGORY_PENDING = 'CREATE_STUDY_CATEGORY_PENDING' as const;
+export const CREATE_STUDY_CATEGORY_SUCCESS = 'CREATE_STUDY_CATEGORY_SUCCESS' as const;
+export const CREATE_STUDY_CATEGORY_FAIL = 'CREATE_STUDY_CATEGORY_FAIL' as const;
+
+export interface CreateStudyPendingAction extends Action<typeof CREATE_STUDY_CATEGORY_PENDING> {
+  payload: true;
+}
+
+export interface CreateStudySuccessAction extends Action<typeof CREATE_STUDY_CATEGORY_SUCCESS> {
+  payload: IStudyState['study'];
+}
+
+export interface CreateStudyFailAction extends Action<typeof CREATE_STUDY_CATEGORY_FAIL> {
+  payload: string;
+}
+
+// Create Study
+export const GET_STUDIES_PENDING = 'GET_STUDIES_PENDING' as const;
+export const GET_STUDIES_SUCCESS = 'GET_STUDIES_SUCCESS' as const;
+export const GET_STUDIES_FAIL = 'GET_STUDIES_FAIL' as const;
+
+export interface GetStudiesPendingAction extends Action<typeof GET_STUDIES_PENDING> {
+  payload: true;
+}
+
+export interface GetStudiesSuccessAction extends Action<typeof GET_STUDIES_SUCCESS> {
+  payload: IStudyState['studies'];
+}
+
+export interface GetStudiesFailAction extends Action<typeof GET_STUDIES_FAIL> {
+  payload: string;
+}
+
+// Join Study
+export const JOIN_STUDY_PENDING = 'JOIN_STUDY_PENDING' as const;
+export const JOIN_STUDY_SUCCESS = 'JOIN_STUDY_SUCCESS' as const;
+export const JOIN_STUDY_FAIL = 'JOIN_STUDY_FAIL' as const;
+
+export interface JoinStudyPendingAction extends Action<typeof JOIN_STUDY_PENDING> {
+  payload: true;
+}
+
+export interface JoinStudySuccessAction extends Action<typeof JOIN_STUDY_SUCCESS> {
+  payload: any;
+}
+
+export interface JoinStudyFailAction extends Action<typeof JOIN_STUDY_FAIL> {
+  payload: string;
+}
+
+// QuitStudy
+export const QUIT_STUDY_PENDING = 'QUIT_STUDY_PENDING' as const;
+export const QUIT_STUDY_SUCCESS = 'QUIT_STUDY_SUCCESS' as const;
+export const QUIT_STUDY_FAIL = 'QUIT_STUDY_FAIL' as const;
+
+export interface QuitStudyPendingAction extends Action<typeof QUIT_STUDY_PENDING> {
+  payload: true;
+}
+
+export interface QuitStudySuccessAction extends Action<typeof QUIT_STUDY_SUCCESS> {
+  payload: any;
+}
+
+export interface QuitStudyFailAction extends Action<typeof QUIT_STUDY_FAIL> {
+  payload: string;
+}
+
+export type StudyReducerActions =
+  | GetStudyCategoriesPendingAction
+  | GetStudyCategoriesSuccessAction
+  | GetStudyCategoriesFailAction
+  | CreateStudyPendingAction
+  | CreateStudySuccessAction
+  | CreateStudyFailAction
+  | GetStudiesPendingAction
+  | GetStudiesSuccessAction
+  | GetStudiesFailAction
+  | JoinStudyPendingAction
+  | JoinStudySuccessAction
+  | JoinStudyFailAction
+  | QuitStudyPendingAction
+  | QuitStudySuccessAction
+  | QuitStudyFailAction;

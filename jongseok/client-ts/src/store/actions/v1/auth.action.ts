@@ -22,24 +22,34 @@ export const loadUserFn = (): ThunkAction<
   undefined,
   LoadUserAction | AuthErrorAction
 > => async (dispatch, getState) => {
-  try {
-    const response = await API.get('/v1/user/me');
-    dispatch({
-      type: LOAD_USER,
-      payload: {
-        user: response.data,
-      },
-    });
-  } catch (err) {
+  if (!window.localStorage.getItem('token')) {
     dispatch({
       type: AUTH_ERROR,
       payload: {
-        error: '유저 정보를 불러오는데에 실패하였습니다. ',
+        error: '토큰이 존재하지 않습니다. ',
       },
     });
-    toast.error(err.response.data);
-    if (err.response.data) {
-      window.localStorage.removeItem('token');
+    return;
+  } else {
+    try {
+      const response = await API.get('/v1/user/me');
+      dispatch({
+        type: LOAD_USER,
+        payload: {
+          user: response.data,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          error: '유저 정보를 불러오는데에 실패하였습니다. ',
+        },
+      });
+      toast.error(err.response.data);
+      if (err.response.data) {
+        window.localStorage.removeItem('token');
+      }
     }
   }
 };

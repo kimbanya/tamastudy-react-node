@@ -1,70 +1,92 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { GOOGLE_MAP_KEY } from '../keys';
-import { geoCode } from '../utils/mapHelpers';
+import { geoCode, reverseGeoCode } from '../utils/mapHelpers';
 
-const useGoogleMap = () => {
+export default () => {
   const bootstrapURLKeys = {
-    // key: 'GOOGLE_MAP_KEY',
     key: GOOGLE_MAP_KEY,
     language: 'kr',
   };
 
-  const [coordinates, setCoordinates] = useState({
+  const [searchAddress, setSearchAddress] = useState('');
+
+  const [geoInfo, setGeoInfo] = useState({
     lat: 0,
     lng: 0,
+    address: '',
   });
 
-  const [address, setAddress] = useState('');
-
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(handleGeoSuccess, () => {});
+    navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
   }, []);
 
-  const handleGetRealLocation = () => {
-    navigator.geolocation.getCurrentPosition(handleGeoSuccess, () => {});
-  };
-
-  const handleGeoSuccess = (data: any) => {
-    setCoordinates({
+  const handleGeoSuccess = async (data: any) => {
+    await setGeoInfo({
       lat: data.coords.latitude,
       lng: data.coords.longitude,
+      address: await reverseGeoCode(data.coords.latitude, data.coords.longitude),
+    });
+  };
+
+  const handleGeoError = async (data: any) => {
+    console.log(`Error: ${data}`);
+  };
+
+  const handleDragEnd = async (data: any) => {
+    const address = await reverseGeoCode(data.center.lat(), data.center.lng());
+    setGeoInfo({
+      lat: data.center.lat(),
+      lng: data.center.lng(),
+      address,
     });
   };
 
   const handleSearchBarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-
-  const handleDragEnd = (data: any) => {
-    setCoordinates({ lat: data.center.lat(), lng: data.center.lng() });
+    setSearchAddress(e.target.value);
   };
 
   const handleSearchBarSubmit = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     try {
       if (e.key === 'Enter') {
         e.preventDefault();
-        const response: any = await geoCode(address);
-        setCoordinates({
+        const response: any = await geoCode(searchAddress);
+        setGeoInfo({
           lat: response.lat,
           lng: response.lng,
+          address: await reverseGeoCode(response.lat, response.lng),
         });
-        setAddress('');
+        setSearchAddress('');
       }
     } catch (err) {
       toast.error(err);
     }
   };
 
+  const setLocationInfo = useCallback(async () => {
+    if (geoInfo.lat !== 0 || geoInfo.lng !== 0) {
+      const address = await reverseGeoCode(geoInfo.lat, geoInfo.lng);
+      setGeoInfo((prevState) => ({
+        ...prevState,
+        lat: geoInfo.lat,
+        lng: geoInfo.lng,
+        address,
+      }));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setLocationInfo();
+  }, [setLocationInfo]);
+
   return {
     bootstrapURLKeys,
-    coordinates,
-    address,
+    searchAddress,
+    geoInfo,
     handleSearchBarChange,
-    handleSearchBarSubmit,
     handleDragEnd,
-    handleGetRealLocation,
+    handleSearchBarSubmit,
   };
 };
-
-export default useGoogleMap;

@@ -1,5 +1,5 @@
-import { REGISTER } from '../../store-types';
 import {
+  REGISTER,
   AUTH_ERROR,
   AuthReducerActions,
   IAuthState,

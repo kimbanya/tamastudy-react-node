@@ -7,7 +7,11 @@ import asyncHandler from '../../../utils/asyncHandler';
 //  GET
 //  v1/study
 export const getStudies = asyncHandler(async (req: Request, res: Response, next) => {
-  const studies = await Study.find({});
+  const studies = await Study.find({}).populate({
+    path: 'category',
+    model: 'StudyCategory',
+    select: 'name',
+  });
   res.status(200).json(studies);
 });
 
@@ -103,7 +107,11 @@ export const joinStudy = asyncHandler(async (req, res, next) => {
     { _id: req.params.studyId },
     { participants: study.participants },
     { new: true, runValidators: false },
-  );
+  ).populate({
+    path: 'category',
+    model: 'StudyCategory',
+    select: 'name',
+  });
   let user = await User.findById({ _id: req.user._id });
   if (!user) return next('비정상적인 접근입니다. ');
   user.joinedStudies = [...user.joinedStudies, study?._id];
@@ -128,7 +136,11 @@ export const quitStudy = asyncHandler(async (req, res, next) => {
     { _id: req.params.studyId },
     { participants: study.participants },
     { new: true, runValidators: false },
-  );
+  ).populate({
+    path: 'category',
+    model: 'StudyCategory',
+    select: 'name',
+  });
   await User.updateOne({ _id: req.user._id }, { $pull: { joinedStudies: study?._id } });
   res.status(200).json(study);
 });
