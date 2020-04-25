@@ -1,9 +1,11 @@
 const roleChecker = (...role) => (req, res, next) => {
   if (role.includes(req.role)) {
-    console.log('admin계정으로 로그인했습니다.');
-  } else if (role.includes('user')) {
-    console.log('일반회원 계정으로 로그인했습니다.');
+    // 다음 함수로 넘어간다.
+    next();
+  } else {
+    // 에러핸들러 유틸함수로 넘어간다. (에러관련 response)
+    return next('접근 불가 에러입니다. ');
   }
-  console.log('**** 미들웨어를 통과하였습니다.  ****'.bgBlue);
-  next();
 };
+
+module.exports = roleChecker;
