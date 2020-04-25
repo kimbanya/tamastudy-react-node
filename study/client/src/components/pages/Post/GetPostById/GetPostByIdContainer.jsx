@@ -4,6 +4,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '../../../../store/actions/v1/post.action';
 import Spinner from '../../../atoms/Spinner';
+import CommonLayout from '../../../layouts/CommonLayout';
 
 const GetPostByIdContainer = () => {
   const dispatch = useDispatch();
@@ -17,9 +18,9 @@ const GetPostByIdContainer = () => {
   if (postState.loading) return <Spinner />;
 
   return (
-    <div>
+    <CommonLayout noFooter>
       <GetPostByIdPresenter post={postState.post} />
-    </div>
+    </CommonLayout>
   );
 };
 

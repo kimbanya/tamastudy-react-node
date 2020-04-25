@@ -1,4 +1,4 @@
-import { LOAD_USER, SIGN_UP, SIGN_IN, AUTH_ERROR } from '../../type';
+import { LOAD_USER, SIGN_UP, SIGN_IN, LOGGED_OUT, AUTH_ERROR } from '../../type';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -65,6 +65,25 @@ export const signinFn = (formData, history) => async (dispatch) => {
     // 그냥 알람
     toast.success('로그인이 완료 되었습니다. 홈으로 이동합니다.');
     history.push('/');
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
+    toast.error(err.response.data.error);
+  }
+};
+
+// 로그인
+export const logOutFn = () => async (dispatch) => {
+  try {
+    if (window.sessionStorage.getItem('token')) {
+      window.sessionStorage.removeItem('token');
+    }
+
+    setTimeout(() => {
+      dispatch({ type: LOGGED_OUT });
+    }, 500);
+
+    // 그냥 알람
+    toast.success('로그아웃되었습니다.');
   } catch (err) {
     dispatch({ type: AUTH_ERROR, payload: err.response.data.error });
     toast.error(err.response.data.error);
