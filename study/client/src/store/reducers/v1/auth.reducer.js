@@ -15,13 +15,12 @@ export default (state = initialState, action) => {
         isLoggedIn: true,
         loading: false,
         currentUserId: action.payload,
-        error: null,
       };
     case SIGN_UP:
     case SIGN_IN:
-      return { ...state, isLoggedIn: true, loading: false, error: null };
+      return { ...state, isLoggedIn: true, loading: false };
     case LOGGED_OUT:
-      return state;
+      return { ...state, isLoggedIn: false, loading: false };
     case AUTH_ERROR:
       return { ...state, isLoggedIn: false, loading: false, error: action.payload };
     default:

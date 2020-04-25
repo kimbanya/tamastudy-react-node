@@ -9,7 +9,7 @@ export default (ChildComponent, isRequire = true) => {
     const handleRoutingFn = useCallback(() => {
       if (isRequire) {
         if (!props.authState.loading && !props.authState.isLoggedIn) {
-          history.push('/');
+          history.push('/signin');
         }
       } else {
         if (!props.authState.loading && props.authState.isLoggedIn) {

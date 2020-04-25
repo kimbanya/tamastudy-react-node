@@ -4,20 +4,12 @@ services:
     restart: always
     depends_on:
       - api
-      - client-ts
+      - client
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
       - "3050:80"
-  postgres:
-    image: "postgres:latest"
-    env_file:
-      - .env
-  redis:
-    image: "redis:latest"
-    env_file:
-      - .env
   api:
     build:
       dockerfile: Dockerfile.dev
@@ -29,22 +21,13 @@ services:
       - ./server:/app
     env_file:
       - .env
-  client-ts:
+  client:
     build:
       dockerfile: Dockerfile.dev
-      context: ./client-ts
+      context: ./client
     volumes:
       - /app/node_modules
-      - ./client-ts:/app
+      - ./client:/app
     env_file:
       - .env
     stdin_open: true
-  worker:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
-    env_file:
-      - .env

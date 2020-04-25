@@ -51,7 +51,11 @@ exports.getPostById = asyncHandler(async (req, res, next) => {
     { _id: req.params.postId },
     { $inc: { view: 1 } }, // api가 호출될때마다(즉 한번씩 getPostById를 볼때마다) 조회수(view) 늘리는 로직
     { new: true, runValidators: false },
-  );
+  ).populate({
+    path: 'user',
+    model: 'User',
+    select: 'username',
+  });
   // post가 존재하지 않을 때
   if (!post) {
     return res.status(400).json({

@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { GET_POSTS, CREATE_POST, POST_ERROR } from '../../type';
+import {
+  GET_POSTS,
+  CREATE_POST,
+  GET_POST_BY_ID,
+  DELETE_POST_BY_ID,
+  UPDATE_POST_BY_ID,
+  CLEAR_POST,
+  POST_ERROR,
+} from '../../type';
 import setAxiosConfig from '../../../utils/setAxiosConfig';
 
 export const getPosts = () => async (dispatch) => {
@@ -39,4 +47,77 @@ export const createPostFn = (formData, history) => async (dispatch) => {
     });
     toast.error(err.response.data.err);
   }
+};
+
+export const getPostById = (postId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/v1/post/${postId}`);
+    dispatch({
+      type: GET_POST_BY_ID,
+      payload: response.data.result,
+    });
+  } catch (err) {
+    console.error(err.response.data.err);
+    dispatch({
+      type: POST_ERROR,
+      payload: err.response.data.err,
+    });
+    toast.error(err.response.data.err);
+  }
+};
+
+export const updatePostById = (postId, formData, history) => async (dispatch) => {
+  try {
+    console.log(typeof formData);
+    if (typeof formData !== 'object') {
+      toast.error('정상적인 폼데이터를 입력해주세요. ');
+      return;
+    }
+    const { config } = setAxiosConfig(dispatch);
+    const response = await axios.put(
+      `http://localhost:5000/v1/post/update/${postId}`,
+      formData,
+      config,
+    );
+    dispatch({
+      type: UPDATE_POST_BY_ID,
+      payload: response.data.result,
+    });
+    history.goBack();
+  } catch (err) {
+    console.error(err.response.data.err);
+    dispatch({
+      type: POST_ERROR,
+      payload: err.response.data.err,
+    });
+    toast.error(err.response.data.err);
+  }
+};
+
+export const deletePostById = (postId, history) => async (dispatch) => {
+  try {
+    if (window.confirm('삭제 하시겠습니까? ')) {
+      const { config } = setAxiosConfig(dispatch);
+      const response = await axios.delete(`http://localhost:5000/v1/post/delete/${postId}`, config);
+      dispatch({
+        type: DELETE_POST_BY_ID,
+        payload: postId,
+      });
+      toast.success(response.data.result, { autoClose: 1000 });
+      history.push('/posts');
+    }
+  } catch (err) {
+    console.error(err.response.data.err);
+    dispatch({
+      type: POST_ERROR,
+      payload: err.response.data.err,
+    });
+    toast.error(err.response.data.err);
+  }
+};
+
+export const clearPost = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_POST,
+  });
 };
