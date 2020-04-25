@@ -3,13 +3,14 @@ import {
   CREATE_POST,
   GET_POST_BY_ID,
   DELETE_POST_BY_ID,
+  UPDATE_POST_BY_ID,
   CLEAR_POST,
   POST_ERROR,
 } from '../../type';
 
 const initialState = {
   posts: [],
-  post: {},
+  post: null,
   loading: true,
   error: null,
   total: 0,
@@ -44,14 +45,20 @@ export default (prevState = initialState, action) => {
     case DELETE_POST_BY_ID:
       return {
         ...prevState,
-        post: {},
+        post: null,
         posts: prevState.posts.filter((post) => post._id !== action.payload),
+        loading: false,
+      };
+    case UPDATE_POST_BY_ID:
+      return {
+        ...prevState,
+        post: action.payload,
         loading: false,
       };
     case CLEAR_POST:
       return {
         ...prevState,
-        post: {},
+        post: null,
         loading: false,
       };
     case POST_ERROR:
