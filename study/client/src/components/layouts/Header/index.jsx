@@ -28,10 +28,10 @@ const Header = () => {
             ) : (
               <>
                 <li>
-                  <Link to={'/signin'}>Login</Link>
+                  <Link to={'/auth'}>Login</Link>
                 </li>
                 <li>
-                  <Link to={'/signup'}>Register</Link>
+                  <Link to={'/auth'}>Register</Link>
                 </li>
               </>
             )}

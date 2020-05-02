@@ -22,7 +22,7 @@ const PostItem = ({ _id, title, description, imgUrl, view, user, createdAt, isPo
       dispatch(clearPost());
       history.push('/posts');
     },
-    [history],
+    [dispatch, history],
   );
 
   const onClickUpdatePage = useCallback(
@@ -30,7 +30,7 @@ const PostItem = ({ _id, title, description, imgUrl, view, user, createdAt, isPo
       event.stopPropagation();
       history.push(`/post/${_id}/update`);
     },
-    [history],
+    [_id, history],
   );
 
   const onClickPostDelete = useCallback(() => {
