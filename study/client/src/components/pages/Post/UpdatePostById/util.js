@@ -9,6 +9,7 @@ export const yupValidate = Yup.object({
     .max(1000, '정상적인 url이 아닙니다.  ')
     .required('img url을 입력해주세요. ')
     .matches(
+      // eslint-disable-next-line
       /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
       'http 혹은 https 양식을 맞춰주세요. ',
     ),
