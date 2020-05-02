@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import AuthFormPresenter from './AuthFormPresenter';
+import AuthModalPresenter from './AuthModalPresenter';
 import { signinFn, signupFn } from '../../../store/actions/v1/auth.action';
 
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
   password: '',
 };
 
-const AuthFormContainer = () => {
+const AuthModalContainer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [formData, setFormData] = useState(initialState);
@@ -37,7 +37,7 @@ const AuthFormContainer = () => {
 
   return (
     <div>
-      <AuthFormPresenter
+      <AuthModalPresenter
         onChange={handleChange}
         onSubmit={handleSubmit}
         formData={formData}
@@ -48,4 +48,4 @@ const AuthFormContainer = () => {
   );
 };
 
-export default AuthFormContainer;
+export default AuthModalContainer;

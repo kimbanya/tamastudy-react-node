@@ -1,11 +1,11 @@
 import React from 'react';
-import AuthForm from '../../organisms/AuthForm';
+import AuthModal from '../../organisms/AuthModal';
 import CommonLayout from '../../layouts/CommonLayout';
 
 const Auth = () => {
   return (
     <CommonLayout noFooter>
-      <AuthForm />
+      <AuthModal />
     </CommonLayout>
   );
 };
